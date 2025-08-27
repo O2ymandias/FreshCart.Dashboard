@@ -1,0 +1,133 @@
+<p-drawer #drawerRef [(visible)]="visible">
+  <ng-template #headless>
+    <div class="flex flex-col h-full">
+      <div
+        class="flex items-center justify-between px-6 py-4 shrink-0 border-b border-surface"
+      >
+        <app-logo />
+        <span>
+          <p-button
+            type="button"
+            [outlined]="true"
+            [rounded]="true"
+            severity="secondary"
+            icon="pi pi-times"
+            (click)="closeCallback($event)"
+          ></p-button>
+        </span>
+      </div>
+      <div class="overflow-y-auto">
+        <!-- Management -->
+        <ul class="list-none p-4 m-0">
+          <li>
+            <div
+              pRipple
+              pStyleClass="@next"
+              enterFromClass="hidden"
+              enterActiveClass="animate-slidedown"
+              leaveToClass="hidden"
+              leaveActiveClass="animate-slideup"
+              class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple"
+            >
+              <span class="font-bold">Management</span>
+              <i class="pi pi-chevron-down"></i>
+            </div>
+            <ul class="list-none p-0 m-0 overflow-hidden">
+              <li>
+                <app-drawer-item icon="pi pi-chart-line" label="Dashboard" />
+              </li>
+              <li>
+                <app-drawer-item icon="pi pi-key" label="Roles & Permissions" />
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- Management -->
+
+        <!-- Application  -->
+        <ul class="list-none p-4 m-0">
+          <li>
+            <div
+              pRipple
+              pStyleClass="@next"
+              enterFromClass="hidden"
+              enterActiveClass="animate-slidedown"
+              leaveToClass="hidden"
+              leaveActiveClass="animate-slideup"
+              class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple"
+            >
+              <span class="font-bold">Application</span>
+              <i class="pi pi-chevron-down"></i>
+            </div>
+            <ul class="list-none p-0 m-0 overflow-hidden">
+              <li>
+                <a
+                  pRipple
+                  pStyleClass="@next"
+                  enterFromClass="hidden"
+                  enterActiveClass="animate-slidedown"
+                  leaveToClass="hidden"
+                  leaveActiveClass="animate-slideup"
+                  class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
+                >
+                  <i class="pi pi-folder mr-2"></i>
+                  <span class="font-medium">Catalog</span>
+                  <i class="pi pi-chevron-down ml-auto"></i>
+                </a>
+                <ul
+                  class="list-none py-0 pl-4 pr-0 m-0 hidden overflow-y-hidden transition-all duration-[400ms] ease-in-out"
+                >
+                  <li>
+                    <app-drawer-item
+                      icon="pi pi-shopping-cart"
+                      label="Products"
+                    />
+                  </li>
+                  <li>
+                    <app-drawer-item icon="pi pi-list" label="Categories" />
+                  </li>
+                  <li>
+                    <app-drawer-item icon="pi pi-tags" label="Brands" />
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <app-drawer-item icon="pi pi-users" label="Users" />
+              </li>
+              <li>
+                <app-drawer-item icon="pi pi-shopping-bag" label="Orders" />
+              </li>
+              <li>
+                <app-drawer-item icon="pi pi-credit-card" label="Payments" />
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- Application  -->
+      </div>
+      <div class="mt-auto">
+        <hr class="mb-4 mx-4 border-t border-0 border-surface" />
+        <a
+          pRipple
+          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
+        >
+          <p-avatar
+            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+            shape="circle"
+          />
+          <span class="font-bold">Amy Elsner</span>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+</p-drawer>
+
+<p-button
+  [rounded]="true"
+  type="button"
+  variant="text"
+  severity="secondary"
+  icon="pi pi-bars"
+  (click)="showDrawer()"
+/>
