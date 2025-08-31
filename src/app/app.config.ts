@@ -3,7 +3,12 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import {
@@ -14,13 +19,25 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withViewTransitions(),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top',
+      })
+    ),
     provideClientHydration(withEventReplay()),
+
+    // HTTP Client
+    provideHttpClient(withFetch()),
 
     // PrimeNG
     provideAnimationsAsync(),
@@ -36,5 +53,8 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+
+    // Message Service [Toaster]
+    MessageService,
   ],
 };

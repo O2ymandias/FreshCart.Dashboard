@@ -34,10 +34,18 @@
             </div>
             <ul class="list-none p-0 m-0 overflow-hidden">
               <li>
-                <app-drawer-item icon="pi pi-chart-line" label="Dashboard" />
+                <app-drawer-item
+                  routerLink="/dashboard"
+                  icon="pi pi-chart-line"
+                  label="Dashboard"
+                />
               </li>
               <li>
-                <app-drawer-item icon="pi pi-key" label="Roles & Permissions" />
+                <app-drawer-item
+                  routerLink="/"
+                  icon="pi pi-key"
+                  label="Roles & Permissions"
+                />
               </li>
             </ul>
           </li>
@@ -79,27 +87,48 @@
                 >
                   <li>
                     <app-drawer-item
+                      routerLink="/products"
                       icon="pi pi-shopping-cart"
                       label="Products"
                     />
                   </li>
                   <li>
-                    <app-drawer-item icon="pi pi-list" label="Categories" />
+                    <app-drawer-item
+                      routerLink="/categories"
+                      icon="pi pi-list"
+                      label="Categories"
+                    />
                   </li>
                   <li>
-                    <app-drawer-item icon="pi pi-tags" label="Brands" />
+                    <app-drawer-item
+                      routerLink="/brands"
+                      icon="pi pi-tags"
+                      label="Brands"
+                    />
                   </li>
                 </ul>
               </li>
 
               <li>
-                <app-drawer-item icon="pi pi-users" label="Users" />
+                <app-drawer-item
+                  routerLink="/users"
+                  icon="pi pi-users"
+                  label="Users"
+                />
               </li>
               <li>
-                <app-drawer-item icon="pi pi-shopping-bag" label="Orders" />
+                <app-drawer-item
+                  routerLink="/orders"
+                  icon="pi pi-shopping-bag"
+                  label="Orders"
+                />
               </li>
               <li>
-                <app-drawer-item icon="pi pi-credit-card" label="Payments" />
+                <app-drawer-item
+                  routerLink="/payments"
+                  icon="pi pi-credit-card"
+                  label="Payments"
+                />
               </li>
             </ul>
           </li>

@@ -1,0 +1,138 @@
+<section class="my-10 space-y-6">
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-full md:col-span-4">
+      <div class="flex flex-col items-center gap-y-4">
+        <p-image
+          [src]="productDetails().pictureUrl"
+          [alt]="productDetails().name"
+          [preview]="true"
+          imageClass="h-[400px] w-[300px]"
+        >
+        </p-image>
+
+        <p-button
+          raised
+          icon="pi pi-images"
+          label="Gallery"
+          (onClick)="showGallery()"
+        />
+      </div>
+
+      @if (gallery().length > 0) {
+      <div class="flex items-center justify-center">
+        <p-galleria
+          [value]="gallery()"
+          [circular]="true"
+          [fullScreen]="true"
+          [showItemNavigators]="true"
+          [(visible)]="galleryVisible"
+          [showThumbnails]="false"
+          [containerStyle]="{ 'max-width': '75%' }"
+        >
+          <ng-template #item let-item>
+            <img
+              [src]="item.pictureUrl"
+              class="h-[90vh] w-[500px] object-cover"
+            />
+          </ng-template>
+        </p-galleria>
+      </div>
+      }
+    </div>
+
+    <div
+      class="bg-base-200 col-span-full space-y-6 px-8 py-4 shadow md:col-span-8"
+    >
+      <!-- Title -->
+      <h1 class="text-2xl font-bold">
+        #{{ productDetails().id }} {{ productDetails().name }}
+      </h1>
+
+      <!-- Description -->
+      <p class="opacity-75">{{ productDetails().description }}</p>
+
+      <!-- Brand & Category -->
+      <div class="flex flex-col items-start gap-4">
+        <p-tag severity="secondary" value="{{ productDetails().brand }}" />
+        <p-tag severity="secondary" value="{{ productDetails().category }}" />
+      </div>
+
+      <!-- Stock Status -->
+      <p>
+        <span class="text-lg font-bold">{{
+          productDetails().unitsInStock
+        }}</span>
+        In Stock
+      </p>
+
+      <!-- Rating -->
+      <p-rating [(ngModel)]="averageRating" [disabled]="true" />
+
+      <!-- Price -->
+      <p class="text-2xl font-bold">
+        {{ productDetails().price | currency : "USD" : "symbol" : "1.2-2" }}
+      </p>
+
+      <!-- Actions -->
+      <div class="flex gap-4">
+        <p-button
+          label="Edit"
+          severity="info"
+          icon="pi pi-pencil"
+          (outClick)="navigateToEditProduct()"
+        />
+
+        <p-button label="Delete" severity="danger" icon="pi pi-trash" />
+      </div>
+
+      <p-button
+        label="Back to products"
+        severity="secondary"
+        icon="pi pi-arrow-left"
+        (onClick)="navigateToProducts()"
+      />
+    </div>
+  </div>
+
+  <div class="space-y-4">
+    <div>
+      <p-fieldset legend="Name Translation" [toggleable]="true">
+        <div class="space-y-4">
+          @for (nameTrans of nameTranslations(); track $index) {
+          <div>
+            <span class="font-bold">
+              {{ nameTrans.languageCode }}
+            </span>
+            <p
+              class="opacity-75"
+              [class.font-cairo]="nameTrans.languageCode === 'AR'"
+            >
+              {{ nameTrans.name }}
+            </p>
+          </div>
+          }
+        </div>
+      </p-fieldset>
+    </div>
+
+    <div>
+      <p-fieldset legend="Description Translation" [toggleable]="true">
+        <div class="space-y-4">
+          @for (descriptionTrans of descriptionTranslations(); track $index) {
+          <div>
+            <span class="font-bold">
+              {{ descriptionTrans.languageCode }}
+            </span>
+            <p
+              class="opacity-75"
+              [class.font-cairo]="descriptionTrans.languageCode === 'AR'"
+            >
+              {{ descriptionTrans.description }}
+            </p>
+          </div>
+          }
+        </div>
+      </p-fieldset>
+    </div>
+  </div>
+</section>

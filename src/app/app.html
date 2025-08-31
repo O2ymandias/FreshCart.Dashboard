@@ -1,2 +1,7 @@
-<app-navbar />
-<router-outlet />
+<div class="flex flex-col min-h-screen">
+  <app-navbar />
+  <main role="main" class="container flex-grow mx-auto px-4 py-6">
+    <router-outlet />
+  </main>
+</div>
+<p-toast position="bottom-right" key="br" />
