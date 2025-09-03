@@ -8,7 +8,13 @@
           <div class="space-y-2">
             <div class="flex items-center gap-2">
               <h1 class="text-2xl font-bold">Manage Products</h1>
-              <p-button icon="pi pi-refresh" size="small" rounded raised />
+              <p-button
+                rounded
+                raised
+                icon="pi pi-refresh"
+                size="small"
+                (onClick)="refresh()"
+              />
             </div>
             <p class="opacity-75">View, update, or delete products</p>
           </div>
@@ -87,24 +93,30 @@
         </td>
         <td>
           <div class="flex items-center gap-2">
-            <p-button
+            <a
+              pButton
+              rounded
+              outlined
               icon="pi pi-search"
-              severity="primary"
-              [rounded]="true"
-              [outlined]="true"
-              (onClick)="navigateToProductDetails(product.id)"
-            />
-            <p-button
-              icon="pi pi-pencil"
+              [routerLink]="['/', 'products', product.id]"
+            >
+            </a>
+
+            <a
+              pButton
+              rounded
+              outlined
               severity="info"
-              [rounded]="true"
-              [outlined]="true"
-            />
+              icon="pi pi-pencil"
+              [routerLink]="['/', 'products', 'edit', product.id]"
+            >
+            </a>
+
             <p-button
               icon="pi pi-trash"
               severity="danger"
               [rounded]="true"
-              [outlined]="true"
+              outlined
             />
           </div>
         </td>

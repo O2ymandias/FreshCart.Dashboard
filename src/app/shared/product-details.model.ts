@@ -7,7 +7,9 @@ export interface IProductDetails {
   pictureUrl: string;
   price: number;
   brand: string;
+  brandId: number;
   category: string;
+  categoryId: number;
   unitsInStock: number;
   inStock: boolean;
 }

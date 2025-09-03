@@ -9,6 +9,7 @@ import {
 import {
   IProductsQueryOptions,
   IProductsResponse,
+  IUpdateProductResult,
 } from '../../shared/products.model';
 
 @Injectable({
@@ -55,5 +56,10 @@ export class ProductsService {
   getProductTranslations$(productId: number) {
     const url = `${environment.apiUrl}/translations/products/${productId}`;
     return this._httpClient.get<IProductTranslation[]>(url);
+  }
+
+  updateProduct$(formData: FormData) {
+    const url = `${environment.apiUrl}/products/update`;
+    return this._httpClient.put<IUpdateProductResult>(url, formData);
   }
 }

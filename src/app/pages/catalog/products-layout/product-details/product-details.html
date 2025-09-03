@@ -75,28 +75,28 @@
 
       <!-- Actions -->
       <div class="flex gap-4">
-        <p-button
-          label="Edit"
-          severity="info"
-          icon="pi pi-pencil"
-          (outClick)="navigateToEditProduct()"
-        />
+        <a pButton [routerLink]="['/', 'products', 'edit', id()]">
+          <span class="flex items-center gap-2" pButtonLabel>
+            <i class="pi pi-pencil"></i>
+            Edit
+          </span>
+        </a>
 
         <p-button label="Delete" severity="danger" icon="pi pi-trash" />
       </div>
 
-      <p-button
-        label="Back to products"
-        severity="secondary"
-        icon="pi pi-arrow-left"
-        (onClick)="navigateToProducts()"
-      />
+      <a pButton severity="secondary" [routerLink]="['/', 'products']">
+        <span class="flex items-center gap-2" pButtonLabel>
+          <i class="pi pi-arrow-left"></i>
+          Back to products
+        </span>
+      </a>
     </div>
   </div>
 
   <div class="space-y-4">
     <div>
-      <p-fieldset legend="Name Translation" [toggleable]="true">
+      <p-fieldset legend="Name Translations" [toggleable]="true">
         <div class="space-y-4">
           @for (nameTrans of nameTranslations(); track $index) {
           <div>
@@ -104,7 +104,7 @@
               {{ nameTrans.languageCode }}
             </span>
             <p
-              class="opacity-75"
+              class="indent-4 opacity-75"
               [class.font-cairo]="nameTrans.languageCode === 'AR'"
             >
               {{ nameTrans.name }}
@@ -116,7 +116,7 @@
     </div>
 
     <div>
-      <p-fieldset legend="Description Translation" [toggleable]="true">
+      <p-fieldset legend="Description Translations" [toggleable]="true">
         <div class="space-y-4">
           @for (descriptionTrans of descriptionTranslations(); track $index) {
           <div>
@@ -124,7 +124,7 @@
               {{ descriptionTrans.languageCode }}
             </span>
             <p
-              class="opacity-75"
+              class="indent-4 opacity-75"
               [class.font-cairo]="descriptionTrans.languageCode === 'AR'"
             >
               {{ descriptionTrans.description }}

@@ -17,7 +17,7 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { Button } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,7 +25,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroup } from 'primeng/inputgroup';
 import { Tooltip } from 'primeng/tooltip';
 
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
 import {
   IProduct,
@@ -47,11 +47,12 @@ import {
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    Button,
     Paginator,
     InputGroup,
     InputGroupAddonModule,
     Tooltip,
+    ButtonModule,
+    RouterLink,
   ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
@@ -184,7 +185,7 @@ export class Products implements OnInit {
     });
   }
 
-  reset(): void {
+  refresh(): void {
     // Reset the search query.
     this.searchQuery.set('');
 
@@ -212,9 +213,5 @@ export class Products implements OnInit {
       search: this.searchQuery(),
       sort: { key, dir },
     });
-  }
-
-  navigateToProductDetails(productId: number): void {
-    this._router.navigate(['products', productId]);
   }
 }

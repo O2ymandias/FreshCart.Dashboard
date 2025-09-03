@@ -22,7 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DividerModule } from 'primeng/divider';
 import { MessageService } from 'primeng/api';
@@ -38,6 +38,7 @@ import { MessageService } from 'primeng/api';
     FormsModule,
     FieldsetModule,
     DividerModule,
+    RouterLink,
   ],
 
   templateUrl: './product-details.html',
@@ -86,11 +87,11 @@ export class ProductDetails implements OnInit {
   }
 
   navigateToEditProduct(): void {
-    this._router.navigate(['products', 'edit', this.id()]);
+    this._router.navigate(['/products', 'edit', this.id()]);
   }
 
   navigateToProducts(): void {
-    this._router.navigate(['products']);
+    this._router.navigate(['/products']);
   }
 
   private _getProductDetails(): void {

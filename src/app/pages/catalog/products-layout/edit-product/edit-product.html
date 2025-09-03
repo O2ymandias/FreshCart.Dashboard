@@ -1,0 +1,173 @@
+<section class="px-6 py-12 space-y-6">
+  <div>
+    <p-breadcrumb [model]="navigationItems" />
+  </div>
+
+  <!-- Form Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+      Update Product
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      Modify your product details and keep your inventory up to date
+    </p>
+  </div>
+
+  <!-- Form -->
+  <form
+    [formGroup]="productUpdateForm"
+    (ngSubmit)="updateProduct()"
+    class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto p-8 rounded-2xl ring-1 ring-gray-200 dark:ring-gray-800"
+  >
+    <!-- Picture -->
+    <div class="md:col-span-2 flex flex-col gap-2">
+      <div class="group relative size-[250px]">
+        <img
+          [src]="previewImage()"
+          [alt]="productDetails()?.name"
+          class="size-full rounded object-cover duration-300 group-hover:brightness-75"
+        />
+
+        <label
+          for="avatarInp"
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition duration-300 backdrop-blur-xs"
+        >
+          <div
+            class="size-14 rounded-full flex items-center justify-center bg-white/25 hover:bg-white/30 shadow dark:bg-black/25 dark:hover:bg-black/50 transition duration-300"
+          >
+            <i class="pi pi-camera text-white dark:text-gray-200 text-2xl"></i>
+          </div>
+          <input
+            #uploadPictureInput
+            id="avatarInp"
+            type="file"
+            class="sr-only"
+            accept="image/jpeg, image/png, image/jpg"
+            (change)="onFileUpload($event)"
+          />
+        </label>
+      </div>
+      <span class="text-sm text-gray-500 dark:text-gray-400">
+        Accepted formats: <span class="font-medium">JPEG, PNG, JPG</span> • Max
+        size: <span class="font-medium">5MB</span>
+      </span>
+      @if (uploadedImage() && !isValidImage()) {
+        <p-message severity="error" variant="simple" size="small">
+          Image is not valid
+        </p-message>
+      }
+    </div>
+
+    <!-- Name -->
+    <div class="flex flex-col gap-2">
+      <label class="opacity-75" for="name">Name</label>
+      <input formControlName="name" id="name" pInputText />
+      <app-form-errors [control]="productUpdateForm.get('name')" label="Name" />
+    </div>
+
+    <!-- Price -->
+    <div class="flex flex-col gap-2">
+      <label for="price" class="opacity-75">Price</label>
+      <p-inputnumber
+        formControlName="price"
+        inputId="price"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        [step]="1"
+      >
+        <ng-template #incrementbuttonicon>
+          <span class="pi pi-plus"></span>
+        </ng-template>
+        <ng-template #decrementbuttonicon>
+          <span class="pi pi-minus"></span>
+        </ng-template>
+      </p-inputnumber>
+      <app-form-errors
+        [control]="productUpdateForm.get('price')"
+        label="Price"
+      />
+    </div>
+
+    <!-- Brand -->
+    <div class="flex flex-col gap-2">
+      <label (click)="brandSelectOptions.show()" class="opacity-75"
+        >Select a Brand</label
+      >
+      <p-select
+        #brandSelectOptions
+        formControlName="brand"
+        [options]="brandsOptions()"
+        optionLabel="name"
+      />
+      <app-form-errors
+        [control]="productUpdateForm.get('brand')"
+        label="Brand"
+      />
+    </div>
+
+    <!-- Category -->
+    <div class="flex flex-col gap-2">
+      <label (click)="categorySelectOptions.show()" class="opacity-75"
+        >Select a Category</label
+      >
+      <p-select
+        #categorySelectOptions
+        formControlName="category"
+        [options]="categoriesOptions()"
+        optionLabel="name"
+      />
+      <app-form-errors
+        [control]="productUpdateForm.get('category')"
+        label="Category"
+      />
+    </div>
+
+    <!-- Stock -->
+    <div class="flex flex-col gap-2 md:col-span-1">
+      <label for="unitsInStock" class="opacity-75">Units In Stock</label>
+      <p-inputnumber
+        inputId="unitsInStock"
+        formControlName="unitsInStock"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        [step]="1"
+      />
+      <app-form-errors
+        [control]="productUpdateForm.get('unitsInStock')"
+        label="Units In Stock"
+      />
+    </div>
+
+    <!-- Description -->
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="description" class="opacity-75">Description</label>
+      <textarea
+        formControlName="description"
+        id="description"
+        pTextarea
+        [autoResize]="true"
+      ></textarea>
+      <app-form-errors
+        [control]="productUpdateForm.get('description')"
+        label="Description"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="md:col-span-2 flex justify-end">
+      <button
+        pButton
+        severity="success"
+        type="submit"
+        [disabled]="productUpdateForm.invalid"
+      >
+        <span pButtonLabel>Update</span>
+      </button>
+    </div>
+  </form>
+</section>

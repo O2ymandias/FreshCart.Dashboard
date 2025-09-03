@@ -41,3 +41,8 @@ export type ProductSortOption = {
     dir: SortDirection;
   };
 };
+
+export interface IUpdateProductResult {
+  updated: boolean;
+  message: string;
+}
