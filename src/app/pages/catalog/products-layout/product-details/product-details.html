@@ -1,4 +1,8 @@
-<section class="my-10 space-y-6">
+<section class="px-6 py-12 space-y-6">
+  <div>
+    <p-breadcrumb [model]="navigationItems" />
+  </div>
+
   <div class="grid grid-cols-12 gap-4">
     <div class="col-span-full md:col-span-4">
       <div class="flex flex-col items-center gap-y-4">
@@ -19,24 +23,24 @@
       </div>
 
       @if (gallery().length > 0) {
-      <div class="flex items-center justify-center">
-        <p-galleria
-          [value]="gallery()"
-          [circular]="true"
-          [fullScreen]="true"
-          [showItemNavigators]="true"
-          [(visible)]="galleryVisible"
-          [showThumbnails]="false"
-          [containerStyle]="{ 'max-width': '75%' }"
-        >
-          <ng-template #item let-item>
-            <img
-              [src]="item.pictureUrl"
-              class="h-[90vh] w-[500px] object-cover"
-            />
-          </ng-template>
-        </p-galleria>
-      </div>
+        <div class="flex items-center justify-center">
+          <p-galleria
+            [value]="gallery()"
+            [circular]="true"
+            [fullScreen]="true"
+            [showItemNavigators]="true"
+            [(visible)]="galleryVisible"
+            [showThumbnails]="false"
+            [containerStyle]="{ 'max-width': '75%' }"
+          >
+            <ng-template #item let-item>
+              <img
+                [src]="item.pictureUrl"
+                class="h-[90vh] w-[500px] object-cover"
+              />
+            </ng-template>
+          </p-galleria>
+        </div>
       }
     </div>
 
@@ -70,7 +74,7 @@
 
       <!-- Price -->
       <p class="text-2xl font-bold">
-        {{ productDetails().price | currency : "USD" : "symbol" : "1.2-2" }}
+        {{ productDetails().price | currency: "USD" : "symbol" : "1.2-2" }}
       </p>
 
       <!-- Actions -->
@@ -99,17 +103,17 @@
       <p-fieldset legend="Name Translations" [toggleable]="true">
         <div class="space-y-4">
           @for (nameTrans of nameTranslations(); track $index) {
-          <div>
-            <span class="font-bold">
-              {{ nameTrans.languageCode }}
-            </span>
-            <p
-              class="indent-4 opacity-75"
-              [class.font-cairo]="nameTrans.languageCode === 'AR'"
-            >
-              {{ nameTrans.name }}
-            </p>
-          </div>
+            <div>
+              <span class="font-bold">
+                {{ nameTrans.languageCode }}
+              </span>
+              <p
+                class="indent-4 opacity-75"
+                [class.font-cairo]="nameTrans.languageCode === 'AR'"
+              >
+                {{ nameTrans.name }}
+              </p>
+            </div>
           }
         </div>
       </p-fieldset>
@@ -119,17 +123,17 @@
       <p-fieldset legend="Description Translations" [toggleable]="true">
         <div class="space-y-4">
           @for (descriptionTrans of descriptionTranslations(); track $index) {
-          <div>
-            <span class="font-bold">
-              {{ descriptionTrans.languageCode }}
-            </span>
-            <p
-              class="indent-4 opacity-75"
-              [class.font-cairo]="descriptionTrans.languageCode === 'AR'"
-            >
-              {{ descriptionTrans.description }}
-            </p>
-          </div>
+            <div>
+              <span class="font-bold">
+                {{ descriptionTrans.languageCode }}
+              </span>
+              <p
+                class="indent-4 opacity-75"
+                [class.font-cairo]="descriptionTrans.languageCode === 'AR'"
+              >
+                {{ descriptionTrans.description }}
+              </p>
+            </div>
           }
         </div>
       </p-fieldset>

@@ -16,7 +16,7 @@ export interface IProductDetails {
 
 export interface IProductGallery {
   pictureUrl: string;
-  altText: string;
+  altText?: string;
 }
 
 export interface IProductTranslation {

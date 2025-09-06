@@ -1,7 +1,6 @@
 import { BrandOption } from './../../../../shared/brands-model';
 import {
   Component,
-  computed,
   DestroyRef,
   effect,
   inject,
@@ -36,6 +35,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem, MessageService } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
+import { ImageUploaderService } from '../../../../core/services/image-uploader-service';
+import { EditProductImage } from './edit-product-image/edit-product-image';
 
 @Component({
   selector: 'app-edit-product',
@@ -53,6 +55,8 @@ import { Router } from '@angular/router';
     FileUploadModule,
     FormErrors,
     BreadcrumbModule,
+    EditProductGallery,
+    EditProductImage,
   ],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',
@@ -61,6 +65,7 @@ export class EditProduct implements OnInit {
   private readonly _productsService = inject(ProductsService);
   private readonly _brandsService = inject(BrandsService);
   private readonly _categoriesService = inject(CategoriesService);
+  private readonly _imageUploaderService = inject(ImageUploaderService);
   private readonly _messageService = inject(MessageService);
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
@@ -89,40 +94,39 @@ export class EditProduct implements OnInit {
         price: productDetails?.price,
       });
     });
+
+    // effect(() => {
+    //   const image = this.uploadedImage();
+    //   if (image) {
+    //     const imageValidation = this._imageUploaderService.validateImage(image);
+    //     this.imageErrorMessage.set(imageValidation.error);
+    //   } else {
+    //     this.imageErrorMessage.set(undefined);
+    //   }
+    // });
   }
 
   id = input.required<number>();
   productDetails = signal<IProductDetails | null>(null);
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
-  uploadedImage = signal<File | undefined>(undefined);
-  previewImage = computed(() => {
-    const fetchedImage = this.productDetails()?.pictureUrl;
-    const uploadedImage = this.uploadedImage();
-    return uploadedImage ? URL.createObjectURL(uploadedImage) : fetchedImage;
-  });
+  // uploadedImage = signal<File | undefined>(undefined);
+  // previewImage = computed(() => {
+  //   const fetchedImage = this.productDetails()?.pictureUrl;
+  //   const uploadedImage = this.uploadedImage();
+  //   const defaultImage = '/default-product-image.png';
 
-  isValidImage = computed(() => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    const maxFileSize = 5 * 1024 * 1024; // 5MB
-    const file = this.uploadedImage();
+  //   return uploadedImage
+  //     ? URL.createObjectURL(uploadedImage)
+  //     : (fetchedImage ?? defaultImage);
+  // });
 
-    if (!file) return false;
+  // imageErrorMessage = signal<string | undefined>(undefined);
 
-    // Get file extension safely
-    const fileName = file.name.toLowerCase();
-    const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
-
-    // Validate both extension and MIME type for security
-    const hasValidExtension = allowedExtensions.includes(fileExtension);
-    const hasValidMimeType = allowedMimeTypes.includes(file.type.toLowerCase());
-
-    // Validate file size
-    const isValidSize = file.size <= maxFileSize;
-
-    return hasValidExtension && hasValidMimeType && isValidSize;
-  });
+  uploadedImage = signal<File | null>(null);
+  onUploadImage(image: File) {
+    this.uploadedImage.set(image);
+  }
 
   navigationItems: MenuItem[] = [
     {
@@ -194,7 +198,7 @@ export class EditProduct implements OnInit {
               detail: res.message,
               key: 'br',
             });
-            this._router.navigate(['/products', this.id()]);
+            this._router.navigate(['/products', 'details', this.id()]);
           }
         }),
         catchError((err) => {
@@ -212,13 +216,13 @@ export class EditProduct implements OnInit {
       .subscribe();
   }
 
-  onFileUpload(event: Event): void {
-    const uploadFileInput = event.target as HTMLInputElement;
-    const files = uploadFileInput.files;
-    if (files && files.length > 0) {
-      this.uploadedImage.set(files[0]);
-    }
-  }
+  // onFileUpload(event: Event): void {
+  //   const uploadFileInput = event.target as HTMLInputElement;
+  //   const files = uploadFileInput.files;
+  //   if (files && files.length > 0) {
+  //     this.uploadedImage.set(files[0]);
+  //   }
+  // }
 
   private _getProductDetails(): void {
     this._productsService

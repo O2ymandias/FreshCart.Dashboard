@@ -1,0 +1,74 @@
+<div
+  class="p-5 space-y-4 ring-1 rounded-lg ring-[var(--p-overlay-modal-border-color)]"
+>
+  <!-- Header  -->
+  <div class="space-y-2">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">
+        Preview Images
+        @if (previewImages().length > 0) {
+          ({{ previewImages().length }})
+        }
+      </h2>
+
+      <div class="flex items-center gap-2">
+        <label
+          for="galleryUploaderInp"
+          pButton
+          rounded
+          outlined
+          icon="pi pi-images"
+        >
+        </label>
+        <input
+          id="galleryUploaderInp"
+          class="sr-only"
+          type="file"
+          multiple
+          (change)="onFileSelect($event)"
+        />
+      </div>
+    </div>
+    <p class="text-sm text-gray-500 dark:text-gray-400">
+      Accepted formats: <span class="font-medium">JPEG, PNG, JPG</span> • Max
+      image size: <span class="font-medium">5MB</span>
+    </p>
+  </div>
+
+  <!-- Preview Images -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    @for (image of previewImages(); track $index) {
+      <div class="relative">
+        <app-product-gallery-image
+          [imageSrc]="image"
+          imageAlt="previewImage"
+          (onRemoved)="onRemoveSelectedImage($index)"
+        />
+      </div>
+    } @empty {
+      <div class="col-span-full flex items-center justify-center p-10">
+        <p class="text-gray-500 dark:text-gray-400">No images selected yet</p>
+      </div>
+    }
+  </div>
+
+  <!-- Error Message -->
+  @let errMsg = errorMessage();
+  @if (errMsg) {
+    <div>
+      <p-message severity="error" size="small">
+        {{ errMsg }}
+      </p-message>
+    </div>
+  }
+
+  <div class="flex items-center justify-end">
+    <p-button
+      severity="secondary"
+      label="Upload"
+      icon="pi pi-upload"
+      [disabled]="disabledUploadBtn()"
+      (click)="uploadImages()"
+    />
+  </div>
+</div>

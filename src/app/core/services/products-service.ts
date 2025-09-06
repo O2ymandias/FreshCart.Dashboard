@@ -62,4 +62,12 @@ export class ProductsService {
     const url = `${environment.apiUrl}/products/update`;
     return this._httpClient.put<IUpdateProductResult>(url, formData);
   }
+
+  deleteFromProductGallery$(productId: number, imagePath: string) {
+    const url = `${environment.apiUrl}/products/gallery`;
+    let params = new HttpParams()
+      .append('productId', productId)
+      .append('imagePath', imagePath);
+    return this._httpClient.delete<boolean>(url, { params });
+  }
 }

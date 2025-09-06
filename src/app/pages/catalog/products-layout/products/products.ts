@@ -32,6 +32,8 @@ import {
   IProductsQueryOptions,
   ProductSortOption,
 } from '../../../../shared/products.model';
+import { Breadcrumb } from 'primeng/breadcrumb';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-products',
@@ -53,6 +55,7 @@ import {
     Tooltip,
     ButtonModule,
     RouterLink,
+    Breadcrumb,
   ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
@@ -128,6 +131,18 @@ export class Products implements OnInit {
   ];
   selectedSortOption = signal<ProductSortOption | null>(null);
 
+  navigationItems: MenuItem[] = [
+    {
+      label: 'Home',
+      routerLink: '/dashboard',
+      icon: 'pi pi-home',
+    },
+    {
+      label: 'Products',
+      disabled: true,
+    },
+  ];
+
   ngOnInit(): void {
     this.loadProducts({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
@@ -145,7 +160,7 @@ export class Products implements OnInit {
           this.pageSize.set(res.pageSize);
           this.totalRecords.set(res.total);
         }),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }

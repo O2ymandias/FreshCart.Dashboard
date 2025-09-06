@@ -1,4 +1,8 @@
-<section class="my-12 mx-6">
+<section class="px-6 py-12 space-y-6">
+  <div>
+    <p-breadcrumb [model]="navigationItems" />
+  </div>
+
   <p-table #dt [value]="products()" rowHover="true" dataKey="id">
     <ng-template #caption>
       <div class="space-y-4">
@@ -87,7 +91,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
         <td>{{ product.brand }}</td>
-        <td>{{ product.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
+        <td>{{ product.price | currency: "USD" : "symbol" : "1.2-2" }}</td>
         <td>
           {{ product.unitsInStock }}
         </td>
@@ -98,7 +102,7 @@
               rounded
               outlined
               icon="pi pi-search"
-              [routerLink]="['/', 'products', product.id]"
+              [routerLink]="['/', 'products', 'details', product.id]"
             >
             </a>
 

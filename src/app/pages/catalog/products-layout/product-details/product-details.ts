@@ -25,7 +25,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DividerModule } from 'primeng/divider';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { Breadcrumb } from 'primeng/breadcrumb';
 
 @Component({
   selector: 'app-product-details',
@@ -39,6 +40,7 @@ import { MessageService } from 'primeng/api';
     FieldsetModule,
     DividerModule,
     RouterLink,
+    Breadcrumb,
   ],
 
   templateUrl: './product-details.html',
@@ -60,14 +62,30 @@ export class ProductDetails implements OnInit {
     this.translations().map((t) => ({
       languageCode: t.languageCode,
       name: t.name,
-    }))
+    })),
   );
   descriptionTranslations = computed(() =>
     this.translations().map((t) => ({
       languageCode: t.languageCode,
       description: t.description,
-    }))
+    })),
   );
+
+  navigationItems: MenuItem[] = [
+    {
+      label: 'Home',
+      routerLink: '/dashboard',
+      icon: 'pi pi-home',
+    },
+    {
+      label: 'Products',
+      routerLink: '/products',
+    },
+    {
+      label: 'Product Details',
+      disabled: true,
+    },
+  ];
 
   ngOnInit(): void {
     this._initialize();
@@ -99,7 +117,7 @@ export class ProductDetails implements OnInit {
       .getProduct$(this.id())
       .pipe(
         tap((res) => this.productDetails.set(res)),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
@@ -109,7 +127,7 @@ export class ProductDetails implements OnInit {
       .getProductGallery$(this.id())
       .pipe(
         tap((res) => this.gallery.set(res)),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
@@ -119,7 +137,7 @@ export class ProductDetails implements OnInit {
       .getProductAverageRating$(this.id())
       .pipe(
         tap((res) => this.averageRating.set(res)),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
@@ -129,7 +147,7 @@ export class ProductDetails implements OnInit {
       .getProductTranslations$(this.id())
       .pipe(
         tap((res) => this.translations.set(res)),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }

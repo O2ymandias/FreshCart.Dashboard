@@ -1,0 +1,42 @@
+<div class="space-y-2">
+  <div class="group relative size-[275px]">
+    <img
+      [src]="previewImage()"
+      alt="Preview Image"
+      class="size-full rounded-lg object-cover duration-300 group-hover:brightness-75"
+    />
+
+    <label
+      for="avatarInp"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition duration-300"
+    >
+      <div
+        class="size-14 rounded-full flex items-center justify-center bg-white/40 hover:bg-white/60 dark:bg-black/40 dark:hover:bg-black/60 shadow-lg transition duration-300"
+      >
+        <i class="pi pi-camera text-2xl text-gray-800 dark:text-gray-200"></i>
+      </div>
+      <input
+        id="avatarInp"
+        type="file"
+        class="sr-only"
+        accept="image/jpeg, image/png, image/jpg"
+        (change)="onFileUpload($event)"
+      />
+    </label>
+  </div>
+
+  <p class="text-sm text-gray-500 dark:text-gray-400">
+    Accepted formats: <span class="font-medium">JPEG, PNG, JPG</span> • Max
+    size:
+    <span class="font-medium">5MB</span>
+  </p>
+
+  @let errMsg = errorMessage();
+  @if (errMsg) {
+    <div>
+      <p-message severity="error" size="small">
+        {{ errMsg }}
+      </p-message>
+    </div>
+  }
+</div>
