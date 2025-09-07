@@ -61,6 +61,6 @@ export class EditProductGallery implements OnInit {
         }),
         takeUntilDestroyed(this._destroyRef),
       )
-      .subscribe(() => this._getProductGallery());
+      .subscribe();
   }
 }
