@@ -1,0 +1,22 @@
+<div class="flex items-center gap-2">
+  <a
+    pButton
+    rounded
+    outlined
+    icon="pi pi-search"
+    [routerLink]="['/', 'products', 'details', productId()]"
+  >
+  </a>
+
+  <a
+    pButton
+    rounded
+    outlined
+    severity="info"
+    icon="pi pi-pencil"
+    [routerLink]="['/', 'products', 'edit', productId()]"
+  >
+  </a>
+
+  <p-button icon="pi pi-trash" severity="danger" [rounded]="true" outlined />
+</div>

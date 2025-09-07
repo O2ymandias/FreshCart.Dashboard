@@ -81,11 +81,14 @@
       <tr>
         <td>{{ product.id }}</td>
         <td>
-          <img
-            [src]="product.pictureUrl"
-            alt="{{ product.name }}"
-            class="size-20 rounded"
-          />
+          <a [routerLink]="['/', 'products', 'details', product.id]">
+            <img
+              [src]="product.pictureUrl"
+              alt="{{ product.name }}"
+              [routerLink]="['/', 'products', 'details', product.id]"
+              class="size-20 rounded-lg object-cover"
+            />
+          </a>
         </td>
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
@@ -95,33 +98,7 @@
           {{ product.unitsInStock }}
         </td>
         <td>
-          <div class="flex items-center gap-2">
-            <a
-              pButton
-              rounded
-              outlined
-              icon="pi pi-search"
-              [routerLink]="['/', 'products', 'details', product.id]"
-            >
-            </a>
-
-            <a
-              pButton
-              rounded
-              outlined
-              severity="info"
-              icon="pi pi-pencil"
-              [routerLink]="['/', 'products', 'edit', product.id]"
-            >
-            </a>
-
-            <p-button
-              icon="pi pi-trash"
-              severity="danger"
-              [rounded]="true"
-              outlined
-            />
-          </div>
+          <app-products-actions [productId]="product.id" />
         </td>
       </tr>
     </ng-template>
