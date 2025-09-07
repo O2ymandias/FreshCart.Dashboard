@@ -44,6 +44,10 @@ export class EditProductGallery implements OnInit {
       .subscribe();
   }
 
+  onUpload() {
+    this._getProductGallery();
+  }
+
   deleteFromProductGallery(imagePath: string) {
     imagePath = imagePath.replace(environment.serverBaseUrl, '');
 

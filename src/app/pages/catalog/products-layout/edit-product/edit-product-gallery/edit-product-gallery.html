@@ -7,9 +7,14 @@
 
 <p-dialog
   header="Update Gallery"
+  styleClass="w-[75%]"
   [modal]="true"
   [(visible)]="visible"
-  styleClass="w-[75%] "
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
 >
   <div
     class="my-5 p-5 space-y-4 ring-1 rounded-lg ring-[var(--p-overlay-modal-border-color)]"
@@ -36,6 +41,9 @@
   </div>
 
   <div class="my-5">
-    <app-product-gallery-uploader />
+    <app-product-gallery-uploader
+      [productId]="productId()"
+      (onUpload)="onUpload()"
+    />
   </div>
 </p-dialog>

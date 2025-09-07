@@ -70,4 +70,9 @@ export class ProductsService {
       .append('imagePath', imagePath);
     return this._httpClient.delete<boolean>(url, { params });
   }
+
+  addToProductGallery$(formData: FormData) {
+    const url = `${environment.apiUrl}/products/gallery`;
+    return this._httpClient.post<IUpdateProductResult>(url, formData);
+  }
 }
