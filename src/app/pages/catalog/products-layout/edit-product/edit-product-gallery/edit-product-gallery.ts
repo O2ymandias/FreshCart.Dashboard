@@ -56,7 +56,9 @@ export class EditProductGallery implements OnInit {
       .pipe(
         switchMap((deleted) => {
           if (deleted) {
-            return this._productsService.getProductGallery$(this.productId());
+            return this._productsService
+              .getProductGallery$(this.productId())
+              .pipe(tap((res) => this.gallery.set(res)));
           } else return EMPTY;
         }),
         takeUntilDestroyed(this._destroyRef),
