@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ProductsService } from '../../../../core/services/products-service';
-import { catchError, EMPTY, map, tap } from 'rxjs';
+import { catchError, map, tap, throwError } from 'rxjs';
 import { IProductDetails } from '../../../../shared/product-details.model';
 import {
   FormControl,
@@ -26,18 +26,15 @@ import { SelectModule } from 'primeng/select';
 import { CategoriesService } from '../../../../core/services/categories-service';
 import { CategoryOption } from '../../../../shared/categories.model';
 import { TextareaModule } from 'primeng/textarea';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FileUploadModule } from 'primeng/fileupload';
 import { FormErrors } from '../../../../shared/components/form-errors/form-errors';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
-import { ImageUploaderService } from '../../../../core/services/image-uploader-service';
 import { EditProductImage } from './edit-product-image/edit-product-image';
+import { ToasterService } from '../../../../core/services/toaster-service';
 
 @Component({
   selector: 'app-edit-product',
@@ -48,11 +45,8 @@ import { EditProductImage } from './edit-product-image/edit-product-image';
     InputTextModule,
     ButtonModule,
     SelectModule,
-    FloatLabelModule,
     TextareaModule,
-    IftaLabelModule,
     InputNumberModule,
-    FileUploadModule,
     FormErrors,
     BreadcrumbModule,
     EditProductGallery,
@@ -65,8 +59,7 @@ export class EditProduct implements OnInit {
   private readonly _productsService = inject(ProductsService);
   private readonly _brandsService = inject(BrandsService);
   private readonly _categoriesService = inject(CategoriesService);
-  private readonly _imageUploaderService = inject(ImageUploaderService);
-  private readonly _messageService = inject(MessageService);
+  private readonly _toasterService = inject(ToasterService);
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
@@ -94,34 +87,12 @@ export class EditProduct implements OnInit {
         price: productDetails?.price,
       });
     });
-
-    // effect(() => {
-    //   const image = this.uploadedImage();
-    //   if (image) {
-    //     const imageValidation = this._imageUploaderService.validateImage(image);
-    //     this.imageErrorMessage.set(imageValidation.error);
-    //   } else {
-    //     this.imageErrorMessage.set(undefined);
-    //   }
-    // });
   }
 
   id = input.required<number>();
   productDetails = signal<IProductDetails | null>(null);
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
-  // uploadedImage = signal<File | undefined>(undefined);
-  // previewImage = computed(() => {
-  //   const fetchedImage = this.productDetails()?.pictureUrl;
-  //   const uploadedImage = this.uploadedImage();
-  //   const defaultImage = '/default-product-image.png';
-
-  //   return uploadedImage
-  //     ? URL.createObjectURL(uploadedImage)
-  //     : (fetchedImage ?? defaultImage);
-  // });
-
-  // imageErrorMessage = signal<string | undefined>(undefined);
 
   uploadedImage = signal<File | null>(null);
   onUploadImage(image: File) {
@@ -192,37 +163,18 @@ export class EditProduct implements OnInit {
       .pipe(
         tap((res) => {
           if (res.updated) {
-            this._messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: res.message,
-              key: 'br',
-            });
+            this._toasterService.success(res.message);
             this._router.navigate(['/products', 'details', this.id()]);
           }
         }),
         catchError((err) => {
-          this._messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message,
-            icon: 'pi pi-times',
-            key: 'br',
-          });
-          return EMPTY;
+          this._toasterService.error(err.error.message);
+          return throwError(() => err);
         }),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
-
-  // onFileUpload(event: Event): void {
-  //   const uploadFileInput = event.target as HTMLInputElement;
-  //   const files = uploadFileInput.files;
-  //   if (files && files.length > 0) {
-  //     this.uploadedImage.set(files[0]);
-  //   }
-  // }
 
   private _getProductDetails(): void {
     this._productsService

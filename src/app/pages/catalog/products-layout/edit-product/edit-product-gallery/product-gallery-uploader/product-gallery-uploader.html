@@ -67,7 +67,7 @@
       severity="secondary"
       label="Upload"
       icon="pi pi-upload"
-      [disabled]="disabledUploadBtn()"
+      [disabled]="!readyToUpload()"
       (click)="uploadImages()"
     />
   </div>

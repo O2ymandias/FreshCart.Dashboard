@@ -31,21 +31,11 @@ export class EditProductGallery implements OnInit {
   gallery = signal<IProductGallery[]>([]);
 
   ngOnInit(): void {
-    this._getProductGallery();
+    this.refreshGallery();
   }
 
-  private _getProductGallery() {
-    return this._productsService
-      .getProductGallery$(this.productId())
-      .pipe(
-        tap((res) => this.gallery.set(res)),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
-  }
-
-  onUpload() {
-    this._getProductGallery();
+  refreshGallery() {
+    this._getGallery$().subscribe();
   }
 
   deleteFromProductGallery(imagePath: string) {
@@ -54,15 +44,20 @@ export class EditProductGallery implements OnInit {
     this._productsService
       .deleteFromProductGallery$(this.productId(), imagePath)
       .pipe(
-        switchMap((deleted) => {
-          if (deleted) {
-            return this._productsService
-              .getProductGallery$(this.productId())
-              .pipe(tap((res) => this.gallery.set(res)));
-          } else return EMPTY;
+        switchMap((res) => {
+          if (res) return this._getGallery$();
+          return EMPTY;
         }),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
+  }
+
+  private _getGallery$() {
+    const productId = this.productId();
+    return this._productsService.getProductGallery$(productId).pipe(
+      tap((res) => this.gallery.set(res)),
+      takeUntilDestroyed(this._destroyRef),
+    );
   }
 }

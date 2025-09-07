@@ -10,7 +10,7 @@ type ImageValidation = {
 })
 export class ImageUploaderService {
   readonly MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-  readonly MAX_FILE_COUNT = 4;
+  readonly MAX_FILE_COUNT = 5;
   readonly ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
   readonly ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
 
@@ -18,7 +18,7 @@ export class ImageUploaderService {
     if (!this.isMimeTypeValid(file)) {
       return {
         isValid: false,
-        error: `Invalid mime type: Allowed: ${this.ALLOWED_MIME_TYPES.join(', ')}`,
+        error: `Invalid mime type. Allowed: ${this.ALLOWED_MIME_TYPES.join(', ')}`,
       };
     } else if (!this.isFileSizeValid(file)) {
       return {

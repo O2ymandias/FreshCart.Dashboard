@@ -14,9 +14,9 @@ import { ImageUploaderService } from '../../../../../../core/services/image-uplo
 import { Message } from 'primeng/message';
 import { ProductsService } from '../../../../../../core/services/products-service';
 import { catchError, tap, throwError } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToasterService } from '../../../../../../core/services/toaster-service';
 
 @Component({
   selector: 'app-product-gallery-uploader',
@@ -27,11 +27,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ProductGalleryUploader {
   private readonly _imageUploaderService = inject(ImageUploaderService);
   private readonly _productsService = inject(ProductsService);
-  private readonly _messageService = inject(MessageService);
+  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
+      // Read selectedFiles signal
       const selectedFiles = this.selectedFiles();
       this._validateSelectedFiles(selectedFiles);
     });
@@ -44,9 +45,12 @@ export class ProductGalleryUploader {
     this.selectedFiles().map((f) => URL.createObjectURL(f)),
   );
   errorMessage = signal<string | null>(null);
-  disabledUploadBtn = computed(
-    () => this.selectedFiles().length === 0 || this.errorMessage() !== null,
-  );
+
+  readyToUpload = computed(() => {
+    const selectedFiles = this.selectedFiles();
+    const result = this._imageUploaderService.validateImages(selectedFiles);
+    return result.isValid && selectedFiles.length > 0;
+  });
 
   onFileSelect(event: Event) {
     const newFiles = (event.target as HTMLInputElement).files;
@@ -62,9 +66,11 @@ export class ProductGalleryUploader {
   }
 
   uploadImages() {
+    if (!this.readyToUpload()) return;
+
     const formData = new FormData();
     formData.append('productId', this.productId().toString());
-    this.selectedFiles().forEach((f) => formData.append('images', f));
+    this.selectedFiles().forEach((image) => formData.append('images', image));
 
     this._productsService
       .addToProductGallery$(formData)
@@ -73,23 +79,13 @@ export class ProductGalleryUploader {
           if (res.updated) {
             this.selectedFiles.set([]);
             this.errorMessage.set(null);
-            this._messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: res.message,
-              key: 'br',
-            });
+            this._toasterService.success(res.message);
+            this.onUpload.emit();
           }
-          this.onUpload.emit();
         }),
 
         catchError((err: HttpErrorResponse) => {
-          this._messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message,
-            key: 'br',
-          });
+          this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
 
