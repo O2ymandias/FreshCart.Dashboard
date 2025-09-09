@@ -35,6 +35,7 @@ import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
 import { EditProductImage } from './edit-product-image/edit-product-image';
 import { ToasterService } from '../../../../core/services/toaster-service';
+import { EditProductTranslations } from "./edit-product-translations/edit-product-translations";
 
 @Component({
   selector: 'app-edit-product',
@@ -51,7 +52,8 @@ import { ToasterService } from '../../../../core/services/toaster-service';
     BreadcrumbModule,
     EditProductGallery,
     EditProductImage,
-  ],
+    EditProductTranslations
+],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',
 })

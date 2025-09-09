@@ -1,5 +1,5 @@
 <p-button
-  label="Update Gallery"
+  label="Gallery"
   severity="secondary"
   icon="pi pi-external-link"
   (click)="visible.set(true)"
@@ -21,7 +21,9 @@
   >
     <h2 class="text-lg font-semibold">Product Gallery</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
       @for (image of gallery(); track $index) {
         <div class="relative">
           <app-product-gallery-image

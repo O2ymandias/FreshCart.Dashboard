@@ -1,0 +1,91 @@
+<p-button
+  severity="secondary"
+  label="Translations"
+  icon="pi pi-external-link"
+  (click)="openTranslationsDialog()"
+/>
+<p-dialog
+  header="Update Translations "
+  [modal]="true"
+  [(visible)]="visible"
+  styleClass="w-[75%] md:w-1/2"
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
+>
+  <div class="space-y-4">
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <p-select
+          [options]="translations()"
+          [(ngModel)]="selectedTranslation"
+          optionLabel="languageCode"
+          placeholder="Select Language"
+          [showClear]="true"
+          [dropdownIcon]="'pi pi-globe'"
+          class="w-full md:w-52"
+          (onChange)="onSelectTranslation()"
+        />
+      </div>
+
+      <p class="opacity-75 text-sm">
+        You can only update one translation at a time.
+      </p>
+    </div>
+
+    @if (selectedTranslation()) {
+      <form
+        [formGroup]="updateTranslationForm"
+        class="space-y-4"
+        (ngSubmit)="updateTranslations()"
+      >
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2">
+            <label for="translationName" class="opacity-75">Name</label>
+            <input
+              id="translationName"
+              formControlName="name"
+              pInputText
+              type="text"
+              class="w-full"
+            />
+            @let nameCtrl = updateTranslationForm.get("name");
+            <app-form-errors [control]="nameCtrl" label="Name" />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="translationDescription" class="opacity-75"
+              >Description</label
+            >
+            <textarea
+              id="translationDescription"
+              formControlName="description"
+              pTextarea
+              [autoResize]="true"
+              class="w-full"
+            ></textarea>
+            <app-form-errors
+              [control]="updateTranslationForm.get('description')"
+              label="Description"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end">
+          <p-button
+            severity="success"
+            label="Update"
+            type="submit"
+            [loading]="loading()"
+          />
+        </div>
+      </form>
+    } @else {
+      <p class="text-center p-10 opacity-75 text-lg font-medium">
+        Please select a language to update
+      </p>
+    }
+  </div>
+</p-dialog>

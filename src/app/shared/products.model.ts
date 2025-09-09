@@ -1,4 +1,4 @@
-import { SortDirection } from './shared.model';
+import { SortDirection, LanguageCode } from './shared.model';
 
 export interface IProductsQueryOptions {
   pageNumber: number;
@@ -46,3 +46,10 @@ export interface IUpdateProductResult {
   updated: boolean;
   message: string;
 }
+
+export type UpdateProductTranslationRequest = {
+  productId: number;
+  languageCode: LanguageCode;
+  name: string;
+  description: string;
+};

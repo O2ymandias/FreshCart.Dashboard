@@ -10,7 +10,6 @@ import {
 import { ProductsService } from '../../../../core/services/products-service';
 import { Image } from 'primeng/image';
 import { ButtonModule } from 'primeng/button';
-import { GalleriaModule } from 'primeng/galleria';
 
 import {
   IProductDetails,
@@ -23,24 +22,25 @@ import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FieldsetModule } from 'primeng/fieldset';
-import { DividerModule } from 'primeng/divider';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
+import { ProductTranslations } from './product-translations/product-translations';
+import { ProductGallery } from './product-gallery/product-gallery';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-details',
   imports: [
     Image,
     ButtonModule,
-    GalleriaModule,
     TagModule,
     RatingModule,
     FormsModule,
-    FieldsetModule,
-    DividerModule,
     RouterLink,
     Breadcrumb,
+    ProductTranslations,
+    ProductGallery,
+    CurrencyPipe,
   ],
 
   templateUrl: './product-details.html',
@@ -48,14 +48,12 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 })
 export class ProductDetails implements OnInit {
   private readonly _productsService = inject(ProductsService);
-  private readonly _messageService = inject(MessageService);
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
   id = input.required<number>();
   productDetails = signal<IProductDetails>({} as IProductDetails);
   gallery = signal<IProductGallery[]>([]);
-  galleryVisible = signal(false);
   averageRating = signal(0);
   translations = signal<IProductTranslation[]>([]);
   nameTranslations = computed(() =>
@@ -87,21 +85,10 @@ export class ProductDetails implements OnInit {
     },
   ];
 
+  translationsVisible = signal(false);
+
   ngOnInit(): void {
     this._initialize();
-  }
-
-  showGallery(): void {
-    if (this.gallery().length === 0) {
-      this._messageService.add({
-        key: 'br',
-        severity: 'info',
-        summary: 'No Gallery',
-        detail: 'This product has no gallery',
-      });
-      return;
-    }
-    this.galleryVisible.set(true);
   }
 
   navigateToEditProduct(): void {
@@ -122,16 +109,6 @@ export class ProductDetails implements OnInit {
       .subscribe();
   }
 
-  private _getProductGallery(): void {
-    this._productsService
-      .getProductGallery$(this.id())
-      .pipe(
-        tap((res) => this.gallery.set(res)),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
-  }
-
   private _getProductAverageRating(): void {
     this._productsService
       .getProductAverageRating$(this.id())
@@ -142,20 +119,8 @@ export class ProductDetails implements OnInit {
       .subscribe();
   }
 
-  private _getProductTranslations(): void {
-    this._productsService
-      .getProductTranslations$(this.id())
-      .pipe(
-        tap((res) => this.translations.set(res)),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
-  }
-
   private _initialize(): void {
     this._getProductDetails();
-    this._getProductGallery();
     this._getProductAverageRating();
-    this._getProductTranslations();
   }
 }

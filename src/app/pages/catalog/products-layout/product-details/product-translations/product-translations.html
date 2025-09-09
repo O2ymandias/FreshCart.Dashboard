@@ -1,0 +1,48 @@
+<p-button
+  severity="secondary"
+  label="Translations"
+  icon="pi pi-globe"
+  (click)="showTranslations()"
+/>
+
+<p-dialog
+  header="Translations"
+  [modal]="true"
+  [(visible)]="visible"
+  styleClass="w-[75%] md:w-1/2"
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
+>
+  <p-select
+    [options]="translations()"
+    [(ngModel)]="selectedTranslation"
+    optionLabel="languageCode"
+    placeholder="Select Language"
+    [showClear]="true"
+    [dropdownIcon]="'pi pi-globe'"
+    class="w-full md:w-52"
+  />
+
+  @if (selectedTranslation()) {
+    <div class="space-y-4 my-4">
+      <p-fieldset legend="Name">
+        <p>
+          {{ selectedTranslation()?.name }}
+        </p>
+      </p-fieldset>
+
+      <p-fieldset legend="Description">
+        <p>
+          {{ selectedTranslation()?.description }}
+        </p>
+      </p-fieldset>
+    </div>
+  } @else {
+    <p class="text-center p-10 opacity-75 text-lg font-medium">
+      Please select a language to show.
+    </p>
+  }
+</p-dialog>

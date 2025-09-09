@@ -1,51 +1,24 @@
-<section class="px-6 py-12 space-y-6">
-  <div>
-    <p-breadcrumb [model]="navigationItems" />
-  </div>
+<section class="px-6 py-12 flex flex-col gap-6">
+  <p-breadcrumb [model]="navigationItems" />
 
   <div class="grid grid-cols-12 gap-4">
     <div class="col-span-full md:col-span-4">
-      <div class="flex flex-col items-center gap-y-4">
+      <div class="flex items-center justify-center">
         <p-image
           [src]="productDetails().pictureUrl"
           [alt]="productDetails().name"
           [preview]="true"
-          imageClass="h-[400px] w-[300px]"
+          imageClass="h-[400px] w-[300px] object-cover rounded-lg"
         >
+          <ng-template #indicator>
+            <i class="pi pi-search"></i>
+          </ng-template>
         </p-image>
-
-        <p-button
-          raised
-          icon="pi pi-images"
-          label="Gallery"
-          (onClick)="showGallery()"
-        />
       </div>
-
-      @if (gallery().length > 0) {
-        <div class="flex items-center justify-center">
-          <p-galleria
-            [value]="gallery()"
-            [circular]="true"
-            [fullScreen]="true"
-            [showItemNavigators]="true"
-            [(visible)]="galleryVisible"
-            [showThumbnails]="false"
-            [containerStyle]="{ 'max-width': '75%' }"
-          >
-            <ng-template #item let-item>
-              <img
-                [src]="item.pictureUrl"
-                class="h-[90vh] w-[500px] object-cover"
-              />
-            </ng-template>
-          </p-galleria>
-        </div>
-      }
     </div>
 
     <div
-      class="bg-base-200 col-span-full space-y-6 px-8 py-4 shadow md:col-span-8"
+      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg ring-1 ring-[var(--p-overlay-modal-border-color)]"
     >
       <!-- Title -->
       <h1 class="text-2xl font-bold">
@@ -57,15 +30,24 @@
 
       <!-- Brand & Category -->
       <div class="flex flex-col items-start gap-4">
-        <p-tag severity="secondary" value="{{ productDetails().brand }}" />
-        <p-tag severity="secondary" value="{{ productDetails().category }}" />
+        <p-tag
+          severity="secondary"
+          value="{{ productDetails().brand }}"
+          rounded
+        />
+        <p-tag
+          severity="secondary"
+          value="{{ productDetails().category }}"
+          rounded
+        />
       </div>
 
       <!-- Stock Status -->
-      <p>
-        <span class="text-lg font-bold">{{
-          productDetails().unitsInStock
-        }}</span>
+      <p class="flex items-center gap-2">
+        <p-tag
+          [severity]="productDetails().unitsInStock > 0 ? 'success' : 'danger'"
+          value="{{ productDetails().unitsInStock }}"
+        />
         In Stock
       </p>
 
@@ -77,8 +59,18 @@
         {{ productDetails().price | currency: "USD" : "symbol" : "1.2-2" }}
       </p>
 
+      <!-- Gallery & Translations -->
+      <div class="flex items-center gap-4">
+        <app-product-gallery [productId]="id()" />
+        <app-product-translations [productId]="id()" />
+      </div>
+
+      <hr class="my-4 border-1 border-[var(--p-overlay-modal-border-color)]" />
+
       <!-- Actions -->
-      <div class="flex gap-4">
+      <div
+        class="flex gap-4 items-center p-4 bg-zinc-50 dark:bg-zinc-900 rounded"
+      >
         <a pButton [routerLink]="['/', 'products', 'edit', id()]">
           <span class="flex items-center gap-2" pButtonLabel>
             <i class="pi pi-pencil"></i>
@@ -88,55 +80,6 @@
 
         <p-button label="Delete" severity="danger" icon="pi pi-trash" />
       </div>
-
-      <a pButton severity="secondary" [routerLink]="['/', 'products']">
-        <span class="flex items-center gap-2" pButtonLabel>
-          <i class="pi pi-arrow-left"></i>
-          Back to products
-        </span>
-      </a>
-    </div>
-  </div>
-
-  <div class="space-y-4">
-    <div>
-      <p-fieldset legend="Name Translations" [toggleable]="true">
-        <div class="space-y-4">
-          @for (nameTrans of nameTranslations(); track $index) {
-            <div>
-              <span class="font-bold">
-                {{ nameTrans.languageCode }}
-              </span>
-              <p
-                class="indent-4 opacity-75"
-                [class.font-cairo]="nameTrans.languageCode === 'AR'"
-              >
-                {{ nameTrans.name }}
-              </p>
-            </div>
-          }
-        </div>
-      </p-fieldset>
-    </div>
-
-    <div>
-      <p-fieldset legend="Description Translations" [toggleable]="true">
-        <div class="space-y-4">
-          @for (descriptionTrans of descriptionTranslations(); track $index) {
-            <div>
-              <span class="font-bold">
-                {{ descriptionTrans.languageCode }}
-              </span>
-              <p
-                class="indent-4 opacity-75"
-                [class.font-cairo]="descriptionTrans.languageCode === 'AR'"
-              >
-                {{ descriptionTrans.description }}
-              </p>
-            </div>
-          }
-        </div>
-      </p-fieldset>
     </div>
   </div>
 </section>

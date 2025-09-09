@@ -1,0 +1,24 @@
+<p-button
+  severity="secondary"
+  label="Gallery"
+  icon="pi pi-images"
+  (onClick)="showGallery()"
+/>
+
+@if (gallery().length > 0) {
+  <div class="flex items-center justify-center">
+    <p-galleria
+      [value]="gallery()"
+      [circular]="true"
+      [fullScreen]="true"
+      [showItemNavigators]="true"
+      [(visible)]="galleryVisible"
+      [showThumbnails]="false"
+      [containerStyle]="{ 'max-width': '75%' }"
+    >
+      <ng-template #item let-item>
+        <img [src]="item.pictureUrl" class="h-[90vh] w-[500px] object-cover" />
+      </ng-template>
+    </p-galleria>
+  </div>
+}

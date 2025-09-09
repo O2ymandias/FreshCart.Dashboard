@@ -34,4 +34,13 @@ export class ToasterService {
       detail: message,
     });
   }
+
+  info(message: string, title: string = 'Info') {
+    this._messageService.add({
+      severity: 'info',
+      key: this.TOASTER_KEY,
+      summary: title,
+      detail: message,
+    });
+  }
 }

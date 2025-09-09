@@ -10,6 +10,7 @@ import {
   IProductsQueryOptions,
   IProductsResponse,
   IUpdateProductResult,
+  UpdateProductTranslationRequest,
 } from '../../shared/products.model';
 
 @Injectable({
@@ -74,5 +75,10 @@ export class ProductsService {
   addToProductGallery$(formData: FormData) {
     const url = `${environment.apiUrl}/products/gallery`;
     return this._httpClient.post<IUpdateProductResult>(url, formData);
+  }
+
+  updateProductTranslation$(requestData: UpdateProductTranslationRequest) {
+    const url = `${environment.apiUrl}/translations/products`;
+    return this._httpClient.post<IUpdateProductResult>(url, requestData);
   }
 }
