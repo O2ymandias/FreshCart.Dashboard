@@ -76,7 +76,7 @@ export class ProductGalleryUploader {
       .addToProductGallery$(formData)
       .pipe(
         tap((res) => {
-          if (res.updated) {
+          if (res.success) {
             this.selectedFiles.set([]);
             this.errorMessage.set(null);
             this._toasterService.success(res.message);

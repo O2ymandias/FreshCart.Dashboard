@@ -7,9 +7,9 @@ import {
   IProductTranslation,
 } from '../../shared/product-details.model';
 import {
+  IProductSaveResult,
   IProductsQueryOptions,
   IProductsResponse,
-  IUpdateProductResult,
   UpdateProductTranslationRequest,
 } from '../../shared/products.model';
 
@@ -61,7 +61,7 @@ export class ProductsService {
 
   updateProduct$(formData: FormData) {
     const url = `${environment.apiUrl}/products/update`;
-    return this._httpClient.put<IUpdateProductResult>(url, formData);
+    return this._httpClient.put<IProductSaveResult>(url, formData);
   }
 
   deleteFromProductGallery$(productId: number, imagePath: string) {
@@ -74,11 +74,11 @@ export class ProductsService {
 
   addToProductGallery$(formData: FormData) {
     const url = `${environment.apiUrl}/products/gallery`;
-    return this._httpClient.post<IUpdateProductResult>(url, formData);
+    return this._httpClient.post<IProductSaveResult>(url, formData);
   }
 
   updateProductTranslation$(requestData: UpdateProductTranslationRequest) {
     const url = `${environment.apiUrl}/translations/products`;
-    return this._httpClient.post<IUpdateProductResult>(url, requestData);
+    return this._httpClient.post<IProductSaveResult>(url, requestData);
   }
 }

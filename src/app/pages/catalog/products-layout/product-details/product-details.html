@@ -2,23 +2,8 @@
   <p-breadcrumb [model]="navigationItems" />
 
   <div class="grid grid-cols-12 gap-4">
-    <div class="col-span-full md:col-span-4">
-      <div class="flex items-center justify-center">
-        <p-image
-          [src]="productDetails().pictureUrl"
-          [alt]="productDetails().name"
-          [preview]="true"
-          imageClass="h-[400px] w-[300px] object-cover rounded-lg"
-        >
-          <ng-template #indicator>
-            <i class="pi pi-search"></i>
-          </ng-template>
-        </p-image>
-      </div>
-    </div>
-
     <div
-      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg ring-1 ring-[var(--p-overlay-modal-border-color)]"
+      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg app-ring-1"
     >
       <!-- Title -->
       <h1 class="text-2xl font-bold">
@@ -65,7 +50,7 @@
         <app-product-translations [productId]="id()" />
       </div>
 
-      <hr class="my-4 border-1 border-[var(--p-overlay-modal-border-color)]" />
+      <hr class="my-4 border-1 border-zinc-200 dark:border-zinc-800" />
 
       <!-- Actions -->
       <div
@@ -80,6 +65,19 @@
 
         <p-button label="Delete" severity="danger" icon="pi pi-trash" />
       </div>
+    </div>
+
+    <div class="col-span-full md:col-span-4 flex justify-center items-center">
+      <p-image
+        [src]="productDetails().pictureUrl"
+        [alt]="productDetails().name"
+        [preview]="true"
+        imageClass="h-[450px] w-[350px] object-cover rounded-lg"
+      >
+        <ng-template #indicator>
+          <i class="pi pi-search"></i>
+        </ng-template>
+      </p-image>
     </div>
   </div>
 </section>

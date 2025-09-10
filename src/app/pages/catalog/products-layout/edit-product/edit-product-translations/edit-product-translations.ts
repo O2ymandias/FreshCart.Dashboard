@@ -100,7 +100,7 @@ export class EditProductTranslations implements OnInit {
       .updateProductTranslation$(requestData)
       .pipe(
         tap((res) => {
-          if (res.updated) {
+          if (res.success) {
             this._refreshTranslations();
             this._toasterService.success(res.message);
             this.closeTranslationsDialog();

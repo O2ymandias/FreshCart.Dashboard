@@ -35,7 +35,7 @@ import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
 import { EditProductImage } from './edit-product-image/edit-product-image';
 import { ToasterService } from '../../../../core/services/toaster-service';
-import { EditProductTranslations } from "./edit-product-translations/edit-product-translations";
+import { EditProductTranslations } from './edit-product-translations/edit-product-translations';
 
 @Component({
   selector: 'app-edit-product',
@@ -52,8 +52,8 @@ import { EditProductTranslations } from "./edit-product-translations/edit-produc
     BreadcrumbModule,
     EditProductGallery,
     EditProductImage,
-    EditProductTranslations
-],
+    EditProductTranslations,
+  ],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',
 })
@@ -164,7 +164,7 @@ export class EditProduct implements OnInit {
       .updateProduct$(formData)
       .pipe(
         tap((res) => {
-          if (res.updated) {
+          if (res.success) {
             this._toasterService.success(res.message);
             this._router.navigate(['/products', 'details', this.id()]);
           }

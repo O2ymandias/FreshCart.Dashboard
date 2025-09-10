@@ -9,10 +9,19 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @utility font-cairo {
   font-family: "Cairo", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "slnt" 0;
+}
+
+@utility app-ring-1 {
+  @apply ring-1 ring-zinc-200 dark:ring-zinc-800;
+}
+
+@utility app-ring-2 {
+  @apply ring-2 ring-zinc-200 dark:ring-zinc-800;
 }

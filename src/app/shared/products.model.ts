@@ -42,8 +42,8 @@ export type ProductSortOption = {
   };
 };
 
-export interface IUpdateProductResult {
-  updated: boolean;
+export interface IProductSaveResult {
+  success: boolean;
   message: string;
 }
 
