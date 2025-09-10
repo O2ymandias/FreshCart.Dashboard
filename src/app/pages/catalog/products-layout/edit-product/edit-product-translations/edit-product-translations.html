@@ -8,7 +8,7 @@
   header="Update Translations "
   [modal]="true"
   [(visible)]="visible"
-  styleClass="w-[75%] md:w-1/2"
+  styleClass="w-3/4 md:w-1/2"
   [closeButtonProps]="{
     severity: 'secondary',
     rounded: true,
@@ -75,8 +75,8 @@
 
         <div class="flex items-center justify-end">
           <p-button
-            severity="success"
             label="Update"
+            icon="pi pi-save"
             type="submit"
             [loading]="loading()"
           />

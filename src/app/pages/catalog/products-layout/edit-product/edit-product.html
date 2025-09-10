@@ -139,14 +139,21 @@
 
     <!-- Submit Button -->
     <div class="md:col-span-2 flex justify-end">
-      <button
+      <!-- <button
         pButton
         severity="success"
         type="submit"
         [disabled]="productUpdateForm.invalid"
       >
         <span pButtonLabel>Update</span>
-      </button>
+      </button> -->
+
+      <p-button
+        type="submit"
+        label="Update"
+        icon="pi pi-save"
+        [disabled]="productUpdateForm.invalid"
+      />
     </div>
   </form>
 </section>
