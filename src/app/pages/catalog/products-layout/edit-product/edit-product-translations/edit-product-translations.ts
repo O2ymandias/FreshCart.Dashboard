@@ -52,7 +52,9 @@ export class EditProductTranslations implements OnInit {
   productId = input.required<number>();
   visible = signal(false);
   translations = signal<IProductTranslation[]>([]);
-  selectedTranslation = signal<IProductTranslation | null>(null);
+  translationsKeys = signal<string[]>([]);
+  selectedKey = signal<LanguageCode | null>(null);
+
   loading = signal(false);
 
   updateTranslationForm = new FormGroup({
@@ -72,16 +74,35 @@ export class EditProductTranslations implements OnInit {
 
   ngOnInit(): void {
     this._refreshTranslations();
+    this._getTranslationsKeys$().subscribe();
   }
 
   onSelectTranslation() {
-    const selectedTranslation = this.selectedTranslation();
-    if (selectedTranslation) {
-      this.updateTranslationForm.patchValue(selectedTranslation);
-    }
+    this.updateTranslationForm.reset();
+
+    const selectedKey = this.selectedKey();
+    if (!selectedKey) return;
+
+    this.updateTranslationForm.patchValue({
+      languageCode: selectedKey,
+    });
+
+    const selectedTranslation = this.translations().find(
+      (t) => t.languageCode === selectedKey,
+    );
+    if (!selectedTranslation) return;
+
+    const { languageCode, name, description } = selectedTranslation;
+
+    this.updateTranslationForm.patchValue({
+      languageCode,
+      name,
+      description,
+    });
   }
 
   updateTranslations() {
+    console.log(this.updateTranslationForm.value);
     if (this.updateTranslationForm.invalid) return;
 
     this.loading.set(true);
@@ -125,6 +146,13 @@ export class EditProductTranslations implements OnInit {
   private _getTranslations$() {
     return this._productsService.getProductTranslations$(this.productId()).pipe(
       tap((res) => this.translations.set(res)),
+      takeUntilDestroyed(this._destroyRef),
+    );
+  }
+
+  private _getTranslationsKeys$() {
+    return this._productsService.getTranslationsKey$().pipe(
+      tap((res) => this.translationsKeys.set(res)),
       takeUntilDestroyed(this._destroyRef),
     );
   }

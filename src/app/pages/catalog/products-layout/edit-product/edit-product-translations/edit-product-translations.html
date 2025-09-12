@@ -19,9 +19,8 @@
     <div class="space-y-2">
       <div class="flex items-center justify-between">
         <p-select
-          [options]="translations()"
-          [(ngModel)]="selectedTranslation"
-          optionLabel="languageCode"
+          [options]="translationsKeys()"
+          [(ngModel)]="selectedKey"
           placeholder="Select Language"
           [showClear]="true"
           [dropdownIcon]="'pi pi-globe'"
@@ -35,7 +34,7 @@
       </p>
     </div>
 
-    @if (selectedTranslation()) {
+    @if (selectedKey()) {
       <form
         [formGroup]="updateTranslationForm"
         class="space-y-4"
@@ -79,6 +78,7 @@
             icon="pi pi-save"
             type="submit"
             [loading]="loading()"
+            [disabled]="updateTranslationForm.invalid"
           />
         </div>
       </form>

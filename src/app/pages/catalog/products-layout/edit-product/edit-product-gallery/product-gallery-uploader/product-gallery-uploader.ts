@@ -13,7 +13,7 @@ import { ProductGalleryImage } from '../product-gallery-image/product-gallery-im
 import { ImageUploaderService } from '../../../../../../core/services/image-uploader-service';
 import { Message } from 'primeng/message';
 import { ProductsService } from '../../../../../../core/services/products-service';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToasterService } from '../../../../../../core/services/toaster-service';
@@ -52,6 +52,8 @@ export class ProductGalleryUploader {
     return result.isValid && selectedFiles.length > 0;
   });
 
+  loading = signal(false);
+
   onFileSelect(event: Event) {
     const newFiles = (event.target as HTMLInputElement).files;
     if (newFiles) {
@@ -67,6 +69,8 @@ export class ProductGalleryUploader {
 
   uploadImages() {
     if (!this.readyToUpload()) return;
+
+    this.loading.set(true);
 
     const formData = new FormData();
     formData.append('productId', this.productId().toString());
@@ -88,6 +92,8 @@ export class ProductGalleryUploader {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
+
+        finalize(() => this.loading.set(false)),
 
         takeUntilDestroyed(this._destroyRef),
       )

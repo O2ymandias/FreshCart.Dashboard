@@ -59,8 +59,13 @@ export class ProductsService {
     return this._httpClient.get<IProductTranslation[]>(url);
   }
 
+  getTranslationsKey$() {
+    const url = `${environment.apiUrl}/translations/keys`;
+    return this._httpClient.get<string[]>(url);
+  }
+
   updateProduct$(formData: FormData) {
-    const url = `${environment.apiUrl}/products/update`;
+    const url = `${environment.apiUrl}/products`;
     return this._httpClient.put<IProductSaveResult>(url, formData);
   }
 

@@ -1,6 +1,4 @@
-<div
-  class="p-5 space-y-4 ring-1 rounded-lg ring-[var(--p-overlay-modal-border-color)]"
->
+<div class="p-5 space-y-4 rounded-lg app-ring-1">
   <!-- Header  -->
   <div class="space-y-2">
     <div class="flex items-center justify-between">
@@ -69,6 +67,7 @@
       label="Upload"
       icon="pi pi-upload"
       [disabled]="!readyToUpload()"
+      [loading]="loading()"
       (click)="uploadImages()"
     />
   </div>
