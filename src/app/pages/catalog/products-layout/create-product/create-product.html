@@ -1,0 +1,140 @@
+<section class="px-6 py-12 space-y-4">
+  <div>
+    <p-breadcrumb [model]="navigationItems" />
+  </div>
+
+  <!-- Form Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+      New Product
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      Create a new product and add it to your inventory
+    </p>
+  </div>
+
+  <!-- Form -->
+  <form
+    [formGroup]="createProductForm"
+    (ngSubmit)="createProduct()"
+    class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto p-8 rounded-2xl app-ring-1"
+  >
+    <!-- Picture -->
+    <div class="md:col-span-2 flex flex-col gap-2">
+      <app-edit-product-image
+        [fetchedImage]="null"
+        (onUploadImage)="onUploadImage($event)"
+      />
+    </div>
+
+    <!-- Name -->
+    <div class="flex flex-col gap-2">
+      <label class="opacity-75" for="name">Name</label>
+      <input formControlName="name" id="name" pInputText />
+      <app-form-errors [control]="createProductForm.get('name')" label="Name" />
+    </div>
+
+    <!-- Price -->
+    <div class="flex flex-col gap-2">
+      <label for="price" class="opacity-75">Price</label>
+      <p-inputnumber
+        formControlName="price"
+        inputId="price"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        [step]="1"
+      >
+        <ng-template #incrementbuttonicon>
+          <span class="pi pi-plus"></span>
+        </ng-template>
+        <ng-template #decrementbuttonicon>
+          <span class="pi pi-minus"></span>
+        </ng-template>
+      </p-inputnumber>
+      <app-form-errors
+        [control]="createProductForm.get('price')"
+        label="Price"
+      />
+    </div>
+
+    <!-- Brand -->
+    <div class="flex flex-col gap-2">
+      <label (click)="brandSelectOptions.show()" class="opacity-75"
+        >Select a Brand</label
+      >
+      <p-select
+        #brandSelectOptions
+        formControlName="brand"
+        [options]="brandsOptions()"
+        optionLabel="name"
+      />
+      <app-form-errors
+        [control]="createProductForm.get('brand')"
+        label="Brand"
+      />
+    </div>
+
+    <!-- Category -->
+    <div class="flex flex-col gap-2">
+      <label (click)="categorySelectOptions.show()" class="opacity-75"
+        >Select a Category</label
+      >
+      <p-select
+        #categorySelectOptions
+        formControlName="category"
+        [options]="categoriesOptions()"
+        optionLabel="name"
+      />
+      <app-form-errors
+        [control]="createProductForm.get('category')"
+        label="Category"
+      />
+    </div>
+
+    <!-- Stock -->
+    <div class="flex flex-col gap-2 md:col-span-1">
+      <label for="unitsInStock" class="opacity-75">Units In Stock</label>
+      <p-inputnumber
+        inputId="unitsInStock"
+        formControlName="unitsInStock"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        [step]="1"
+      />
+      <app-form-errors
+        [control]="createProductForm.get('unitsInStock')"
+        label="Units In Stock"
+      />
+    </div>
+
+    <!-- Description -->
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label for="description" class="opacity-75">Description</label>
+      <textarea
+        formControlName="description"
+        id="description"
+        pTextarea
+        [autoResize]="true"
+      ></textarea>
+      <app-form-errors
+        [control]="createProductForm.get('description')"
+        label="Description"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="md:col-span-2 flex justify-end">
+      <p-button
+        type="submit"
+        label="Update"
+        icon="pi pi-save"
+        [disabled]="createProductForm.invalid"
+      />
+    </div>
+  </form>
+</section>

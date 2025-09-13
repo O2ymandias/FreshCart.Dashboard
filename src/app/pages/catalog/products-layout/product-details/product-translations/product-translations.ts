@@ -17,7 +17,7 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FieldsetModule } from 'primeng/fieldset';
-
+import { LanguageCode } from '../../../../../shared/shared.model';
 
 @Component({
   selector: 'app-product-translations',
@@ -28,7 +28,7 @@ import { FieldsetModule } from 'primeng/fieldset';
     SelectModule,
     TextareaModule,
     InputTextModule,
-    FieldsetModule
+    FieldsetModule,
   ],
   templateUrl: './product-translations.html',
   styleUrl: './product-translations.scss',
@@ -39,15 +39,32 @@ export class ProductTranslations implements OnInit {
 
   productId = input.required<number>();
   translations = signal<IProductTranslation[]>([]);
+  translationsKeys = signal<LanguageCode[]>([]);
+  selectedOption = signal<LanguageCode | null>(null);
   selectedTranslation = signal<IProductTranslation | null>(null);
   visible = signal(false);
 
   ngOnInit(): void {
     this._getTranslations();
+    this._getTranslationsKeys();
   }
 
   showTranslations() {
     this.visible.set(true);
+  }
+
+  onSelectTranslation() {
+    this.selectedTranslation.set(null);
+
+    const selectedKey = this.selectedOption();
+    if (!selectedKey) return;
+
+    const selectedTranslation = this.translations().find(
+      (t) => t.languageCode === selectedKey,
+    );
+    if (!selectedTranslation) return;
+
+    this.selectedTranslation.set(selectedTranslation);
   }
 
   private _getTranslations(): void {
@@ -55,6 +72,16 @@ export class ProductTranslations implements OnInit {
       .getProductTranslations$(this.productId())
       .pipe(
         tap((res) => this.translations.set(res)),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
+  }
+
+  private _getTranslationsKeys() {
+    this._productsService
+      .getTranslationsKeys$()
+      .pipe(
+        tap((res) => this.translationsKeys.set(res)),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

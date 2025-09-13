@@ -20,13 +20,13 @@
   }"
 >
   <p-select
-    [options]="translations()"
-    [(ngModel)]="selectedTranslation"
-    optionLabel="languageCode"
+    [options]="translationsKeys()"
+    [(ngModel)]="selectedOption"
     placeholder="Select Language"
     [showClear]="true"
     [dropdownIcon]="'pi pi-globe'"
     class="w-full md:w-52"
+    (onChange)="onSelectTranslation()"
   />
 
   @if (selectedTrans) {

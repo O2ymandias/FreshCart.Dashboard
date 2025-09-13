@@ -12,6 +12,7 @@ import {
   IProductsResponse,
   UpdateProductTranslationRequest,
 } from '../../shared/products.model';
+import { LanguageCode } from '../../shared/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -59,9 +60,14 @@ export class ProductsService {
     return this._httpClient.get<IProductTranslation[]>(url);
   }
 
-  getTranslationsKey$() {
+  getTranslationsKeys$() {
     const url = `${environment.apiUrl}/translations/keys`;
-    return this._httpClient.get<string[]>(url);
+    return this._httpClient.get<LanguageCode[]>(url);
+  }
+
+  createProduct$(formData: FormData) {
+    const url = `${environment.apiUrl}/products`;
+    return this._httpClient.post<IProductSaveResult>(url, formData);
   }
 
   updateProduct$(formData: FormData) {

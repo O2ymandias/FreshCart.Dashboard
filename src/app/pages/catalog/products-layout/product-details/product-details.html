@@ -3,7 +3,22 @@
 
   <div class="grid grid-cols-12 gap-4">
     <div
-      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg app-ring-1"
+      class="col-span-full md:col-span-4 flex justify-center items-center order-1 md:order-2"
+    >
+      <p-image
+        [src]="productDetails().pictureUrl"
+        [alt]="productDetails().name"
+        [preview]="true"
+        imageClass="h-[450px] w-[350px] object-cover rounded-lg"
+      >
+        <ng-template #indicator>
+          <i class="pi pi-search"></i>
+        </ng-template>
+      </p-image>
+    </div>
+
+    <div
+      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg app-ring-1 order-2 md:order-1"
     >
       <!-- Title -->
       <h1 class="text-2xl font-bold">
@@ -65,19 +80,6 @@
 
         <p-button label="Delete" severity="danger" icon="pi pi-trash" />
       </div>
-    </div>
-
-    <div class="col-span-full md:col-span-4 flex justify-center items-center">
-      <p-image
-        [src]="productDetails().pictureUrl"
-        [alt]="productDetails().name"
-        [preview]="true"
-        imageClass="h-[450px] w-[350px] object-cover rounded-lg"
-      >
-        <ng-template #indicator>
-          <i class="pi pi-search"></i>
-        </ng-template>
-      </p-image>
     </div>
   </div>
 </section>

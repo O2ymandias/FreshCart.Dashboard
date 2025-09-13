@@ -9,7 +9,7 @@ import {
 import { ProductsService } from '../../../../../core/services/products-service';
 import { IProductTranslation } from '../../../../../shared/product-details.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import {
@@ -52,7 +52,7 @@ export class EditProductTranslations implements OnInit {
   productId = input.required<number>();
   visible = signal(false);
   translations = signal<IProductTranslation[]>([]);
-  translationsKeys = signal<string[]>([]);
+  translationsKeys = signal<LanguageCode[]>([]);
   selectedKey = signal<LanguageCode | null>(null);
 
   loading = signal(false);
@@ -73,7 +73,7 @@ export class EditProductTranslations implements OnInit {
   });
 
   ngOnInit(): void {
-    this._refreshTranslations();
+    this._getTranslations$().subscribe();
     this._getTranslationsKeys$().subscribe();
   }
 
@@ -122,11 +122,13 @@ export class EditProductTranslations implements OnInit {
       .pipe(
         tap((res) => {
           if (res.success) {
-            this._refreshTranslations();
             this._toasterService.success(res.message);
             this.closeTranslationsDialog();
           }
         }),
+
+        switchMap(() => this._getTranslations$()),
+
         catchError((err) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
@@ -139,10 +141,6 @@ export class EditProductTranslations implements OnInit {
       .subscribe();
   }
 
-  private _refreshTranslations() {
-    this._getTranslations$().subscribe();
-  }
-
   private _getTranslations$() {
     return this._productsService.getProductTranslations$(this.productId()).pipe(
       tap((res) => this.translations.set(res)),
@@ -151,7 +149,7 @@ export class EditProductTranslations implements OnInit {
   }
 
   private _getTranslationsKeys$() {
-    return this._productsService.getTranslationsKey$().pipe(
+    return this._productsService.getTranslationsKeys$().pipe(
       tap((res) => this.translationsKeys.set(res)),
       takeUntilDestroyed(this._destroyRef),
     );

@@ -135,7 +135,10 @@ export class EditProduct implements OnInit {
       Validators.required,
       Validators.min(0),
     ]),
-    description: new FormControl<string>('', [Validators.required]),
+    description: new FormControl<string>('', [
+      Validators.required,
+      Validators.min(3),
+    ]),
   });
 
   ngOnInit(): void {
