@@ -1,3 +1,7 @@
+<!-- Template Variables -->
+@let imgCtrl = imageControl();
+@let errMsg = errorMessage();
+
 <div class="space-y-2">
   <div class="group relative size-[275px]">
     <img
@@ -15,13 +19,25 @@
       >
         <i class="pi pi-camera text-2xl text-gray-800 dark:text-gray-200"></i>
       </div>
-      <input
-        id="avatarInp"
-        type="file"
-        class="sr-only"
-        accept="image/jpeg, image/png, image/jpg"
-        (change)="onFileUpload($event)"
-      />
+
+      @if (imgCtrl) {
+        <input
+          [formControl]="imgCtrl"
+          id="avatarInp"
+          type="file"
+          class="sr-only"
+          accept="image/jpeg, image/png, image/jpg"
+          (change)="onFileUpload($event)"
+        />
+      } @else {
+        <input
+          id="avatarInp"
+          type="file"
+          class="sr-only"
+          accept="image/jpeg, image/png, image/jpg"
+          (change)="onFileUpload($event)"
+        />
+      }
     </label>
   </div>
 
@@ -31,12 +47,15 @@
     <span class="font-medium">5MB</span>
   </p>
 
-  @let errMsg = errorMessage();
   @if (errMsg) {
     <div>
-      <p-message severity="error" size="small">
+      <p-message severity="warn" size="small">
         {{ errMsg }}
       </p-message>
     </div>
+  }
+
+  @if (imgCtrl) {
+    <app-form-errors [control]="imgCtrl" label="Image" />
   }
 </div>

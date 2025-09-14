@@ -50,8 +50,10 @@
               type="text"
               class="w-full"
             />
-            @let nameCtrl = updateTranslationForm.get("name");
-            <app-form-errors [control]="nameCtrl" label="Name" />
+            <app-form-errors
+              [control]="updateTranslationForm.controls.name"
+              label="Name"
+            />
           </div>
 
           <div class="flex flex-col gap-2">
@@ -66,7 +68,7 @@
               class="w-full"
             ></textarea>
             <app-form-errors
-              [control]="updateTranslationForm.get('description')"
+              [control]="updateTranslationForm.controls.description"
               label="Description"
             />
           </div>

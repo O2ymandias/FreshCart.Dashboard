@@ -7,7 +7,6 @@ import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
-  withViewTransitions,
 } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -17,6 +16,7 @@ import {
 } from '@angular/platform-browser';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -29,10 +29,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withComponentInputBinding(),
-      withViewTransitions(),
+      // withViewTransitions(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
-      })
+      }),
     ),
     provideClientHydration(withEventReplay()),
 
@@ -41,6 +41,8 @@ export const appConfig: ApplicationConfig = {
 
     // PrimeNG
     provideAnimationsAsync(),
+    provideAnimations(),
+
     providePrimeNG({
       theme: {
         preset: Aura,

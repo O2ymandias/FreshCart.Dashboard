@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 
 @Component({
@@ -9,6 +9,6 @@ import { MessageModule } from 'primeng/message';
   styleUrl: './form-errors.scss',
 })
 export class FormErrors {
-  control = input.required<AbstractControl | null>();
+  control = input.required<FormControl | null>();
   label = input.required<string>();
 }

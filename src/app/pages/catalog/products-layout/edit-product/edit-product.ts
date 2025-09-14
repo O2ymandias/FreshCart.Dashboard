@@ -95,11 +95,7 @@ export class EditProduct implements OnInit {
   productDetails = signal<IProductDetails | null>(null);
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
-
   uploadedImage = signal<File | null>(null);
-  onUploadImage(image: File) {
-    this.uploadedImage.set(image);
-  }
 
   navigationItems: MenuItem[] = [
     {
@@ -145,6 +141,10 @@ export class EditProduct implements OnInit {
     this._getProductDetails();
     this._getBrands();
     this._getCategories();
+  }
+
+  onUploadImage(image: File) {
+    this.uploadedImage.set(image);
   }
 
   updateProduct(): void {

@@ -31,7 +31,10 @@
     <div class="flex flex-col gap-2">
       <label class="opacity-75" for="name">Name</label>
       <input formControlName="name" id="name" pInputText />
-      <app-form-errors [control]="productUpdateForm.get('name')" label="Name" />
+      <app-form-errors
+        [control]="productUpdateForm.controls.name"
+        label="Name"
+      />
     </div>
 
     <!-- Price -->
@@ -56,7 +59,7 @@
         </ng-template>
       </p-inputnumber>
       <app-form-errors
-        [control]="productUpdateForm.get('price')"
+        [control]="productUpdateForm.controls.price"
         label="Price"
       />
     </div>
@@ -73,7 +76,7 @@
         optionLabel="name"
       />
       <app-form-errors
-        [control]="productUpdateForm.get('brand')"
+        [control]="productUpdateForm.controls.brand"
         label="Brand"
       />
     </div>
@@ -90,7 +93,7 @@
         optionLabel="name"
       />
       <app-form-errors
-        [control]="productUpdateForm.get('category')"
+        [control]="productUpdateForm.controls.category"
         label="Category"
       />
     </div>
@@ -107,7 +110,7 @@
         [step]="1"
       />
       <app-form-errors
-        [control]="productUpdateForm.get('unitsInStock')"
+        [control]="productUpdateForm.controls.unitsInStock"
         label="Units In Stock"
       />
     </div>
@@ -122,7 +125,7 @@
         [autoResize]="true"
       ></textarea>
       <app-form-errors
-        [control]="productUpdateForm.get('description')"
+        [control]="productUpdateForm.controls.description"
         label="Description"
       />
     </div>

@@ -22,8 +22,10 @@
     <!-- Picture -->
     <div class="md:col-span-2 flex flex-col gap-2">
       <app-edit-product-image
+        [imageControl]="createProductForm.controls.image"
         [fetchedImage]="null"
         (onUploadImage)="onUploadImage($event)"
+        (onValidateImage)="onValidateImage($event)"
       />
     </div>
 
@@ -31,7 +33,10 @@
     <div class="flex flex-col gap-2">
       <label class="opacity-75" for="name">Name</label>
       <input formControlName="name" id="name" pInputText />
-      <app-form-errors [control]="createProductForm.get('name')" label="Name" />
+      <app-form-errors
+        [control]="createProductForm.controls.name"
+        label="Name"
+      />
     </div>
 
     <!-- Price -->
@@ -56,7 +61,7 @@
         </ng-template>
       </p-inputnumber>
       <app-form-errors
-        [control]="createProductForm.get('price')"
+        [control]="createProductForm.controls.price"
         label="Price"
       />
     </div>
@@ -64,16 +69,20 @@
     <!-- Brand -->
     <div class="flex flex-col gap-2">
       <label (click)="brandSelectOptions.show()" class="opacity-75"
-        >Select a Brand</label
+        >Brand</label
       >
       <p-select
-        #brandSelectOptions
         formControlName="brand"
+        #brandSelectOptions
         [options]="brandsOptions()"
+        placeholder="Select a Brand"
+        [showClear]="true"
         optionLabel="name"
+        [filter]="true"
+        filterBy="name"
       />
       <app-form-errors
-        [control]="createProductForm.get('brand')"
+        [control]="createProductForm.controls.brand"
         label="Brand"
       />
     </div>
@@ -81,16 +90,20 @@
     <!-- Category -->
     <div class="flex flex-col gap-2">
       <label (click)="categorySelectOptions.show()" class="opacity-75"
-        >Select a Category</label
+        >Category</label
       >
       <p-select
         #categorySelectOptions
         formControlName="category"
         [options]="categoriesOptions()"
         optionLabel="name"
+        placeholder="Select a Category"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="name"
       />
       <app-form-errors
-        [control]="createProductForm.get('category')"
+        [control]="createProductForm.controls.category"
         label="Category"
       />
     </div>
@@ -107,7 +120,7 @@
         [step]="1"
       />
       <app-form-errors
-        [control]="createProductForm.get('unitsInStock')"
+        [control]="createProductForm.controls.unitsInStock"
         label="Units In Stock"
       />
     </div>
@@ -122,7 +135,7 @@
         [autoResize]="true"
       ></textarea>
       <app-form-errors
-        [control]="createProductForm.get('description')"
+        [control]="createProductForm.controls.description"
         label="Description"
       />
     </div>
@@ -133,7 +146,7 @@
         type="submit"
         label="Update"
         icon="pi pi-save"
-        [disabled]="createProductForm.invalid"
+        [loading]="loading()"
       />
     </div>
   </form>
