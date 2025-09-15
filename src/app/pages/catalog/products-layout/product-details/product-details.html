@@ -1,9 +1,9 @@
-<section class="px-6 py-12 flex flex-col gap-6">
+<section class="flex flex-col gap-6 px-6 py-12">
   <p-breadcrumb [model]="navigationItems" />
 
   <div class="grid grid-cols-12 gap-4">
     <div
-      class="col-span-full md:col-span-4 flex justify-center items-center order-1 md:order-2"
+      class="order-1 col-span-full flex items-center justify-center md:order-2 md:col-span-4"
     >
       <p-image
         [src]="productDetails().pictureUrl"
@@ -18,7 +18,7 @@
     </div>
 
     <div
-      class="bg-base-200 col-span-full space-y-6 px-8 py-4 md:col-span-8 rounded-lg app-ring-1 order-2 md:order-1"
+      class="bg-base-200 app-ring-1 order-2 col-span-full space-y-6 rounded-lg px-8 py-4 md:order-1 md:col-span-8"
     >
       <!-- Title -->
       <h1 class="text-2xl font-bold">
@@ -69,7 +69,7 @@
 
       <!-- Actions -->
       <div
-        class="flex gap-4 items-center p-4 bg-zinc-50 dark:bg-zinc-900 rounded"
+        class="flex items-center gap-4 rounded bg-zinc-50 p-4 dark:bg-zinc-900"
       >
         <a pButton [routerLink]="['/', 'products', 'edit', id()]">
           <span class="flex items-center gap-2" pButtonLabel>

@@ -10,6 +10,9 @@
     "serve:ssr:FreshCart.Dashboard": "node dist/FreshCart.Dashboard/server/server.mjs"
   },
   "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
     "overrides": [
       {
         "files": "*.html",

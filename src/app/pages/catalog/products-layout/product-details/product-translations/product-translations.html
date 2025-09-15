@@ -31,7 +31,7 @@
 
   @if (selectedOption()) {
     @if (selectedTrans) {
-      <div class="space-y-4 my-4">
+      <div class="my-4 space-y-4">
         <p-fieldset legend="Name">
           <p>
             {{ selectedTrans.name }}
@@ -45,12 +45,12 @@
         </p-fieldset>
       </div>
     } @else {
-      <p class="text-center p-10 opacity-75 text-lg font-medium">
+      <p class="p-10 text-center text-lg font-medium opacity-75">
         No translation found.
       </p>
     }
   } @else {
-    <p class="text-center p-10 opacity-75 text-lg font-medium">
+    <p class="p-10 text-center text-lg font-medium opacity-75">
       Please select a language to show.
     </p>
   }

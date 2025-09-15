@@ -1,8 +1,8 @@
 <p-drawer #drawerRef [(visible)]="visible">
   <ng-template #headless>
-    <div class="flex flex-col h-full">
+    <div class="flex h-full flex-col">
       <div
-        class="flex items-center justify-between px-6 py-4 shrink-0 border-b border-surface"
+        class="border-surface flex shrink-0 items-center justify-between border-b px-6 py-4"
       >
         <app-logo />
         <span>
@@ -18,7 +18,7 @@
       </div>
       <div class="overflow-y-auto">
         <!-- Management -->
-        <ul class="list-none p-4 m-0">
+        <ul class="m-0 list-none p-4">
           <li>
             <div
               pRipple
@@ -27,12 +27,12 @@
               enterActiveClass="animate-slidedown"
               leaveToClass="hidden"
               leaveActiveClass="animate-slideup"
-              class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple"
+              class="text-surface-600 dark:text-surface-200 p-ripple flex cursor-pointer items-center justify-between p-4"
             >
               <span class="font-bold">Management</span>
               <i class="pi pi-chevron-down"></i>
             </div>
-            <ul class="list-none p-0 m-0 overflow-hidden">
+            <ul class="m-0 list-none overflow-hidden p-0">
               <li>
                 <app-drawer-item
                   routerLink="/dashboard"
@@ -53,7 +53,7 @@
         <!-- Management -->
 
         <!-- Application  -->
-        <ul class="list-none p-4 m-0">
+        <ul class="m-0 list-none p-4">
           <li>
             <div
               pRipple
@@ -62,12 +62,12 @@
               enterActiveClass="animate-slidedown"
               leaveToClass="hidden"
               leaveActiveClass="animate-slideup"
-              class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple"
+              class="text-surface-600 dark:text-surface-200 p-ripple flex cursor-pointer items-center justify-between p-4"
             >
               <span class="font-bold">Application</span>
               <i class="pi pi-chevron-down"></i>
             </div>
-            <ul class="list-none p-0 m-0 overflow-hidden">
+            <ul class="m-0 list-none overflow-hidden p-0">
               <li>
                 <a
                   pRipple
@@ -76,14 +76,14 @@
                   enterActiveClass="animate-slidedown"
                   leaveToClass="hidden"
                   leaveActiveClass="animate-slideup"
-                  class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
+                  class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
                 >
                   <i class="pi pi-folder mr-2"></i>
                   <span class="font-medium">Catalog</span>
                   <i class="pi pi-chevron-down ml-auto"></i>
                 </a>
                 <ul
-                  class="list-none py-0 pl-4 pr-0 m-0 hidden overflow-y-hidden transition-all duration-[400ms] ease-in-out"
+                  class="m-0 hidden list-none overflow-y-hidden py-0 pr-0 pl-4 transition-all duration-[400ms] ease-in-out"
                 >
                   <li>
                     <app-drawer-item
@@ -136,10 +136,10 @@
         <!-- Application  -->
       </div>
       <div class="mt-auto">
-        <hr class="mb-4 mx-4 border-t border-0 border-surface" />
+        <hr class="border-surface mx-4 mb-4 border-0 border-t" />
         <a
           pRipple
-          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
+          class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple m-4 flex cursor-pointer items-center gap-2 p-4 transition-colors duration-150"
         >
           <p-avatar
             image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
