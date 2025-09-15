@@ -21,11 +21,13 @@
   >
     <!-- Picture -->
     <div class="md:col-span-2 flex flex-col gap-2">
-      <app-edit-product-image
-        [imageControl]="createProductForm.controls.image"
-        [fetchedImage]="null"
+      <app-create-update-product-image
         (onUploadImage)="onUploadImage($event)"
-        (onValidateImage)="onValidateImage($event)"
+        (valid)="onValidateImage($event)"
+      />
+      <app-form-errors
+        [control]="createProductForm.controls.image"
+        label="image"
       />
     </div>
 
@@ -147,6 +149,7 @@
         label="Create"
         icon="pi pi-save"
         [loading]="loading()"
+        [disabled]="!canSubmit"
       />
     </div>
   </form>

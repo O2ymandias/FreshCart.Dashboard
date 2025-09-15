@@ -7,27 +7,26 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ImageUploaderService } from '../../../../../core/services/image-uploader-service';
+import { ImageUploaderService } from '../../../../core/services/image-uploader-service';
 import { MessageModule } from 'primeng/message';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormErrors } from '../../../../../shared/components/form-errors/form-errors';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-product-image',
-  imports: [MessageModule, FormsModule, ReactiveFormsModule, FormErrors],
-  templateUrl: './edit-product-image.html',
-  styleUrl: './edit-product-image.scss',
+  selector: 'app-create-update-product-image',
+  imports: [MessageModule, FormsModule],
+  templateUrl: './create-update-product-image.html',
+  styleUrl: './create-update-product-image.scss',
 })
-export class EditProductImage {
+export class CreateUpdateProductImage {
   private readonly _imageUploaderService = inject(ImageUploaderService);
 
   constructor() {
     effect(() => {
       const image = this.uploadedImage();
       if (image) {
-        const imageValidation = this._imageUploaderService.validateImage(image);
-        if (!imageValidation.isValid) {
-          this.errorMessage.set(imageValidation.error ?? null);
+        const validation = this._imageUploaderService.validateImage(image);
+        if (!validation.isValid) {
+          this.errorMessage.set(validation.error ?? null);
           return;
         }
       }
@@ -42,19 +41,15 @@ export class EditProductImage {
     });
 
     effect(() => {
-      const errMsg = this.errorMessage();
-      if (errMsg) {
-        this.onValidateImage.emit(false);
-      } else {
-        this.onValidateImage.emit(true);
-      }
+      const isValid = this.isValid();
+      this.valid.emit(isValid);
     });
   }
 
-  imageControl = input<FormControl<File | null>>();
-  fetchedImage = input.required<string | null>();
+  fetchedImage = input<string | undefined>();
   onUploadImage = output<File>();
-  onValidateImage = output<boolean>();
+  valid = output<boolean>();
+
   uploadedImage = signal<File | null>(null);
   previewImage = computed(() => {
     const fetchedImage = this.fetchedImage();
@@ -66,6 +61,7 @@ export class EditProductImage {
       : (fetchedImage ?? defaultImage);
   });
   errorMessage = signal<string | null>(null);
+  isValid = computed(() => this.errorMessage() === null);
 
   onFileUpload(event: Event): void {
     const uploadFileInput = event.target as HTMLInputElement;

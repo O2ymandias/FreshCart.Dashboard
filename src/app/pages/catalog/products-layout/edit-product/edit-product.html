@@ -21,8 +21,8 @@
   >
     <!-- Picture -->
     <div class="md:col-span-2 flex flex-col gap-2">
-      <app-edit-product-image
-        [fetchedImage]="productDetails()?.pictureUrl ?? null"
+      <app-create-update-product-image
+        [fetchedImage]="productDetails()?.pictureUrl"
         (onUploadImage)="onUploadImage($event)"
       />
     </div>

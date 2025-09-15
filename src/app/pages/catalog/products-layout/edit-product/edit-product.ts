@@ -33,9 +33,9 @@ import { MenuItem } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
-import { EditProductImage } from './edit-product-image/edit-product-image';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { EditProductTranslations } from './edit-product-translations/edit-product-translations';
+import { CreateUpdateProductImage } from "../create-update-product-image/create-update-product-image";
 
 @Component({
   selector: 'app-edit-product',
@@ -51,9 +51,9 @@ import { EditProductTranslations } from './edit-product-translations/edit-produc
     FormErrors,
     BreadcrumbModule,
     EditProductGallery,
-    EditProductImage,
     EditProductTranslations,
-  ],
+    CreateUpdateProductImage
+],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',
 })

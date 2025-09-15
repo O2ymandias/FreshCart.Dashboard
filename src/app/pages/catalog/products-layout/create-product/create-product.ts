@@ -1,11 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ProductsService } from '../../../../core/services/products-service';
 import {
   FormControl,
@@ -22,7 +15,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
-import { EditProductImage } from '../edit-product/edit-product-image/edit-product-image';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { CategoriesService } from '../../../../core/services/categories-service';
@@ -32,6 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
+import { CreateUpdateProductImage } from '../create-update-product-image/create-update-product-image';
 
 @Component({
   selector: 'app-create-product',
@@ -43,9 +36,9 @@ import { MessageModule } from 'primeng/message';
     SelectModule,
     TextareaModule,
     ButtonModule,
-    EditProductImage,
     InputTextModule,
     MessageModule,
+    CreateUpdateProductImage,
   ],
   templateUrl: './create-product.html',
   styleUrl: './create-product.scss',
@@ -58,11 +51,7 @@ export class CreateProduct implements OnInit {
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
-  constructor() {
-    effect(() => {
-      console.log(this.isValidImage());
-    });
-  }
+  constructor() {}
 
   navigationItems: MenuItem[] = [
     {
@@ -75,18 +64,21 @@ export class CreateProduct implements OnInit {
       routerLink: '/products',
     },
     {
-      label: 'Edit Product',
+      label: 'Create Product',
       disabled: true,
     },
   ];
-  image = signal<File | null>(null);
-  isValidImage = signal(false);
+
+  uploadedImage = signal<File | null>(null);
+  isValidUploadedImage = signal(true);
+
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
   loading = signal(false);
 
   createProductForm = new FormGroup({
-    image: new FormControl<File | null>(null, [Validators.required]),
+    // Just for validation, its value won't be used.
+    image: new FormControl<string | null>(null, [Validators.required]),
 
     name: new FormControl<string>('', [
       Validators.required,
@@ -116,21 +108,30 @@ export class CreateProduct implements OnInit {
     ]),
   });
 
+  get canSubmit() {
+    return (
+      this.createProductForm.valid &&
+      this.uploadedImage() !== null &&
+      this.isValidUploadedImage()
+    );
+  }
+
   ngOnInit(): void {
     this._getBrands();
     this._getCategories();
   }
 
   onUploadImage(image: File) {
-    this.image.set(image);
+    this.uploadedImage.set(image);
+    this.createProductForm.patchValue({ image: image.name });
   }
 
   onValidateImage(isValid: boolean) {
-    this.isValidImage.set(isValid);
+    this.isValidUploadedImage.set(isValid);
   }
 
   createProduct() {
-    if (!this.createProductForm.valid || !this.isValidImage()) {
+    if (!this.canSubmit) {
       this.createProductForm.markAllAsDirty();
       return;
     }
@@ -142,8 +143,8 @@ export class CreateProduct implements OnInit {
 
     const formData = new FormData();
 
-    const image = this.image();
-    if (image) formData.append('image', image);
+    const uploadedImage = this.uploadedImage();
+    if (uploadedImage) formData.append('image', uploadedImage);
 
     if (name) formData.append('name', name);
     if (description) formData.append('description', description);
