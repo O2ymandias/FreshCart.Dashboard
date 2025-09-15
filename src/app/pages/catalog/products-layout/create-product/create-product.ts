@@ -44,6 +44,7 @@ import { CreateUpdateProductImage } from '../create-update-product-image/create-
   styleUrl: './create-product.scss',
 })
 export class CreateProduct implements OnInit {
+  // Fields
   private readonly _productsService = inject(ProductsService);
   private readonly _categoriesService = inject(CategoriesService);
   private readonly _brandsService = inject(BrandsService);
@@ -51,8 +52,7 @@ export class CreateProduct implements OnInit {
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
-  constructor() {}
-
+  // Properties
   navigationItems: MenuItem[] = [
     {
       label: 'Home',
@@ -68,14 +68,11 @@ export class CreateProduct implements OnInit {
       disabled: true,
     },
   ];
-
   uploadedImage = signal<File | null>(null);
   isValidUploadedImage = signal(true);
-
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
   loading = signal(false);
-
   createProductForm = new FormGroup({
     // Just for validation, its value won't be used.
     image: new FormControl<string | null>(null, [Validators.required]),
@@ -107,7 +104,6 @@ export class CreateProduct implements OnInit {
       Validators.minLength(3),
     ]),
   });
-
   get canSubmit() {
     return (
       this.createProductForm.valid &&
@@ -116,11 +112,13 @@ export class CreateProduct implements OnInit {
     );
   }
 
+  // Lifecycle
   ngOnInit(): void {
     this._getBrands();
     this._getCategories();
   }
 
+  // Methods
   onUploadImage(image: File) {
     this.uploadedImage.set(image);
     this.createProductForm.patchValue({ image: image.name });
