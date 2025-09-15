@@ -29,20 +29,26 @@
     (onChange)="onSelectTranslation()"
   />
 
-  @if (selectedTrans) {
-    <div class="space-y-4 my-4">
-      <p-fieldset legend="Name">
-        <p>
-          {{ selectedTrans.name }}
-        </p>
-      </p-fieldset>
+  @if (selectedOption()) {
+    @if (selectedTrans) {
+      <div class="space-y-4 my-4">
+        <p-fieldset legend="Name">
+          <p>
+            {{ selectedTrans.name }}
+          </p>
+        </p-fieldset>
 
-      <p-fieldset legend="Description">
-        <p>
-          {{ selectedTrans.description }}
-        </p>
-      </p-fieldset>
-    </div>
+        <p-fieldset legend="Description">
+          <p>
+            {{ selectedTrans.description }}
+          </p>
+        </p-fieldset>
+      </div>
+    } @else {
+      <p class="text-center p-10 opacity-75 text-lg font-medium">
+        No translation found.
+      </p>
+    }
   } @else {
     <p class="text-center p-10 opacity-75 text-lg font-medium">
       Please select a language to show.

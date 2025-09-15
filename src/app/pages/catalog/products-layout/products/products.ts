@@ -34,7 +34,7 @@ import {
 } from '../../../../shared/products.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
-import { ProductsActions } from "./products-actions/products-actions";
+import { ProductsActions } from './products-actions/products-actions';
 
 @Component({
   selector: 'app-products',
@@ -57,8 +57,8 @@ import { ProductsActions } from "./products-actions/products-actions";
     ButtonModule,
     RouterLink,
     Breadcrumb,
-    ProductsActions
-],
+    ProductsActions,
+  ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })

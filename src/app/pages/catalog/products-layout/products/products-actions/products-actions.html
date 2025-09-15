@@ -18,5 +18,11 @@
   >
   </a>
 
-  <p-button icon="pi pi-trash" severity="danger" [rounded]="true" outlined />
+  <p-button
+    icon="pi pi-trash"
+    severity="danger"
+    rounded
+    outlined
+    (click)="onDeleteProduct($event)"
+  />
 </div>

@@ -102,7 +102,10 @@
           {{ product.unitsInStock }}
         </td>
         <td>
-          <app-products-actions [productId]="product.id" />
+          <app-products-actions
+            [productId]="product.id"
+            (deleted)="refresh()"
+          />
         </td>
       </tr>
     </ng-template>

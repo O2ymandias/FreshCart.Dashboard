@@ -1,3 +1,4 @@
+import { MessageModule } from 'primeng/message';
 import { TextareaModule } from 'primeng/textarea';
 import {
   Component,
@@ -29,6 +30,7 @@ import { LanguageCode } from '../../../../../shared/shared.model';
     TextareaModule,
     InputTextModule,
     FieldsetModule,
+    MessageModule,
   ],
   templateUrl: './product-translations.html',
   styleUrl: './product-translations.scss',

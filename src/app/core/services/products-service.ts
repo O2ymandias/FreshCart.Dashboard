@@ -92,4 +92,9 @@ export class ProductsService {
     const url = `${environment.apiUrl}/translations/products`;
     return this._httpClient.post<IProductSaveResult>(url, requestData);
   }
+
+  deleteProduct(productId: number) {
+    const url = `${environment.apiUrl}/products/${productId}`;
+    return this._httpClient.delete<IProductSaveResult>(url);
+  }
 }

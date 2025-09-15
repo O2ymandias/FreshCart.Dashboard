@@ -4,10 +4,11 @@ import { Navbar } from './layout/navbar/navbar';
 import { Toast } from 'primeng/toast';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { ToasterService } from './core/services/toaster-service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Toast, ScrollTopModule],
+  imports: [RouterOutlet, Navbar, Toast, ScrollTopModule, ConfirmDialogModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

@@ -20,7 +20,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -58,5 +58,8 @@ export const appConfig: ApplicationConfig = {
 
     // Message Service [Toaster]
     MessageService,
+
+    // Confirmation Service
+    ConfirmationService,
   ],
 };
