@@ -16,17 +16,19 @@ import {
   IProductGallery,
   IProductTranslation,
 } from '../../../../shared/product-details.model';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { ProductTranslations } from './product-translations/product-translations';
 import { ProductGallery } from './product-gallery/product-gallery';
 import { CurrencyPipe } from '@angular/common';
+import { ToasterService } from '../../../../core/services/toaster-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-details',
@@ -48,8 +50,10 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ProductDetails implements OnInit {
   private readonly _productsService = inject(ProductsService);
-  private readonly _router = inject(Router);
+  private readonly _confirmationService = inject(ConfirmationService);
+  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
+  private readonly _router = inject(Router);
 
   id = input.required<number>();
   productDetails = signal<IProductDetails>({} as IProductDetails);
@@ -91,12 +95,46 @@ export class ProductDetails implements OnInit {
     this._initialize();
   }
 
-  navigateToEditProduct(): void {
-    this._router.navigate(['/products', 'edit', this.id()]);
+  onDeleteProduct(event: Event) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this product?',
+      header: 'Delete Product',
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+
+      accept: () => this.deleteProduct(),
+    });
   }
 
-  navigateToProducts(): void {
-    this._router.navigate(['/products']);
+  deleteProduct() {
+    this._productsService
+      .deleteProduct(this.id())
+      .pipe(
+        tap((res) => {
+          if (res) {
+            this._toasterService.success('Product deleted successfully');
+            this._router.navigate(['/products']);
+          }
+        }),
+
+        catchError((err: HttpErrorResponse) => {
+          this._toasterService.error(err.error.message);
+          return throwError(() => err);
+        }),
+
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
   }
 
   private _getProductDetails(): void {

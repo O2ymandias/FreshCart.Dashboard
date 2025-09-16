@@ -78,7 +78,12 @@
           </span>
         </a>
 
-        <p-button label="Delete" severity="danger" icon="pi pi-trash" />
+        <p-button
+          label="Delete"
+          severity="danger"
+          icon="pi pi-trash"
+          (click)="onDeleteProduct($event)"
+        />
       </div>
     </div>
   </div>
