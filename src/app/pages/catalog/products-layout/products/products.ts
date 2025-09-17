@@ -25,7 +25,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroup } from 'primeng/inputgroup';
 import { Tooltip } from 'primeng/tooltip';
 
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
 import {
   IProduct,
@@ -64,7 +64,6 @@ import { ProductsActions } from './products-actions/products-actions';
 })
 export class Products implements OnInit {
   private readonly _productsService = inject(ProductsService);
-  private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
   private readonly DEFAULT_PAGE_NUMBER = 1;
