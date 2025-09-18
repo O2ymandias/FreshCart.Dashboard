@@ -1,0 +1,76 @@
+<p-button
+  severity="secondary"
+  label="Translations"
+  icon="pi pi-external-link"
+  (click)="openTranslationsDialog()"
+/>
+<p-dialog
+  header="Update Translations "
+  [modal]="true"
+  [(visible)]="visible"
+  styleClass="w-3/4 md:w-1/2"
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
+>
+  <div class="space-y-4">
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <p-select
+          [options]="translationsKeys()"
+          [(ngModel)]="selectedKey"
+          placeholder="Select Language"
+          [showClear]="true"
+          [dropdownIcon]="'pi pi-globe'"
+          class="w-full md:w-52"
+          (onChange)="onSelectTranslation()"
+        />
+      </div>
+
+      <p class="text-sm opacity-75">
+        You can only update one translation at a time.
+      </p>
+    </div>
+
+    @if (selectedKey()) {
+      <form
+        [formGroup]="updateTranslationForm"
+        class="space-y-4"
+        (ngSubmit)="updateTranslations()"
+      >
+        <div class="space-y-4">
+          <div class="flex flex-col gap-2">
+            <label for="translationName" class="opacity-75">Name</label>
+            <input
+              id="translationName"
+              formControlName="name"
+              pInputText
+              type="text"
+              class="w-full"
+            />
+            <app-form-errors
+              [control]="updateTranslationForm.controls.name"
+              label="Name"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end">
+          <p-button
+            label="Update"
+            icon="pi pi-save"
+            type="submit"
+            [loading]="loading()"
+            [disabled]="updateTranslationForm.invalid"
+          />
+        </div>
+      </form>
+    } @else {
+      <p class="p-10 text-center text-lg font-medium opacity-75">
+        Please select a language to update
+      </p>
+    }
+  </div>
+</p-dialog>

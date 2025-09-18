@@ -102,7 +102,6 @@ export class EditProductTranslations implements OnInit {
   }
 
   updateTranslations() {
-    console.log(this.updateTranslationForm.value);
     if (this.updateTranslationForm.invalid) return;
 
     this.loading.set(true);

@@ -6,11 +6,12 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { BrandsService } from '../../../../core/services/brands-service';
-import { IBrandResult } from '../../../../shared/brands-model';
+import { BrandResult } from '../../../../shared/brands-model';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconFieldModule } from 'primeng/iconfield';
-import { EditBrands } from './edit-brands/edit-brands';
+import { DialogModule } from 'primeng/dialog';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-brands',
@@ -21,7 +22,8 @@ import { EditBrands } from './edit-brands/edit-brands';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    EditBrands,
+    DialogModule,
+    RouterLink,
   ],
   templateUrl: './brands.html',
   styleUrl: './brands.scss',
@@ -32,7 +34,7 @@ export class Brands implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   // Properties
-  brands = signal<IBrandResult[]>([]);
+  brands = signal<BrandResult[]>([]);
   navigationItems: MenuItem[] = [
     {
       label: 'Home',
@@ -45,17 +47,12 @@ export class Brands implements OnInit {
     },
   ];
 
-  selectedBrand = signal<IBrandResult | null>(null);
-  editBrandDialogVisible = signal(false);
-
   // Lifecycle hooks
   ngOnInit(): void {
     this._getBrands();
   }
 
   // Methods
-
-  showEditBrandDialog() {}
 
   private _getBrands(): void {
     this._brandsService

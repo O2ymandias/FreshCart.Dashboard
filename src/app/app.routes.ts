@@ -7,6 +7,7 @@ import { Products } from './pages/catalog/products-layout/products/products';
 import { CreateProduct } from './pages/catalog/products-layout/create-product/create-product';
 import { BrandsLayout } from './pages/catalog/brands-layout/brands-layout';
 import { Brands } from './pages/catalog/brands-layout/brands/brands';
+import { EditBrand } from './pages/catalog/brands-layout/brands/edit-brand/edit-brand';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -45,6 +46,11 @@ export const routes: Routes = [
         path: '',
         component: Brands,
         title: 'Brands',
+      },
+      {
+        path: 'edit/:id',
+        component: EditBrand,
+        title: 'Edit Brand',
       },
     ],
   },
