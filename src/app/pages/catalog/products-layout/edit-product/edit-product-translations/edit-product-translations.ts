@@ -27,6 +27,7 @@ import { MessageModule } from 'primeng/message';
 import { UpdateProductTranslationRequest } from '../../../../../shared/products.model';
 import { LanguageCode } from '../../../../../shared/shared.model';
 import { ToasterService } from '../../../../../core/services/toaster-service';
+import { CommonService } from '../../../../../core/services/common-service';
 
 @Component({
   selector: 'app-edit-product-translations',
@@ -46,6 +47,7 @@ import { ToasterService } from '../../../../../core/services/toaster-service';
 })
 export class EditProductTranslations implements OnInit {
   private readonly _productsService = inject(ProductsService);
+  private readonly _commonService = inject(CommonService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
@@ -148,7 +150,7 @@ export class EditProductTranslations implements OnInit {
   }
 
   private _getTranslationsKeys$() {
-    return this._productsService.getTranslationsKeys$().pipe(
+    return this._commonService.getTranslationsKeys$().pipe(
       tap((res) => this.translationsKeys.set(res)),
       takeUntilDestroyed(this._destroyRef),
     );

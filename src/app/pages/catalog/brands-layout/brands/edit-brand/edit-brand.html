@@ -30,14 +30,42 @@
 
       <!-- Name -->
       <div class="flex flex-col gap-2 md:col-span-2">
-        <label class="opacity-75" for="name">Name</label>
+        <label class="opacity-75" for="name">Default Name</label>
         <input formControlName="name" id="name" pInputText />
         <app-form-errors [control]="editBrandForm.controls.name" label="Name" />
       </div>
 
       <!-- Translations -->
       <div class="md:col-span-2">
-        <app-edit-brand-translations [brandId]="brandData.id" />
+        <p-fieldset legend="Name Translations">
+          <div formArrayName="translations" class="flex flex-col gap-4 py-4">
+            @for (
+              group of editBrandForm.controls.translations.controls;
+              track $index
+            ) {
+              <div class="flex flex-col gap-2" [formGroupName]="$index">
+                <p-floatlabel variant="on">
+                  <input
+                    formControlName="name"
+                    pInputText
+                    [id]="$index"
+                    autocomplete="off"
+                    class="w-full"
+                  />
+
+                  <label [htmlFor]="$index">
+                    {{ translationsKeys()[$index] }}
+                  </label>
+                </p-floatlabel>
+
+                <app-form-errors
+                  [control]="getControl(group, 'name')"
+                  label="Name"
+                />
+              </div>
+            }
+          </div>
+        </p-fieldset>
       </div>
 
       <!-- Submit Button -->

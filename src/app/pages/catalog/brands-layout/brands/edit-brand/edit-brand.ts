@@ -16,6 +16,7 @@ import {
 import { map, tap } from 'rxjs';
 import { CreateUpdateProductImage } from '../../../products-layout/create-update-product-image/create-update-product-image';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -26,7 +27,10 @@ import { FormErrors } from '../../../../../shared/components/form-errors/form-er
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { EditBrandTranslations } from "./edit-brand-translations/edit-brand-translations";
+import { CommonService } from '../../../../../core/services/common-service';
+import { LanguageCode } from '../../../../../shared/shared.model';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-edit-brand',
@@ -37,21 +41,30 @@ import { EditBrandTranslations } from "./edit-brand-translations/edit-brand-tran
     FormErrors,
     BreadcrumbModule,
     InputTextModule,
-    EditBrandTranslations
-],
+    FieldsetModule,
+    FloatLabelModule,
+  ],
   templateUrl: './edit-brand.html',
   styleUrl: './edit-brand.scss',
 })
 export class EditBrand implements OnInit {
   private readonly _brandsService = inject(BrandsService);
+  private readonly _commonService = inject(CommonService);
   private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
       const brand = this.brand();
+      const brandTranslations = this.brandTranslations();
+
       if (brand) {
         this.editBrandForm.patchValue({
+          id: brand.id,
           name: brand.name,
+          translations: brandTranslations.map((bt) => ({
+            languageCode: bt.languageCode,
+            name: bt.name,
+          })),
         });
       }
     });
@@ -60,6 +73,7 @@ export class EditBrand implements OnInit {
   id = input.required<number>();
   brand = signal<BrandResult | null>(null);
   brandTranslations = signal<BrandTranslation[]>([]);
+  translationsKeys = signal<LanguageCode[]>([]);
   navigationItems: MenuItem[] = [
     {
       label: 'Home',
@@ -75,20 +89,46 @@ export class EditBrand implements OnInit {
       disabled: true,
     },
   ];
-
   editBrandForm = new FormGroup({
-    id: new FormControl('', [Validators.required]),
+    id: new FormControl<number>(0, [Validators.required]),
     name: new FormControl('', [Validators.required]),
+    translations: new FormArray<FormGroup>([]),
   });
 
   ngOnInit(): void {
     this._getBrand();
     this._getBrandTranslations();
+    this._getTranslationsKeys();
   }
 
   onUploadImage(image: File) {}
 
-  updateBrand() {}
+  updateBrand() {
+    console.log(this.editBrandForm.value);
+  }
+
+  getControl(group: FormGroup, controlName: string) {
+    return group.controls[controlName] as FormControl;
+  }
+
+  private _initTranslationsGroup(keys: LanguageCode[]) {
+    const translationsGroup = this.editBrandForm.controls.translations;
+    for (const key of keys) {
+      translationsGroup.push(
+        new FormGroup({
+          languageCode: new FormControl<LanguageCode>(key, [
+            Validators.required,
+          ]),
+
+          name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ]),
+        }),
+      );
+    }
+  }
 
   private _getBrand() {
     this._brandsService
@@ -111,6 +151,19 @@ export class EditBrand implements OnInit {
       .getBrandTranslations$(this.id())
       .pipe(
         tap((res) => this.brandTranslations.set(res)),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
+  }
+
+  private _getTranslationsKeys() {
+    this._commonService
+      .getTranslationsKeys$()
+      .pipe(
+        tap((res) => {
+          this.translationsKeys.set(res);
+          this._initTranslationsGroup(res);
+        }),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

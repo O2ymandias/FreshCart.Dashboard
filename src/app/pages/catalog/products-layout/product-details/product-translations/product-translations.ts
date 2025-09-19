@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FieldsetModule } from 'primeng/fieldset';
 import { LanguageCode } from '../../../../../shared/shared.model';
+import { CommonService } from '../../../../../core/services/common-service';
 
 @Component({
   selector: 'app-product-translations',
@@ -37,6 +38,7 @@ import { LanguageCode } from '../../../../../shared/shared.model';
 })
 export class ProductTranslations implements OnInit {
   private readonly _productsService = inject(ProductsService);
+  private readonly _commonService = inject(CommonService);
   private readonly _destroyRef = inject(DestroyRef);
 
   productId = input.required<number>();
@@ -80,7 +82,7 @@ export class ProductTranslations implements OnInit {
   }
 
   private _getTranslationsKeys() {
-    this._productsService
+    this._commonService
       .getTranslationsKeys$()
       .pipe(
         tap((res) => this.translationsKeys.set(res)),

@@ -1,3 +1,5 @@
+import { LanguageCode } from "./shared.model";
+
 export type BrandResult = {
   id: number;
   name: string;
@@ -11,5 +13,5 @@ export type BrandOption = {
 
 export type BrandTranslation = {
   name: string;
-  languageCode: string;
+  languageCode: LanguageCode;
 };
