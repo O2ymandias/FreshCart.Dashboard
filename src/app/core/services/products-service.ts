@@ -7,11 +7,11 @@ import {
   IProductTranslation,
 } from '../../shared/product-details.model';
 import {
-  IProductSaveResult,
   IProductsQueryOptions,
   IProductsResponse,
   UpdateProductTranslationRequest,
 } from '../../shared/products.model';
+import { SaveResult } from '../../shared/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,12 +61,12 @@ export class ProductsService {
 
   createProduct$(formData: FormData) {
     const url = `${environment.apiUrl}/products`;
-    return this._httpClient.post<IProductSaveResult>(url, formData);
+    return this._httpClient.post<SaveResult>(url, formData);
   }
 
   updateProduct$(formData: FormData) {
     const url = `${environment.apiUrl}/products`;
-    return this._httpClient.put<IProductSaveResult>(url, formData);
+    return this._httpClient.put<SaveResult>(url, formData);
   }
 
   deleteFromProductGallery$(productId: number, imagePath: string) {
@@ -79,16 +79,16 @@ export class ProductsService {
 
   addToProductGallery$(formData: FormData) {
     const url = `${environment.apiUrl}/products/gallery`;
-    return this._httpClient.post<IProductSaveResult>(url, formData);
+    return this._httpClient.post<SaveResult>(url, formData);
   }
 
   updateProductTranslation$(requestData: UpdateProductTranslationRequest) {
     const url = `${environment.apiUrl}/translations/products`;
-    return this._httpClient.post<IProductSaveResult>(url, requestData);
+    return this._httpClient.post<SaveResult>(url, requestData);
   }
 
   deleteProduct(productId: number) {
     const url = `${environment.apiUrl}/products/${productId}`;
-    return this._httpClient.delete<IProductSaveResult>(url);
+    return this._httpClient.delete<SaveResult>(url);
   }
 }

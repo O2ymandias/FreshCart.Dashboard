@@ -42,11 +42,6 @@ export type ProductSortOption = {
   };
 };
 
-export interface IProductSaveResult {
-  success: boolean;
-  message: string;
-}
-
 export type UpdateProductTranslationRequest = {
   productId: number;
   languageCode: LanguageCode;

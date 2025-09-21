@@ -1,0 +1,85 @@
+<section class="flex flex-col gap-6 px-6 py-12">
+  <p-breadcrumb [model]="navigationItems" />
+
+  <!-- Form Header -->
+  <div class="mb-8 text-center">
+    <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+      New Brand
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      Create a new brand and add it to your inventory
+    </p>
+  </div>
+
+  <!-- Form -->
+
+  <form
+    [formGroup]="createBrandForm"
+    (ngSubmit)="createBrand()"
+    class="app-ring-1 mx-auto grid w-full grid-cols-1 gap-6 rounded-2xl p-8 md:max-w-2xl md:grid-cols-2"
+  >
+    <!-- Picture -->
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <app-create-update-product-image
+        (onUploadImage)="onUploadImage($event)"
+        (valid)="onValidateImage($event)"
+      />
+      <app-form-errors
+        [control]="createBrandForm.controls.image"
+        label="Image"
+      />
+    </div>
+
+    <!-- Name -->
+    <div class="flex flex-col gap-2 md:col-span-2">
+      <label class="opacity-75" for="name">Default Name</label>
+      <input formControlName="name" id="name" pInputText />
+      <app-form-errors [control]="createBrandForm.controls.name" label="Name" />
+    </div>
+
+    <!-- Translations -->
+    <div class="md:col-span-2">
+      <p-fieldset legend="Name Translations">
+        <div formArrayName="translations" class="flex flex-col gap-4 py-4">
+          @for (
+            group of createBrandForm.controls.translations.controls;
+            track $index
+          ) {
+            @let currTransKey = translationsKeys()[$index];
+
+            <div class="flex flex-col gap-2" [formGroupName]="$index">
+              <p-floatlabel variant="on">
+                <input
+                  formControlName="name"
+                  pInputText
+                  [id]="$index"
+                  autocomplete="off"
+                  class="w-full"
+                />
+
+                <label [htmlFor]="$index">
+                  {{ currTransKey }}
+                </label>
+              </p-floatlabel>
+
+              <app-form-errors
+                [control]="getControl(group, 'name')"
+                label="Name-{{ currTransKey }}"
+              />
+            </div>
+          }
+        </div>
+      </p-fieldset>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end md:col-span-2">
+      <p-button
+        type="submit"
+        label="Save"
+        icon="pi pi-save"
+        [disabled]="!canSubmit"
+      />
+    </div>
+  </form>
+</section>

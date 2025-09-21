@@ -25,6 +25,7 @@
         <app-create-update-product-image
           [fetchedImage]="brandData.pictureUrl"
           (onUploadImage)="onUploadImage($event)"
+          (valid)="onValidateImage($event)"
         />
       </div>
 
@@ -70,7 +71,12 @@
 
       <!-- Submit Button -->
       <div class="flex justify-end md:col-span-2">
-        <p-button type="submit" label="Update" icon="pi pi-save" />
+        <p-button
+          type="submit"
+          label="Update"
+          icon="pi pi-save"
+          [disabled]="!canSubmit"
+        />
       </div>
     </form>
   } @else {

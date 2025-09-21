@@ -1,10 +1,18 @@
 import { InputTextModule } from 'primeng/inputtext';
 import { InputIconModule } from 'primeng/inputicon';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { BrandsService } from '../../../../core/services/brands-service';
 import { BrandResult } from '../../../../shared/brands-model';
 import { tap } from 'rxjs';
@@ -12,6 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconFieldModule } from 'primeng/iconfield';
 import { DialogModule } from 'primeng/dialog';
 import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-brands',
@@ -24,6 +33,7 @@ import { RouterLink } from '@angular/router';
     InputTextModule,
     DialogModule,
     RouterLink,
+    NgOptimizedImage,
   ],
   templateUrl: './brands.html',
   styleUrl: './brands.scss',
@@ -34,6 +44,7 @@ export class Brands implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   // Properties
+  table = viewChild.required<Table<BrandResult>>('dt');
   brands = signal<BrandResult[]>([]);
   navigationItems: MenuItem[] = [
     {
@@ -52,8 +63,12 @@ export class Brands implements OnInit {
     this._getBrands();
   }
 
-  // Methods
+  onSearch(event: Event) {
+    const val = (event.target as HTMLInputElement).value;
+    this.table().filterGlobal(val, 'contains');
+  }
 
+  // Methods
   private _getBrands(): void {
     this._brandsService
       .getBrands$()

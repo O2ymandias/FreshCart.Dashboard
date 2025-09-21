@@ -8,6 +8,7 @@ import { CreateProduct } from './pages/catalog/products-layout/create-product/cr
 import { BrandsLayout } from './pages/catalog/brands-layout/brands-layout';
 import { Brands } from './pages/catalog/brands-layout/brands/brands';
 import { EditBrand } from './pages/catalog/brands-layout/brands/edit-brand/edit-brand';
+import { CreateBrand } from './pages/catalog/brands-layout/brands/create-brand/create-brand';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -51,6 +52,11 @@ export const routes: Routes = [
         path: 'edit/:id',
         component: EditBrand,
         title: 'Edit Brand',
+      },
+      {
+        path: 'create',
+        component: CreateBrand,
+        title: 'Create Brand',
       },
     ],
   },
