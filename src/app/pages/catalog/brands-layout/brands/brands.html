@@ -70,14 +70,25 @@
         <td>{{ brand.id }}</td>
         <td>
           <img
+            [routerLink]="['/', 'brands', 'details', brand.id]"
             [src]="brand.pictureUrl"
             alt="{{ brand.name }}"
-            class="size-20 rounded-full object-cover ring-2"
+            class="size-20 cursor-pointer rounded-full object-cover ring-2"
           />
         </td>
         <td>{{ brand.name }}</td>
         <td>
           <div class="flex items-center gap-2">
+            <a
+              [routerLink]="['/', 'brands', 'details', brand.id]"
+              pButton
+              icon="pi pi-search"
+              type="button"
+              severity="primary"
+              rounded
+              outlined
+            >
+            </a>
             <a
               [routerLink]="['/', 'brands', 'edit', brand.id]"
               pButton
@@ -95,6 +106,7 @@
               icon="pi pi-trash"
               rounded
               outlined
+              (onClick)="OnDeleteBrand($event, brand.id)"
             />
           </div>
         </td>

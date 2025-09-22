@@ -1,90 +1,95 @@
 <section class="flex flex-col gap-6 px-6 py-12">
   <p-breadcrumb [model]="navigationItems" />
 
-  <div class="grid grid-cols-12 gap-4">
-    <div
-      class="order-1 col-span-full flex items-center justify-center md:order-2 md:col-span-4"
-    >
-      <p-image
-        [src]="productDetails().pictureUrl"
-        [alt]="productDetails().name"
-        [preview]="true"
-        imageClass="h-[450px] w-[350px] object-cover rounded-lg"
-      >
-        <ng-template #indicator>
-          <i class="pi pi-search"></i>
-        </ng-template>
-      </p-image>
-    </div>
+  @let product = productDetails();
 
-    <div
-      class="bg-base-200 app-ring-1 order-2 col-span-full space-y-6 rounded-lg px-8 py-4 md:order-1 md:col-span-8"
-    >
-      <!-- Title -->
-      <h1 class="text-2xl font-bold">
-        #{{ productDetails().id }} {{ productDetails().name }}
-      </h1>
-
-      <!-- Description -->
-      <p class="opacity-75">{{ productDetails().description }}</p>
-
-      <!-- Brand & Category -->
-      <div class="flex flex-col items-start gap-4">
-        <p-tag
-          severity="secondary"
-          value="{{ productDetails().brand }}"
-          rounded
-        />
-        <p-tag
-          severity="secondary"
-          value="{{ productDetails().category }}"
-          rounded
-        />
-      </div>
-
-      <!-- Stock Status -->
-      <p class="flex items-center gap-2">
-        <p-tag
-          [severity]="productDetails().unitsInStock > 0 ? 'success' : 'danger'"
-          value="{{ productDetails().unitsInStock }}"
-        />
-        In Stock
-      </p>
-
-      <!-- Rating -->
-      <p-rating [(ngModel)]="averageRating" [disabled]="true" />
-
-      <!-- Price -->
-      <p class="text-2xl font-bold">
-        {{ productDetails().price | currency: "USD" : "symbol" : "1.2-2" }}
-      </p>
-
-      <!-- Gallery & Translations -->
-      <div class="flex items-center gap-4">
-        <app-product-gallery [productId]="id()" />
-        <app-product-translations [productId]="id()" />
-      </div>
-
-      <hr class="my-4 border-1 border-zinc-200 dark:border-zinc-800" />
-
-      <!-- Actions -->
+  @if (product) {
+    <div class="grid grid-cols-12 gap-4">
       <div
-        class="flex items-center gap-4 rounded bg-zinc-50 p-4 dark:bg-zinc-900"
+        class="order-1 col-span-full flex items-center justify-center md:order-2 md:col-span-4"
       >
-        <a pButton [routerLink]="['/', 'products', 'edit', id()]">
-          <span class="flex items-center gap-2" pButtonLabel>
-            <i class="pi pi-pencil"></i>
-            Edit
-          </span>
-        </a>
+        <p-image
+          [src]="product.pictureUrl"
+          [alt]="product.name"
+          [preview]="true"
+          imageClass="h-[450px] w-[350px] object-cover rounded-lg"
+        >
+          <ng-template #indicator>
+            <i class="pi pi-search"></i>
+          </ng-template>
+        </p-image>
+      </div>
 
-        <p-button
-          label="Delete"
-          severity="danger"
-          icon="pi pi-trash"
-          (click)="onDeleteProduct($event)"
-        />
+      <div
+        class="bg-base-200 app-ring-1 order-2 col-span-full space-y-6 rounded-lg px-8 py-4 md:order-1 md:col-span-8"
+      >
+        <!-- Title -->
+        <h1 class="text-2xl font-bold">#{{ product.id }} {{ product.name }}</h1>
+
+        <!-- Description -->
+        <p class="opacity-75">{{ product.description }}</p>
+
+        <!-- Brand & Category -->
+        <div class="flex flex-col items-start gap-4">
+          <p-tag severity="secondary" value="{{ product.brand }}" rounded />
+          <p-tag severity="secondary" value="{{ product.category }}" rounded />
+        </div>
+
+        <!-- Stock Status -->
+        <p class="flex items-center gap-2">
+          <p-tag
+            [severity]="product.unitsInStock > 0 ? 'success' : 'danger'"
+            value="{{ product.unitsInStock }}"
+          />
+          In Stock
+        </p>
+
+        <!-- Rating -->
+        <p-rating [(ngModel)]="averageRating" [disabled]="true" />
+
+        <!-- Price -->
+        <p class="text-2xl font-bold">
+          {{ product.price | currency: "USD" : "symbol" : "1.2-2" }}
+        </p>
+
+        <!-- Gallery & Translations -->
+        <div class="flex items-center gap-4">
+          <app-product-gallery [productId]="id()" />
+          <app-product-translations [productId]="id()" />
+        </div>
+
+        <hr class="my-4 border-1 border-zinc-200 dark:border-zinc-800" />
+
+        <!-- Actions -->
+        <div
+          class="flex items-center gap-4 rounded bg-zinc-50 p-4 dark:bg-zinc-900"
+        >
+          <a
+            pButton
+            severity="info"
+            [routerLink]="['/', 'products', 'edit', id()]"
+          >
+            <span class="flex items-center gap-2" pButtonLabel>
+              <i class="pi pi-pencil"></i>
+              Edit
+            </span>
+          </a>
+
+          <p-button
+            label="Delete"
+            severity="danger"
+            icon="pi pi-trash"
+            (click)="onDeleteProduct($event)"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  } @else {
+    <div class="w-full md:mx-auto md:w-3/4">
+      <p-message size="large" severity="warn">
+        This product either does
+        <strong>not exist</strong> or has been <strong>deleted</strong>.
+      </p-message>
+    </div>
+  }
 </section>

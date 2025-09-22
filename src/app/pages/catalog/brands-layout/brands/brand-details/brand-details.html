@@ -1,0 +1,92 @@
+<section class="flex flex-col gap-6 px-6 py-12">
+  <p-breadcrumb [model]="navigationItems" />
+
+  @let brandData = brand();
+  @if (brandData) {
+    <!-- Form Header -->
+    <div class="mb-8 text-center">
+      <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Brand Details
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">View your brand details</p>
+    </div>
+
+    <!-- Info -->
+
+    <div
+      class="app-ring-1 mx-auto grid w-full grid-cols-1 gap-6 rounded-2xl p-8 md:max-w-2xl md:grid-cols-2"
+    >
+      <!-- Picture -->
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <img
+          [src]="brandData.pictureUrl"
+          [alt]="brandData.name"
+          class="size-[275px]"
+        />
+      </div>
+
+      <!-- Name -->
+      <div class="col-span-full flex flex-col gap-2">
+        <p-floatlabel variant="on">
+          <input
+            pInputText
+            [(ngModel)]="brandData.name"
+            readonly="true"
+            class="w-full"
+          />
+          <label>Name</label>
+        </p-floatlabel>
+      </div>
+
+      <!-- Translations -->
+      <div class="col-span-full">
+        <p-fieldset legend="Name Translations">
+          <div class="flex flex-col gap-4 py-4">
+            @for (trans of brandTranslations(); track $index) {
+              <div class="flex flex-col gap-2">
+                <p-floatlabel variant="on">
+                  <input
+                    pInputText
+                    class="w-full"
+                    [(ngModel)]="trans.name"
+                    readonly
+                  />
+
+                  <label>
+                    {{ trans.languageCode }}
+                  </label>
+                </p-floatlabel>
+              </div>
+            }
+          </div>
+        </p-fieldset>
+      </div>
+
+      <!-- Actions -->
+      <div
+        class="col-span-full flex items-center gap-4 rounded bg-zinc-50 p-4 dark:bg-zinc-900"
+      >
+        <a pButton [routerLink]="['/', 'brands', 'edit', id()]">
+          <span class="flex items-center gap-2" pButtonLabel>
+            <i class="pi pi-pencil"></i>
+            Edit
+          </span>
+        </a>
+
+        <p-button
+          label="Delete"
+          severity="danger"
+          icon="pi pi-trash"
+          (click)="onDeleteBrand($event)"
+        />
+      </div>
+    </div>
+  } @else {
+    <div class="w-full md:mx-auto md:w-3/4">
+      <p-message size="large" severity="warn">
+        This brand either does
+        <strong>not exist</strong> or has been <strong>deleted</strong>.
+      </p-message>
+    </div>
+  }
+</section>

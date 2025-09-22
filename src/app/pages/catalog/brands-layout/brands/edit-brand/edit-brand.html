@@ -1,20 +1,19 @@
 <section class="flex flex-col gap-6 px-6 py-12">
   <p-breadcrumb [model]="navigationItems" />
 
-  <!-- Form Header -->
-  <div class="mb-8 text-center">
-    <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
-      Update Brand
-    </h1>
-    <p class="text-gray-600 dark:text-gray-400">
-      Modify your brand details and keep your inventory up to date
-    </p>
-  </div>
-
-  <!-- Form -->
   @let brandData = brand();
-
   @if (brandData) {
+    <!-- Form Header -->
+    <div class="mb-8 text-center">
+      <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Update Brand
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Modify your brand details and keep your inventory up to date
+      </p>
+    </div>
+
+    <!-- Form -->
     <form
       [formGroup]="editBrandForm"
       (ngSubmit)="updateBrand()"
@@ -80,6 +79,11 @@
       </div>
     </form>
   } @else {
-    <p>Brand not found.</p>
+    <div class="w-full md:mx-auto md:w-3/4">
+      <p-message size="large" severity="warn">
+        This brand either does
+        <strong>not exist</strong> or has been <strong>deleted</strong>.
+      </p-message>
+    </div>
   }
 </section>

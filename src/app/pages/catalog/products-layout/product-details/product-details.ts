@@ -29,6 +29,7 @@ import { ProductGallery } from './product-gallery/product-gallery';
 import { CurrencyPipe } from '@angular/common';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageModule } from "primeng/message";
 
 @Component({
   selector: 'app-product-details',
@@ -43,7 +44,8 @@ import { HttpErrorResponse } from '@angular/common/http';
     ProductTranslations,
     ProductGallery,
     CurrencyPipe,
-  ],
+    MessageModule
+],
 
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
@@ -56,7 +58,7 @@ export class ProductDetails implements OnInit {
   private readonly _router = inject(Router);
 
   id = input.required<number>();
-  productDetails = signal<IProductDetails>({} as IProductDetails);
+  productDetails = signal<IProductDetails | null>(null);
   gallery = signal<IProductGallery[]>([]);
   averageRating = signal(0);
   translations = signal<IProductTranslation[]>([]);

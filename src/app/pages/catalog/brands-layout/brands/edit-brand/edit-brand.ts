@@ -33,6 +33,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
+import { MessageModule } from "primeng/message";
 
 @Component({
   selector: 'app-edit-brand',
@@ -45,7 +46,8 @@ import { Router } from '@angular/router';
     InputTextModule,
     FieldsetModule,
     FloatLabelModule,
-  ],
+    MessageModule
+],
   templateUrl: './edit-brand.html',
   styleUrl: './edit-brand.scss',
 })
@@ -138,10 +140,12 @@ export class EditBrand implements OnInit {
 
     if (id) formData.append('brandId', id.toString());
     if (name) formData.append('name', name);
-    translations?.forEach((t: BrandTranslation, i: number) => {
-      formData.append(`translations[${i}].languageCode`, t.languageCode);
-      formData.append(`translations[${i}].name`, t.name);
-    });
+    if (translations) {
+      translations.forEach((t: BrandTranslation, i: number) => {
+        formData.append(`translations[${i}].languageCode`, t.languageCode);
+        formData.append(`translations[${i}].name`, t.name);
+      });
+    }
 
     this._brandsService
       .updateBrand(formData)

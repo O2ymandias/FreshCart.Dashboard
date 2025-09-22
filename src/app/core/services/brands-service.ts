@@ -15,6 +15,11 @@ export class BrandsService {
     return this._httpClient.get<BrandResult[]>(url);
   }
 
+  getBrand$(brandId: number) {
+    const url = `${environment.apiUrl}/products/brands/${brandId}`;
+    return this._httpClient.get<BrandResult>(url);
+  }
+
   getBrandTranslations$(brandId: number) {
     const url = `${environment.apiUrl}/translations/brands/${brandId}`;
     return this._httpClient.get<BrandTranslation[]>(url);
@@ -28,5 +33,10 @@ export class BrandsService {
   createBrand(formData: FormData) {
     const url = `${environment.apiUrl}/products/brands`;
     return this._httpClient.post<SaveResult>(url, formData);
+  }
+
+  deleteBrand(brandId: number) {
+    const url = `${environment.apiUrl}/products/brands/${brandId}`;
+    return this._httpClient.delete<SaveResult>(url);
   }
 }

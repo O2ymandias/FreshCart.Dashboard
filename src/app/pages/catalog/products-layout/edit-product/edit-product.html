@@ -1,151 +1,161 @@
 <section class="flex flex-col gap-6 px-6 py-12">
   <p-breadcrumb [model]="navigationItems" />
 
-  <!-- Form Header -->
-  <div class="mb-8 text-center">
-    <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
-      Update Product
-    </h1>
-    <p class="text-gray-600 dark:text-gray-400">
-      Modify your product details and keep your inventory up to date
-    </p>
-  </div>
-
-  <!-- Form -->
-  <form
-    [formGroup]="productUpdateForm"
-    (ngSubmit)="updateProduct()"
-    class="app-ring-1 mx-auto grid w-full grid-cols-1 gap-6 rounded-2xl p-8 md:max-w-4xl md:grid-cols-2"
-  >
-    <!-- Picture -->
-    <div class="flex flex-col gap-2 md:col-span-2">
-      <app-create-update-product-image
-        [fetchedImage]="productDetails()?.pictureUrl"
-        (onUploadImage)="onUploadImage($event)"
-      />
+  @let product = productDetails();
+  @if (product) {
+    <!-- Form Header -->
+    <div class="mb-8 text-center">
+      <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Update Product
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Modify your product details and keep your inventory up to date
+      </p>
     </div>
 
-    <!-- Name -->
-    <div class="flex flex-col gap-2">
-      <label class="opacity-75" for="name">Name</label>
-      <input formControlName="name" id="name" pInputText />
-      <app-form-errors
-        [control]="productUpdateForm.controls.name"
-        label="Name"
-      />
-    </div>
+    <!-- Form -->
+    <form
+      [formGroup]="productUpdateForm"
+      (ngSubmit)="updateProduct()"
+      class="app-ring-1 mx-auto grid w-full grid-cols-1 gap-6 rounded-2xl p-8 md:max-w-4xl md:grid-cols-2"
+    >
+      <!-- Picture -->
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <app-create-update-product-image
+          [fetchedImage]="product.pictureUrl"
+          (onUploadImage)="onUploadImage($event)"
+        />
+      </div>
 
-    <!-- Price -->
-    <div class="flex flex-col gap-2">
-      <label for="price" class="opacity-75">Price</label>
-      <p-inputnumber
-        formControlName="price"
-        inputId="price"
-        mode="currency"
-        currency="USD"
-        locale="en-US"
-        [showButtons]="true"
-        buttonLayout="horizontal"
-        spinnerMode="horizontal"
-        [step]="1"
-      >
-        <ng-template #incrementbuttonicon>
-          <span class="pi pi-plus"></span>
-        </ng-template>
-        <ng-template #decrementbuttonicon>
-          <span class="pi pi-minus"></span>
-        </ng-template>
-      </p-inputnumber>
-      <app-form-errors
-        [control]="productUpdateForm.controls.price"
-        label="Price"
-      />
-    </div>
+      <!-- Name -->
+      <div class="flex flex-col gap-2">
+        <label class="opacity-75" for="name">Name</label>
+        <input formControlName="name" id="name" pInputText />
+        <app-form-errors
+          [control]="productUpdateForm.controls.name"
+          label="Name"
+        />
+      </div>
 
-    <!-- Brand -->
-    <div class="flex flex-col gap-2">
-      <label (click)="brandSelectOptions.show()" class="opacity-75"
-        >Select a Brand</label
-      >
-      <p-select
-        #brandSelectOptions
-        formControlName="brand"
-        [options]="brandsOptions()"
-        optionLabel="name"
-      />
-      <app-form-errors
-        [control]="productUpdateForm.controls.brand"
-        label="Brand"
-      />
-    </div>
+      <!-- Price -->
+      <div class="flex flex-col gap-2">
+        <label for="price" class="opacity-75">Price</label>
+        <p-inputnumber
+          formControlName="price"
+          inputId="price"
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          spinnerMode="horizontal"
+          [step]="1"
+        >
+          <ng-template #incrementbuttonicon>
+            <span class="pi pi-plus"></span>
+          </ng-template>
+          <ng-template #decrementbuttonicon>
+            <span class="pi pi-minus"></span>
+          </ng-template>
+        </p-inputnumber>
+        <app-form-errors
+          [control]="productUpdateForm.controls.price"
+          label="Price"
+        />
+      </div>
 
-    <!-- Category -->
-    <div class="flex flex-col gap-2">
-      <label (click)="categorySelectOptions.show()" class="opacity-75"
-        >Select a Category</label
-      >
-      <p-select
-        #categorySelectOptions
-        formControlName="category"
-        [options]="categoriesOptions()"
-        optionLabel="name"
-      />
-      <app-form-errors
-        [control]="productUpdateForm.controls.category"
-        label="Category"
-      />
-    </div>
+      <!-- Brand -->
+      <div class="flex flex-col gap-2">
+        <label (click)="brandSelectOptions.show()" class="opacity-75"
+          >Select a Brand</label
+        >
+        <p-select
+          #brandSelectOptions
+          formControlName="brand"
+          [options]="brandsOptions()"
+          optionLabel="name"
+        />
+        <app-form-errors
+          [control]="productUpdateForm.controls.brand"
+          label="Brand"
+        />
+      </div>
 
-    <!-- Stock -->
-    <div class="flex flex-col gap-2 md:col-span-1">
-      <label for="unitsInStock" class="opacity-75">Units In Stock</label>
-      <p-inputnumber
-        inputId="unitsInStock"
-        formControlName="unitsInStock"
-        [showButtons]="true"
-        buttonLayout="horizontal"
-        spinnerMode="horizontal"
-        [step]="1"
-      />
-      <app-form-errors
-        [control]="productUpdateForm.controls.unitsInStock"
-        label="Units In Stock"
-      />
-    </div>
+      <!-- Category -->
+      <div class="flex flex-col gap-2">
+        <label (click)="categorySelectOptions.show()" class="opacity-75"
+          >Select a Category</label
+        >
+        <p-select
+          #categorySelectOptions
+          formControlName="category"
+          [options]="categoriesOptions()"
+          optionLabel="name"
+        />
+        <app-form-errors
+          [control]="productUpdateForm.controls.category"
+          label="Category"
+        />
+      </div>
 
-    <!-- Description -->
-    <div class="flex flex-col gap-2 md:col-span-2">
-      <label for="description" class="opacity-75">Description</label>
-      <textarea
-        formControlName="description"
-        id="description"
-        pTextarea
-        [autoResize]="true"
-      ></textarea>
-      <app-form-errors
-        [control]="productUpdateForm.controls.description"
-        label="Description"
-      />
-    </div>
+      <!-- Stock -->
+      <div class="flex flex-col gap-2 md:col-span-1">
+        <label for="unitsInStock" class="opacity-75">Units In Stock</label>
+        <p-inputnumber
+          inputId="unitsInStock"
+          formControlName="unitsInStock"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          spinnerMode="horizontal"
+          [step]="1"
+        />
+        <app-form-errors
+          [control]="productUpdateForm.controls.unitsInStock"
+          label="Units In Stock"
+        />
+      </div>
 
-    <!-- Gallery -->
-    <div class="md:col-span-2">
-      <app-edit-product-gallery [productId]="id()" />
-    </div>
+      <!-- Description -->
+      <div class="flex flex-col gap-2 md:col-span-2">
+        <label for="description" class="opacity-75">Description</label>
+        <textarea
+          formControlName="description"
+          id="description"
+          pTextarea
+          [autoResize]="true"
+        ></textarea>
+        <app-form-errors
+          [control]="productUpdateForm.controls.description"
+          label="Description"
+        />
+      </div>
 
-    <!-- Translations -->
-    <div class="md:col-span-2">
-      <app-edit-product-translations [productId]="id()" />
-    </div>
+      <!-- Gallery -->
+      <div class="md:col-span-2">
+        <app-edit-product-gallery [productId]="id()" />
+      </div>
 
-    <!-- Submit Button -->
-    <div class="flex justify-end md:col-span-2">
-      <p-button
-        type="submit"
-        label="Update"
-        icon="pi pi-save"
-        [disabled]="productUpdateForm.invalid"
-      />
+      <!-- Translations -->
+      <div class="md:col-span-2">
+        <app-edit-product-translations [productId]="id()" />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end md:col-span-2">
+        <p-button
+          type="submit"
+          label="Update"
+          icon="pi pi-save"
+          [disabled]="productUpdateForm.invalid"
+        />
+      </div>
+    </form>
+  } @else {
+    <div class="w-full md:mx-auto md:w-3/4">
+      <p-message size="large" severity="warn">
+        This product either does
+        <strong>not exist</strong> or has been <strong>deleted</strong>.
+      </p-message>
     </div>
-  </form>
+  }
 </section>
