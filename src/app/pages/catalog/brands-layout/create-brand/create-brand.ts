@@ -1,19 +1,7 @@
-import {
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BrandsService } from '../../../../core/services/brands-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  BrandResult,
-  BrandTranslation,
-} from '../../../../shared/models/brands-model';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
 import {
   FormArray,
@@ -33,11 +21,12 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
-import { MessageModule } from 'primeng/message';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BrandTranslation } from '../../../../shared/models/brands-model';
 import { FormImage } from '../../../../shared/components/form-image/form-image';
 
 @Component({
-  selector: 'app-edit-brand',
+  selector: 'app-create-brand',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -46,40 +35,18 @@ import { FormImage } from '../../../../shared/components/form-image/form-image';
     InputTextModule,
     FieldsetModule,
     FloatLabelModule,
-    MessageModule,
     FormImage,
   ],
-  templateUrl: './edit-brand.html',
-  styleUrl: './edit-brand.scss',
+  templateUrl: './create-brand.html',
+  styleUrl: './create-brand.scss',
 })
-export class EditBrand implements OnInit {
+export class CreateBrand {
   private readonly _brandsService = inject(BrandsService);
   private readonly _commonService = inject(CommonService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
-  constructor() {
-    effect(() => {
-      const brand = this.brand();
-      const brandTranslations = this.brandTranslations();
-
-      if (brand) {
-        this.editBrandForm.patchValue({
-          id: brand.id,
-          name: brand.name,
-          translations: brandTranslations.map((bt) => ({
-            languageCode: bt.languageCode,
-            name: bt.name,
-          })),
-        });
-      }
-    });
-  }
-
-  id = input.required<number>();
-  brand = signal<BrandResult | null>(null);
-  brandTranslations = signal<BrandTranslation[]>([]);
   translationsKeys = signal<LanguageCode[]>([]);
   navigationItems: MenuItem[] = [
     {
@@ -92,25 +59,27 @@ export class EditBrand implements OnInit {
       routerLink: '/brands',
     },
     {
-      label: 'Edit Brand',
+      label: 'Create Brand',
       disabled: true,
     },
   ];
   uploadedImage = signal<File | null>(null);
   isValidUploadedImage = signal(true);
-  editBrandForm = new FormGroup({
-    id: new FormControl<number>(0, [Validators.required]),
-    name: new FormControl('', [Validators.required]),
+  createBrandForm = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]),
+    image: new FormControl('', [Validators.required]),
     translations: new FormArray<FormGroup>([]),
   });
 
   get canSubmit() {
-    return this.editBrandForm.valid && this.isValidUploadedImage();
+    return this.createBrandForm.valid && this.isValidUploadedImage();
   }
 
   ngOnInit(): void {
-    this._getBrand();
-    this._getBrandTranslations();
     this._getTranslationsKeys();
   }
 
@@ -120,27 +89,27 @@ export class EditBrand implements OnInit {
 
   onUploadImage(image: File) {
     this.uploadedImage.set(image);
+    this.createBrandForm.patchValue({ image: image.name });
   }
 
   onValidateImage(isValid: boolean) {
     this.isValidUploadedImage.set(isValid);
   }
 
-  updateBrand() {
+  createBrand() {
     if (!this.canSubmit) {
-      this.editBrandForm.markAllAsDirty();
+      this.createBrandForm.markAllAsDirty();
       return;
     }
-
-    const { id, name, translations } = this.editBrandForm.value;
-
     const formData = new FormData();
 
-    const uploadedImage = this.uploadedImage();
-    if (uploadedImage) formData.append('image', uploadedImage);
+    const image = this.uploadedImage();
+    if (image) formData.append('image', image);
 
-    if (id) formData.append('brandId', id.toString());
+    const { name, translations } = this.createBrandForm.value;
+
     if (name) formData.append('name', name);
+
     if (translations) {
       translations.forEach((t: BrandTranslation, i: number) => {
         formData.append(`translations[${i}].languageCode`, t.languageCode);
@@ -149,14 +118,16 @@ export class EditBrand implements OnInit {
     }
 
     this._brandsService
-      .updateBrand(formData)
+      .createBrand(formData)
       .pipe(
         tap((res) => {
-          this._router.navigate(['/brands']);
-          this._toasterService.success(res.message);
+          if (res) {
+            this._router.navigate(['/brands']);
+            this._toasterService.success(res.message);
+          }
         }),
 
-        catchError((err) => {
+        catchError((err: HttpErrorResponse) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
@@ -167,7 +138,7 @@ export class EditBrand implements OnInit {
   }
 
   private _initTranslationsGroup(keys: LanguageCode[]) {
-    const translationsGroup = this.editBrandForm.controls.translations;
+    const translationsGroup = this.createBrandForm.controls.translations;
     for (const key of keys) {
       translationsGroup.push(
         new FormGroup({
@@ -178,37 +149,11 @@ export class EditBrand implements OnInit {
           name: new FormControl('', [
             Validators.required,
             Validators.minLength(3),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
           ]),
         }),
       );
     }
-  }
-
-  private _getBrand() {
-    this._brandsService
-      .getBrands$()
-      .pipe(
-        map(
-          (res) =>
-            res.find((b) => b.id.toString() === this.id().toString()) ?? null,
-        ),
-        tap((res) => {
-          this.brand.set(res);
-        }),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
-  }
-
-  private _getBrandTranslations() {
-    this._brandsService
-      .getBrandTranslations$(this.id())
-      .pipe(
-        tap((res) => this.brandTranslations.set(res)),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
   }
 
   private _getTranslationsKeys() {

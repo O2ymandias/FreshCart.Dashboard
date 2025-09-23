@@ -1,10 +1,10 @@
-export interface ICategoryResult {
+export type CategoryResult = {
   id: number;
   name: string;
   pictureUrl: string;
-}
+};
 
-export interface CategoryOption {
+export type CategoryOption = {
   id: number;
   name: string;
-}
+};

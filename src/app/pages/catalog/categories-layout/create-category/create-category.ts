@@ -1,8 +1,9 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { BrandsService } from '../../../../../core/services/brands-service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, tap, throwError } from 'rxjs';
-
+import { CommonService } from '../../../../core/services/common-service';
+import { ToasterService } from '../../../../core/services/toaster-service';
+import { Router } from '@angular/router';
+import { LanguageCode } from '../../../../shared/models/shared.model';
+import { MenuItem } from 'primeng/api';
 import {
   FormArray,
   FormControl,
@@ -10,23 +11,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { BrandTranslation } from '../../../../shared/models/brands-model';
+import { catchError, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
-import { FormErrors } from '../../../../../shared/components/form-errors/form-errors';
+import { FormErrors } from '../../../../shared/components/form-errors/form-errors';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { CommonService } from '../../../../../core/services/common-service';
-import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { ToasterService } from '../../../../../core/services/toaster-service';
-import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { BrandTranslation } from '../../../../../shared/models/brands-model';
-import { FormImage } from "../../../../../shared/components/form-image/form-image";
+import { FormImage } from '../../../../shared/components/form-image/form-image';
+import { CategoriesService } from '../../../../core/services/categories-service';
 
 @Component({
-  selector: 'app-create-brand',
+  selector: 'app-create-category',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -35,13 +34,13 @@ import { FormImage } from "../../../../../shared/components/form-image/form-imag
     InputTextModule,
     FieldsetModule,
     FloatLabelModule,
-    FormImage
-],
-  templateUrl: './create-brand.html',
-  styleUrl: './create-brand.scss',
+    FormImage,
+  ],
+  templateUrl: './create-category.html',
+  styleUrl: './create-category.scss',
 })
-export class CreateBrand {
-  private readonly _brandsService = inject(BrandsService);
+export class CreateCategory {
+  private readonly _categoriesService = inject(CategoriesService);
   private readonly _commonService = inject(CommonService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _router = inject(Router);
@@ -55,17 +54,17 @@ export class CreateBrand {
       icon: 'pi pi-home',
     },
     {
-      label: 'Brands',
-      routerLink: '/brands',
+      label: 'Categories',
+      routerLink: '/categories',
     },
     {
-      label: 'Create Brand',
+      label: 'Create Category',
       disabled: true,
     },
   ];
   uploadedImage = signal<File | null>(null);
   isValidUploadedImage = signal(true);
-  createBrandForm = new FormGroup({
+  createCategoryForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
@@ -76,7 +75,7 @@ export class CreateBrand {
   });
 
   get canSubmit() {
-    return this.createBrandForm.valid && this.isValidUploadedImage();
+    return this.createCategoryForm.valid && this.isValidUploadedImage();
   }
 
   ngOnInit(): void {
@@ -89,16 +88,16 @@ export class CreateBrand {
 
   onUploadImage(image: File) {
     this.uploadedImage.set(image);
-    this.createBrandForm.patchValue({ image: image.name });
+    this.createCategoryForm.patchValue({ image: image.name });
   }
 
   onValidateImage(isValid: boolean) {
     this.isValidUploadedImage.set(isValid);
   }
 
-  createBrand() {
+  createCategory() {
     if (!this.canSubmit) {
-      this.createBrandForm.markAllAsDirty();
+      this.createCategoryForm.markAllAsDirty();
       return;
     }
     const formData = new FormData();
@@ -106,7 +105,7 @@ export class CreateBrand {
     const image = this.uploadedImage();
     if (image) formData.append('image', image);
 
-    const { name, translations } = this.createBrandForm.value;
+    const { name, translations } = this.createCategoryForm.value;
 
     if (name) formData.append('name', name);
 
@@ -117,12 +116,12 @@ export class CreateBrand {
       });
     }
 
-    this._brandsService
-      .createBrand(formData)
+    this._categoriesService
+      .createCategory$(formData)
       .pipe(
         tap((res) => {
           if (res) {
-            this._router.navigate(['/brands']);
+            this._router.navigate(['/categories']);
             this._toasterService.success(res.message);
           }
         }),
@@ -138,7 +137,7 @@ export class CreateBrand {
   }
 
   private _initTranslationsGroup(keys: LanguageCode[]) {
-    const translationsGroup = this.createBrandForm.controls.translations;
+    const translationsGroup = this.createCategoryForm.controls.translations;
     for (const key of keys) {
       translationsGroup.push(
         new FormGroup({
