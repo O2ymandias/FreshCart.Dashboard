@@ -9,7 +9,7 @@ import {
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductGallery } from '../../../../../shared/product-details.model';
+import { IProductGallery } from '../../../../../shared/models/product-details.model';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../../../environment';

@@ -15,7 +15,7 @@ import {
   IProductDetails,
   IProductGallery,
   IProductTranslation,
-} from '../../../../shared/product-details.model';
+} from '../../../../shared/models/product-details.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TagModule } from 'primeng/tag';

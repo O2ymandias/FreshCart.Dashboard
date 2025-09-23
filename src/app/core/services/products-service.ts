@@ -5,13 +5,13 @@ import {
   IProductDetails,
   IProductGallery,
   IProductTranslation,
-} from '../../shared/product-details.model';
+} from '../../shared/models/product-details.model';
 import {
   IProductsQueryOptions,
   IProductsResponse,
   UpdateProductTranslationRequest,
-} from '../../shared/products.model';
-import { SaveResult } from '../../shared/shared.model';
+} from '../../shared/models/products.model';
+import { SaveResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',

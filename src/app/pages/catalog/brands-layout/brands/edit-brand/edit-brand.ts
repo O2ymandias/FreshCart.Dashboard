@@ -12,9 +12,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   BrandResult,
   BrandTranslation,
-} from '../../../../../shared/brands-model';
+} from '../../../../../shared/models/brands-model';
 import { catchError, map, tap, throwError } from 'rxjs';
-import { CreateUpdateProductImage } from '../../../products-layout/create-update-product-image/create-update-product-image';
+
 import {
   FormArray,
   FormControl,
@@ -28,25 +28,26 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonService } from '../../../../../core/services/common-service';
-import { LanguageCode } from '../../../../../shared/shared.model';
+import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
-import { MessageModule } from "primeng/message";
+import { MessageModule } from 'primeng/message';
+import { FormImage } from "../../../../../shared/components/form-image/form-image";
 
 @Component({
   selector: 'app-edit-brand',
   imports: [
     ReactiveFormsModule,
-    CreateUpdateProductImage,
     ButtonModule,
     FormErrors,
     BreadcrumbModule,
     InputTextModule,
     FieldsetModule,
     FloatLabelModule,
-    MessageModule
+    MessageModule,
+    FormImage
 ],
   templateUrl: './edit-brand.html',
   styleUrl: './edit-brand.scss',

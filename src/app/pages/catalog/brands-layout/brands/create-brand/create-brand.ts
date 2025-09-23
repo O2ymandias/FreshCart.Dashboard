@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BrandsService } from '../../../../../core/services/brands-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, tap, throwError } from 'rxjs';
-import { CreateUpdateProductImage } from '../../../products-layout/create-update-product-image/create-update-product-image';
+
 import {
   FormArray,
   FormControl,
@@ -16,26 +16,27 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonService } from '../../../../../core/services/common-service';
-import { LanguageCode } from '../../../../../shared/shared.model';
+import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BrandTranslation } from '../../../../../shared/brands-model';
+import { BrandTranslation } from '../../../../../shared/models/brands-model';
+import { FormImage } from "../../../../../shared/components/form-image/form-image";
 
 @Component({
   selector: 'app-create-brand',
   imports: [
     ReactiveFormsModule,
-    CreateUpdateProductImage,
     ButtonModule,
     FormErrors,
     BreadcrumbModule,
     InputTextModule,
     FieldsetModule,
     FloatLabelModule,
-  ],
+    FormImage
+],
   templateUrl: './create-brand.html',
   styleUrl: './create-brand.scss',
 })

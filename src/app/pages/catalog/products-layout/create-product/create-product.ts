@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BrandOption } from '../../../../shared/brands-model';
-import { CategoryOption } from '../../../../shared/categories.model';
+import { BrandOption } from '../../../../shared/models/brands-model';
+import { CategoryOption } from '../../../../shared/models/categories.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { FormErrors } from '../../../../shared/components/form-errors/form-errors';
@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
-import { CreateUpdateProductImage } from '../create-update-product-image/create-update-product-image';
+import { FormImage } from "../../../../shared/components/form-image/form-image";
 
 @Component({
   selector: 'app-create-product',
@@ -38,8 +38,8 @@ import { CreateUpdateProductImage } from '../create-update-product-image/create-
     ButtonModule,
     InputTextModule,
     MessageModule,
-    CreateUpdateProductImage,
-  ],
+    FormImage
+],
   templateUrl: './create-product.html',
   styleUrl: './create-product.scss',
 })

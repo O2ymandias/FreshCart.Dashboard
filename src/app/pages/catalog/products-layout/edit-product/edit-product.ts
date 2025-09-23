@@ -1,4 +1,4 @@
-import { BrandOption } from './../../../../shared/brands-model';
+import { BrandOption } from './../../../../shared/models/brands-model';
 import {
   Component,
   DestroyRef,
@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ProductsService } from '../../../../core/services/products-service';
 import { catchError, map, tap, throwError } from 'rxjs';
-import { IProductDetails } from '../../../../shared/product-details.model';
+import { IProductDetails } from '../../../../shared/models/product-details.model';
 import {
   FormControl,
   FormGroup,
@@ -24,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
 import { BrandsService } from '../../../../core/services/brands-service';
 import { SelectModule } from 'primeng/select';
 import { CategoriesService } from '../../../../core/services/categories-service';
-import { CategoryOption } from '../../../../shared/categories.model';
+import { CategoryOption } from '../../../../shared/models/categories.model';
 import { TextareaModule } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormErrors } from '../../../../shared/components/form-errors/form-errors';
@@ -35,7 +35,8 @@ import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { EditProductTranslations } from './edit-product-translations/edit-product-translations';
-import { CreateUpdateProductImage } from "../create-update-product-image/create-update-product-image";
+import { FormImage } from "../../../../shared/components/form-image/form-image";
+
 
 @Component({
   selector: 'app-edit-product',
@@ -52,7 +53,7 @@ import { CreateUpdateProductImage } from "../create-update-product-image/create-
     BreadcrumbModule,
     EditProductGallery,
     EditProductTranslations,
-    CreateUpdateProductImage
+    FormImage
 ],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',

@@ -13,7 +13,7 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { Table, TableModule } from 'primeng/table';
 import { BrandsService } from '../../../../core/services/brands-service';
-import { BrandResult } from '../../../../shared/brands-model';
+import { BrandResult } from '../../../../shared/models/brands-model';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconFieldModule } from 'primeng/iconfield';

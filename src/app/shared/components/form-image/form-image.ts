@@ -7,17 +7,17 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ImageUploaderService } from '../../../../core/services/image-uploader-service';
-import { MessageModule } from 'primeng/message';
+import { ImageUploaderService } from '../../../core/services/image-uploader-service';
 import { FormsModule } from '@angular/forms';
+import { MessageModule } from 'primeng/message';
 
 @Component({
-  selector: 'app-create-update-product-image',
+  selector: 'app-form-image',
   imports: [MessageModule, FormsModule],
-  templateUrl: './create-update-product-image.html',
-  styleUrl: './create-update-product-image.scss',
+  templateUrl: './form-image.html',
+  styleUrl: './form-image.scss',
 })
-export class CreateUpdateProductImage {
+export class FormImage {
   private readonly _imageUploaderService = inject(ImageUploaderService);
 
   constructor() {

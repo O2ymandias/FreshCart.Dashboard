@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
-import { BrandResult, BrandTranslation } from '../../shared/brands-model';
-import { SaveResult } from '../../shared/shared.model';
+import {
+  BrandResult,
+  BrandTranslation,
+} from '../../shared/models/brands-model';
+import { SaveResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',

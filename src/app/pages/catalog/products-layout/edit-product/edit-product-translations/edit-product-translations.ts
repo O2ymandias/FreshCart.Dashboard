@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductTranslation } from '../../../../../shared/product-details.model';
+import { IProductTranslation } from '../../../../../shared/models/product-details.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
@@ -24,8 +24,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { FormErrors } from '../../../../../shared/components/form-errors/form-errors';
 import { MessageModule } from 'primeng/message';
-import { UpdateProductTranslationRequest } from '../../../../../shared/products.model';
-import { LanguageCode } from '../../../../../shared/shared.model';
+import { UpdateProductTranslationRequest } from '../../../../../shared/models/products.model';
+import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { CommonService } from '../../../../../core/services/common-service';
 

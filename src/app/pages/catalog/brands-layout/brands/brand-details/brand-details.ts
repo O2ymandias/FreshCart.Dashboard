@@ -15,7 +15,7 @@ import { BrandsService } from '../../../../../core/services/brands-service';
 import {
   BrandResult,
   BrandTranslation,
-} from '../../../../../shared/brands-model';
+} from '../../../../../shared/models/brands-model';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FieldsetModule } from 'primeng/fieldset';

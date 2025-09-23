@@ -31,7 +31,7 @@ import {
   IProduct,
   IProductsQueryOptions,
   ProductSortOption,
-} from '../../../../shared/products.model';
+} from '../../../../shared/models/products.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { ProductsActions } from './products-actions/products-actions';

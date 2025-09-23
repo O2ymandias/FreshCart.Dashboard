@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductTranslation } from '../../../../../shared/product-details.model';
+import { IProductTranslation } from '../../../../../shared/models/product-details.model';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
@@ -18,7 +18,7 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FieldsetModule } from 'primeng/fieldset';
-import { LanguageCode } from '../../../../../shared/shared.model';
+import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { CommonService } from '../../../../../core/services/common-service';
 
 @Component({

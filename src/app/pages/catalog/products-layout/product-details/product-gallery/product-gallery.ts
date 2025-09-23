@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
-import { IProductGallery } from '../../../../../shared/product-details.model';
+import { IProductGallery } from '../../../../../shared/models/product-details.model';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { ProductsService } from '../../../../../core/services/products-service';
 import { tap } from 'rxjs';
