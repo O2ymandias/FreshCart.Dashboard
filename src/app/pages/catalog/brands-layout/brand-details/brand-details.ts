@@ -12,10 +12,7 @@ import { InputText } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { BrandsService } from '../../../../core/services/brands-service';
-import {
-  BrandResult,
-  BrandTranslation,
-} from '../../../../shared/models/brands-model';
+import { BrandResult } from '../../../../shared/models/brands-model';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -24,6 +21,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
+import { BrandOrCategoryTranslation } from '../../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-brand-details',
@@ -49,7 +47,7 @@ export class BrandDetails implements OnInit {
 
   id = input.required<number>();
   brand = signal<BrandResult | null>(null);
-  brandTranslations = signal<BrandTranslation[]>([]);
+  brandTranslations = signal<BrandOrCategoryTranslation[]>([]);
 
   navigationItems: MenuItem[] = [
     {

@@ -1,51 +1,54 @@
-import { InputTextModule } from 'primeng/inputtext';
-import { InputIconModule } from 'primeng/inputicon';
 import {
   Component,
   DestroyRef,
   inject,
+  input,
+  OnInit,
   signal,
-  viewChild,
 } from '@angular/core';
-import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
-import { ButtonModule } from 'primeng/button';
-import { Table, TableModule } from 'primeng/table';
+import { FloatLabel } from 'primeng/floatlabel';
+import { InputText } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { IconFieldModule } from 'primeng/iconfield';
-import { DialogModule } from 'primeng/dialog';
-import { RouterLink } from '@angular/router';
+import { FieldsetModule } from 'primeng/fieldset';
+import { ButtonModule } from 'primeng/button';
+import { Router, RouterLink } from '@angular/router';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageModule } from 'primeng/message';
 import { CategoriesService } from '../../../../core/services/categories-service';
 import { CategoryResult } from '../../../../shared/models/categories.model';
+import { BrandOrCategoryTranslation } from '../../../../shared/models/shared.model';
 
 @Component({
-  selector: 'app-categories',
+  selector: 'app-category-details',
   imports: [
     Breadcrumb,
-    TableModule,
+    FloatLabel,
+    InputText,
+    FormsModule,
+    FieldsetModule,
     ButtonModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    DialogModule,
     RouterLink,
+    MessageModule,
   ],
-  templateUrl: './categories.html',
-  styleUrl: './categories.scss',
+  templateUrl: './category-details.html',
+  styleUrl: './category-details.scss',
 })
-export class Categories {
-  // Dependencies
+export class CategoryDetails implements OnInit {
   private readonly _categoriesService = inject(CategoriesService);
-  private readonly _confirmationService = inject(ConfirmationService);
   private readonly _toasterService = inject(ToasterService);
+  private readonly _confirmationService = inject(ConfirmationService);
+  private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
 
-  // Properties
-  table = viewChild.required<Table<CategoryResult>>('dt');
-  categories = signal<CategoryResult[]>([]);
+  id = input.required<number>();
+  category = signal<CategoryResult | null>(null);
+  categoryTranslations = signal<BrandOrCategoryTranslation[]>([]);
+
   navigationItems: MenuItem[] = [
     {
       label: 'Home',
@@ -54,22 +57,19 @@ export class Categories {
     },
     {
       label: 'Categories',
+      routerLink: '/categories',
+    },
+    {
+      label: 'Category Details',
       disabled: true,
     },
   ];
 
-  // Lifecycle hooks
   ngOnInit(): void {
-    this._getCategories();
+    this._initialize();
   }
 
-  // Methods
-  onSearch(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
-    this.table().filterGlobal(val, 'contains');
-  }
-
-  OnDeleteCategory(event: Event, categoryId: number) {
+  onDeleteCategory(event: Event): void {
     this._confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this category?',
@@ -86,30 +86,36 @@ export class Categories {
         severity: 'danger',
       },
 
-      accept: () => this._deleteCategory(categoryId),
+      accept: () => this._deleteCategory(),
     });
   }
 
-  private _getCategories(): void {
+  private _initialize(): void {
     this._categoriesService
-      .getCategories$()
+      .getCategory$(this.id())
       .pipe(
-        tap((res) => this.categories.set(res)),
+        tap((res) => this.category.set(res)),
+        switchMap(() => this._getCategoryTranslation$()),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
 
-  private _deleteCategory(categoryId: number): void {
+  private _getCategoryTranslation$() {
+    return this._categoriesService
+      .getCategoryTranslations$(this.id())
+      .pipe(tap((res) => this.categoryTranslations.set(res)));
+  }
+
+  private _deleteCategory(): void {
     this._categoriesService
-      .deleteCategory$(categoryId)
+      .deleteCategory$(this.id())
       .pipe(
-        tap((res) => this._toasterService.success(res.message)),
-        switchMap(() =>
-          this._categoriesService
-            .getCategories$()
-            .pipe(tap((res) => this.categories.set(res))),
-        ),
+        tap((res) => {
+          this._toasterService.success(res.message);
+          this._router.navigate(['/categories']);
+        }),
+
         catchError((err: HttpErrorResponse) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);

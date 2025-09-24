@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
 import { CategoryResult } from '../../shared/models/categories.model';
-import { SaveResult } from '../../shared/models/shared.model';
+import {
+  BrandOrCategoryTranslation,
+  SaveResult,
+} from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +21,11 @@ export class CategoriesService {
   getCategory$(id: number) {
     const url = `${environment.apiUrl}/categories/${id}`;
     return this._httpClient.get<CategoryResult>(url);
+  }
+
+  getCategoryTranslations$(categoryId: number) {
+    const url = `${environment.apiUrl}/translations/categories/${categoryId}`;
+    return this._httpClient.get<BrandOrCategoryTranslation[]>(url);
   }
 
   createCategory$(formData: FormData) {

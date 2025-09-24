@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
+import { BrandResult } from '../../shared/models/brands-model';
 import {
-  BrandResult,
-  BrandTranslation,
-} from '../../shared/models/brands-model';
-import { SaveResult } from '../../shared/models/shared.model';
+  BrandOrCategoryTranslation,
+  SaveResult,
+} from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class BrandsService {
 
   getBrandTranslations$(brandId: number) {
     const url = `${environment.apiUrl}/translations/brands/${brandId}`;
-    return this._httpClient.get<BrandTranslation[]>(url);
+    return this._httpClient.get<BrandOrCategoryTranslation[]>(url);
   }
 
   updateBrand(formData: FormData) {

@@ -4,3 +4,7 @@ export type SaveResult = {
   success: boolean;
   message: string;
 };
+export type BrandOrCategoryTranslation = {
+  name: string;
+  languageCode: LanguageCode;
+};

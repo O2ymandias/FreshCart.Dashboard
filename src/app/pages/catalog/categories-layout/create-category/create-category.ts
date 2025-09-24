@@ -2,7 +2,10 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CommonService } from '../../../../core/services/common-service';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
-import { LanguageCode } from '../../../../shared/models/shared.model';
+import {
+  BrandOrCategoryTranslation,
+  LanguageCode,
+} from '../../../../shared/models/shared.model';
 import { MenuItem } from 'primeng/api';
 import {
   FormArray,
@@ -11,7 +14,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BrandTranslation } from '../../../../shared/models/brands-model';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -110,7 +112,7 @@ export class CreateCategory {
     if (name) formData.append('name', name);
 
     if (translations) {
-      translations.forEach((t: BrandTranslation, i: number) => {
+      translations.forEach((t: BrandOrCategoryTranslation, i: number) => {
         formData.append(`translations[${i}].languageCode`, t.languageCode);
         formData.append(`translations[${i}].name`, t.name);
       });

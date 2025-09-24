@@ -13,6 +13,8 @@ import { BrandDetails } from './pages/catalog/brands-layout/brand-details/brand-
 import { CategoriesLayout } from './pages/catalog/categories-layout/categories-layout';
 import { Categories } from './pages/catalog/categories-layout/categories/categories';
 import { CreateCategory } from './pages/catalog/categories-layout/create-category/create-category';
+import { CategoryDetails } from './pages/catalog/categories-layout/category-details/category-details';
+import { EditCategory } from './pages/catalog/categories-layout/edit-category/edit-category';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -77,6 +79,16 @@ export const routes: Routes = [
         path: '',
         component: Categories,
         title: 'Categories',
+      },
+      {
+        path: 'details/:id',
+        component: CategoryDetails,
+        title: 'Category Details',
+      },
+      {
+        path: 'edit/:id',
+        component: EditCategory,
+        title: 'Edit Category',
       },
       {
         path: 'create',

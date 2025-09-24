@@ -7,9 +7,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { BrandsService } from '../../../../core/services/brands-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BrandResult } from '../../../../shared/models/brands-model';
 import { catchError, map, tap, throwError } from 'rxjs';
 
 import {
@@ -35,9 +33,11 @@ import { ToasterService } from '../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { FormImage } from '../../../../shared/components/form-image/form-image';
+import { CategoriesService } from '../../../../core/services/categories-service';
+import { CategoryResult } from '../../../../shared/models/categories.model';
 
 @Component({
-  selector: 'app-edit-brand',
+  selector: 'app-edit-category',
   imports: [
     ReactiveFormsModule,
     ButtonModule,
@@ -49,11 +49,11 @@ import { FormImage } from '../../../../shared/components/form-image/form-image';
     MessageModule,
     FormImage,
   ],
-  templateUrl: './edit-brand.html',
-  styleUrl: './edit-brand.scss',
+  templateUrl: './edit-category.html',
+  styleUrl: './edit-category.scss',
 })
-export class EditBrand implements OnInit {
-  private readonly _brandsService = inject(BrandsService);
+export class EditCategory implements OnInit {
+  private readonly _categoriesService = inject(CategoriesService);
   private readonly _commonService = inject(CommonService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _router = inject(Router);
@@ -61,16 +61,16 @@ export class EditBrand implements OnInit {
 
   constructor() {
     effect(() => {
-      const brand = this.brand();
-      const brandTranslations = this.brandTranslations();
+      const category = this.category();
+      const categoryTranslations = this.categoryTranslations();
 
-      if (brand) {
-        this.editBrandForm.patchValue({
-          id: brand.id,
-          name: brand.name,
-          translations: brandTranslations.map((bt) => ({
-            languageCode: bt.languageCode,
-            name: bt.name,
+      if (category) {
+        this.editCategoryForm.patchValue({
+          id: category.id,
+          name: category.name,
+          translations: categoryTranslations.map((ct) => ({
+            languageCode: ct.languageCode,
+            name: ct.name,
           })),
         });
       }
@@ -78,8 +78,8 @@ export class EditBrand implements OnInit {
   }
 
   id = input.required<number>();
-  brand = signal<BrandResult | null>(null);
-  brandTranslations = signal<BrandOrCategoryTranslation[]>([]);
+  category = signal<CategoryResult | null>(null);
+  categoryTranslations = signal<BrandOrCategoryTranslation[]>([]);
   translationsKeys = signal<LanguageCode[]>([]);
   navigationItems: MenuItem[] = [
     {
@@ -88,29 +88,29 @@ export class EditBrand implements OnInit {
       icon: 'pi pi-home',
     },
     {
-      label: 'Brands',
-      routerLink: '/brands',
+      label: 'Categories',
+      routerLink: '/categories',
     },
     {
-      label: 'Edit Brand',
+      label: 'Edit Category',
       disabled: true,
     },
   ];
   uploadedImage = signal<File | null>(null);
   isValidUploadedImage = signal(true);
-  editBrandForm = new FormGroup({
+  editCategoryForm = new FormGroup({
     id: new FormControl<number>(0, [Validators.required]),
     name: new FormControl('', [Validators.required]),
     translations: new FormArray<FormGroup>([]),
   });
 
   get canSubmit() {
-    return this.editBrandForm.valid && this.isValidUploadedImage();
+    return this.editCategoryForm.valid && this.isValidUploadedImage();
   }
 
   ngOnInit(): void {
-    this._getBrand();
-    this._getBrandTranslations();
+    this._getCategory();
+    this._getCategoryTranslations();
     this._getTranslationsKeys();
   }
 
@@ -126,13 +126,13 @@ export class EditBrand implements OnInit {
     this.isValidUploadedImage.set(isValid);
   }
 
-  updateBrand() {
+  updateCategory() {
     if (!this.canSubmit) {
-      this.editBrandForm.markAllAsDirty();
+      this.editCategoryForm.markAllAsDirty();
       return;
     }
 
-    const { id, name, translations } = this.editBrandForm.value;
+    const { id, name, translations } = this.editCategoryForm.value;
 
     const formData = new FormData();
 
@@ -148,11 +148,11 @@ export class EditBrand implements OnInit {
       });
     }
 
-    this._brandsService
-      .updateBrand(formData)
+    this._categoriesService
+      .updateCategory$(formData)
       .pipe(
         tap((res) => {
-          this._router.navigate(['/brands']);
+          this._router.navigate(['/categories']);
           this._toasterService.success(res.message);
         }),
 
@@ -167,7 +167,7 @@ export class EditBrand implements OnInit {
   }
 
   private _initTranslationsGroup(keys: LanguageCode[]) {
-    const translationsGroup = this.editBrandForm.controls.translations;
+    const translationsGroup = this.editCategoryForm.controls.translations;
     for (const key of keys) {
       translationsGroup.push(
         new FormGroup({
@@ -185,27 +185,27 @@ export class EditBrand implements OnInit {
     }
   }
 
-  private _getBrand() {
-    this._brandsService
-      .getBrands$()
+  private _getCategory() {
+    this._categoriesService
+      .getCategories$()
       .pipe(
         map(
           (res) =>
             res.find((b) => b.id.toString() === this.id().toString()) ?? null,
         ),
         tap((res) => {
-          this.brand.set(res);
+          this.category.set(res);
         }),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
   }
 
-  private _getBrandTranslations() {
-    this._brandsService
-      .getBrandTranslations$(this.id())
+  private _getCategoryTranslations() {
+    this._categoriesService
+      .getCategoryTranslations$(this.id())
       .pipe(
-        tap((res) => this.brandTranslations.set(res)),
+        tap((res) => this.categoryTranslations.set(res)),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

@@ -16,13 +16,15 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonService } from '../../../../core/services/common-service';
-import { LanguageCode } from '../../../../shared/models/shared.model';
+import {
+  BrandOrCategoryTranslation,
+  LanguageCode,
+} from '../../../../shared/models/shared.model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BrandTranslation } from '../../../../shared/models/brands-model';
 import { FormImage } from '../../../../shared/components/form-image/form-image';
 
 @Component({
@@ -111,7 +113,7 @@ export class CreateBrand {
     if (name) formData.append('name', name);
 
     if (translations) {
-      translations.forEach((t: BrandTranslation, i: number) => {
+      translations.forEach((t: BrandOrCategoryTranslation, i: number) => {
         formData.append(`translations[${i}].languageCode`, t.languageCode);
         formData.append(`translations[${i}].name`, t.name);
       });
