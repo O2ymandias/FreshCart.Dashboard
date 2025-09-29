@@ -71,14 +71,14 @@ export class Products implements OnInit {
 
   products = signal<IProduct[]>([]);
 
-  // Search
+  // Search Query
   searchQuery = signal('');
 
   // Pagination
   pageSize = signal(this.DEFAULT_PAGE_SIZE);
   pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
-  first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
   totalRecords = signal(0);
+  first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
   rowsPerPageOptions = [
     this.DEFAULT_PAGE_SIZE * 0.5,
     this.DEFAULT_PAGE_SIZE * 1,
@@ -145,13 +145,13 @@ export class Products implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadProducts({
+    this._loadProducts({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.DEFAULT_PAGE_SIZE,
     });
   }
 
-  loadProducts(options: IProductsQueryOptions): void {
+  private _loadProducts(options: IProductsQueryOptions): void {
     this._productsService
       .getProducts$(options)
       .pipe(
@@ -181,7 +181,7 @@ export class Products implements OnInit {
       ? { key: sortOption.value.key, dir: sortOption.value.dir }
       : undefined;
 
-    this.loadProducts({
+    this._loadProducts({
       pageNumber,
       pageSize,
       search,
@@ -194,7 +194,7 @@ export class Products implements OnInit {
     this.selectedSortOption.set(null);
 
     // Reset to first page BUT keep the current page size.
-    this.loadProducts({
+    this._loadProducts({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
       search: this.searchQuery(),
@@ -209,7 +209,7 @@ export class Products implements OnInit {
     this.selectedSortOption.set(null);
 
     // Reset to first page.
-    this.loadProducts({
+    this._loadProducts({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.DEFAULT_PAGE_SIZE,
     });
@@ -223,7 +223,7 @@ export class Products implements OnInit {
 
     // Reset to first page BUT keep the current page size.
     // Keep the current search query.
-    this.loadProducts({
+    this._loadProducts({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
       search: this.searchQuery(),

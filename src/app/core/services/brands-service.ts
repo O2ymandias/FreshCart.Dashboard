@@ -14,12 +14,12 @@ export class BrandsService {
   private readonly _httpClient = inject(HttpClient);
 
   getBrands$() {
-    const url = `${environment.apiUrl}/products/brands`;
+    const url = `${environment.apiUrl}/brands`;
     return this._httpClient.get<BrandResult[]>(url);
   }
 
   getBrand$(brandId: number) {
-    const url = `${environment.apiUrl}/products/brands/${brandId}`;
+    const url = `${environment.apiUrl}/brands/${brandId}`;
     return this._httpClient.get<BrandResult>(url);
   }
 

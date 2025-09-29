@@ -15,6 +15,8 @@ import { Categories } from './pages/catalog/categories-layout/categories/categor
 import { CreateCategory } from './pages/catalog/categories-layout/create-category/create-category';
 import { CategoryDetails } from './pages/catalog/categories-layout/category-details/category-details';
 import { EditCategory } from './pages/catalog/categories-layout/edit-category/edit-category';
+import { Users } from './pages/users/users';
+import { NotFound } from './pages/not-found/not-found';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -96,5 +98,14 @@ export const routes: Routes = [
         title: 'Create Category',
       },
     ],
+  },
+  {
+    path: 'users',
+    component: Users,
+    title: 'Users',
+  },
+  {
+    path: '**',
+    component: NotFound,
   },
 ];
