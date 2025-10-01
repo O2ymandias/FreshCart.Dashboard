@@ -23,3 +23,8 @@ export type UsersResponse = {
   hasPrevious: boolean;
   results: UserInfo[];
 };
+
+export type AssignToRoleRequestData = {
+  userId: string;
+  roles: string[];
+};

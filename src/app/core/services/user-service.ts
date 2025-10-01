@@ -2,9 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
 import {
+  AssignToRoleRequestData,
   UsersQueryOptions,
   UsersResponse,
 } from '../../shared/models/users-model';
+import { SaveResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +30,10 @@ export class UserService {
     }
 
     return this._httpClient.get<UsersResponse>(url, { params });
+  }
+
+  assignRolesToUser$(data: AssignToRoleRequestData) {
+    const url = `${environment.apiUrl}/users/assign-roles`;
+    return this._httpClient.put<SaveResult>(url, data);
   }
 }

@@ -15,14 +15,19 @@ import { tap } from 'rxjs';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
 import { InputGroup } from 'primeng/inputgroup';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { UserService } from '../../core/services/user-service';
 import { RoleService } from '../../core/services/role-service';
+import { DialogModule } from 'primeng/dialog';
+import { Tooltip } from 'primeng/tooltip';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FieldsetModule } from 'primeng/fieldset';
+import { AssignToRole } from './assign-to-role/assign-to-role';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -30,13 +35,19 @@ import { RoleService } from '../../core/services/role-service';
     BreadcrumbModule,
     TableModule,
     ButtonModule,
-    RouterLink,
     InputGroup,
     FormsModule,
     InputGroupAddonModule,
     PaginatorModule,
     InputTextModule,
     SelectModule,
+    DialogModule,
+    Tooltip,
+    ReactiveFormsModule,
+    CheckboxModule,
+    FieldsetModule,
+    AssignToRole,
+    RouterLink
   ],
   templateUrl: './users.html',
   styleUrl: './users.scss',
@@ -83,6 +94,10 @@ export class Users implements OnInit {
       disabled: true,
     },
   ];
+
+  // Assign To Role Dialog
+  userToAssignRoles = signal<UserInfo | null>(null);
+  showAssignToRoleDialog = signal(false);
 
   ngOnInit(): void {
     this._loadUsers({
@@ -145,11 +160,28 @@ export class Users implements OnInit {
     // Reset the selected role.
     this.selectedRole.set(null);
 
+    // Reset the pagination.
+    this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
+    this.pageSize.set(this.DEFAULT_PAGE_SIZE);
+
+    // Reset user to assign roles
+    this.userToAssignRoles.set(null);
+
     // Reset to first page.
     this._loadUsers({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
-      pageSize: this.DEFAULT_PAGE_SIZE,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
     });
+  }
+
+  assignToRole(user: UserInfo): void {
+    this.showAssignToRoleDialog.set(true);
+    this.userToAssignRoles.set(user);
+  }
+
+  onAssignToRole(): void {
+    this.showAssignToRoleDialog.set(false);
+    this.refresh();
   }
 
   private _loadUsers(options: UsersQueryOptions): void {

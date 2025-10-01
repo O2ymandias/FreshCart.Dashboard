@@ -1,0 +1,58 @@
+<div class="flex flex-col gap-4">
+  <!-- Title -->
+  <div class="text-sm text-gray-600 dark:text-gray-300">
+    Assign
+    <span class="font-semibold">
+      {{ user().userName }}
+    </span>
+    to one or more roles
+  </div>
+
+  <!-- Form -->
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="assignToRoleForm"
+    class="flex flex-col gap-4"
+  >
+    <!-- Roles Section -->
+    <p-fieldset legend="Available Roles">
+      <div class="space-y-4">
+        <div
+          formArrayName="roles"
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2"
+        >
+          @for (role of roles(); track role.id) {
+            <div class="flex items-center gap-2">
+              <p-checkbox
+                [formControlName]="$index"
+                [binary]="true"
+                [inputId]="role.id"
+              />
+              <label [for]="role.id"> {{ role.name }} </label>
+            </div>
+          }
+        </div>
+
+        @if (
+          assignToRoleForm.dirty &&
+          assignToRoleForm.hasError("atLeastOneRoleSelected")
+        ) {
+          <p-message severity="error" variant="simple" size="small">
+            At least one role must be selected
+          </p-message>
+        }
+      </div>
+    </p-fieldset>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-end gap-2">
+      <p-button
+        label="Assign"
+        icon="pi pi-check"
+        severity="primary"
+        type="submit"
+        [disabled]="assignToRoleForm.invalid"
+      />
+    </div>
+  </form>
+</div>

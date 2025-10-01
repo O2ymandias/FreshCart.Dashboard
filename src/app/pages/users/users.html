@@ -21,12 +21,6 @@
           </div>
 
           <div class="flex items-center gap-2">
-            <a pButton [routerLink]="['/', 'users', 'create']">
-              <span class="flex items-center gap-2" pButtonLabel>
-                <i class="pi pi-plus"></i>
-                New
-              </span>
-            </a>
             <p-button label="Export" icon="pi pi-upload" severity="secondary" />
           </div>
         </div>
@@ -83,8 +77,21 @@
         <td>{{ user.roles.join(", ") }}</td>
         <td>
           <div class="flex items-center gap-2">
-            <p-button icon="pi pi-key" severity="info" rounded outlined>
-            </p-button>
+            <a
+              pButton
+              icon="pi pi-search"
+              rounded
+              outlined
+              [routerLink]="['/', 'users', 'details', user.id]"
+            >
+            </a>
+            <p-button
+              icon="pi pi-key"
+              severity="info"
+              rounded
+              outlined
+              (click)="assignToRole(user)"
+            />
           </div>
         </td>
       </tr>
@@ -110,4 +117,24 @@
   </p-table>
 </section>
 
-
+@let user = userToAssignRoles();
+@let availableRoles = roles();
+@if (user && availableRoles) {
+  <p-dialog
+    header="Assign User to a Role"
+    [modal]="true"
+    [(visible)]="showAssignToRoleDialog"
+    styleClass="w-3/4 md:w-1/2"
+    [closeButtonProps]="{
+      severity: 'secondary',
+      rounded: true,
+      outlined: true,
+    }"
+  >
+    <app-assign-to-role
+      [roles]="availableRoles"
+      [user]="user"
+      (onUpdate)="onAssignToRole()"
+    />
+  </p-dialog>
+}
