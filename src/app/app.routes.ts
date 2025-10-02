@@ -15,8 +15,10 @@ import { Categories } from './pages/catalog/categories-layout/categories/categor
 import { CreateCategory } from './pages/catalog/categories-layout/create-category/create-category';
 import { CategoryDetails } from './pages/catalog/categories-layout/category-details/category-details';
 import { EditCategory } from './pages/catalog/categories-layout/edit-category/edit-category';
-import { Users } from './pages/users/users';
+import { Users } from './pages/users-layout/users/users';
 import { NotFound } from './pages/not-found/not-found';
+import { UserDetails } from './pages/users-layout/user-details/user-details';
+import { UsersLayout } from './pages/users-layout/users-layout';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -101,8 +103,25 @@ export const routes: Routes = [
   },
   {
     path: 'users',
-    component: Users,
-    title: 'Users',
+    component: UsersLayout,
+    children: [
+      {
+        path: '',
+        component: Users,
+        title: 'Users',
+      },
+      {
+        path: 'details/:id',
+        component: UserDetails,
+        title: 'User Details',
+      },
+    ],
+  },
+
+  {
+    path: 'user-details/:id',
+    component: UserDetails,
+    title: 'User Details',
   },
   {
     path: '**',

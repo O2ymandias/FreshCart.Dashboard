@@ -3,7 +3,8 @@ export type UserInfo = {
   userName: string;
   email: string;
   displayName: string;
-  phoneNumber: string;
+  phoneNumber?: string;
+  pictureUrl?: string;
   roles: string[];
 };
 

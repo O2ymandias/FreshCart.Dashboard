@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
 import {
   AssignToRoleRequestData,
+  UserInfo,
   UsersQueryOptions,
   UsersResponse,
 } from '../../shared/models/users-model';
@@ -35,5 +36,10 @@ export class UserService {
   assignRolesToUser$(data: AssignToRoleRequestData) {
     const url = `${environment.apiUrl}/users/assign-roles`;
     return this._httpClient.put<SaveResult>(url, data);
+  }
+
+  getUser$(id: string) {
+    const url = `${environment.apiUrl}/users/${id}`;
+    return this._httpClient.get<UserInfo>(url);
   }
 }

@@ -1,4 +1,4 @@
-import { Role } from './../../shared/models/roles.model';
+import { Role } from '../../../shared/models/roles.model';
 import {
   Component,
   computed,
@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { UserInfo, UsersQueryOptions } from '../../shared/models/users-model';
+import { UserInfo, UsersQueryOptions } from '../../../shared/models/users-model';
 import { MenuItem } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
@@ -20,8 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { UserService } from '../../core/services/user-service';
-import { RoleService } from '../../core/services/role-service';
+import { UserService } from '../../../core/services/user-service';
+import { RoleService } from '../../../core/services/role-service';
 import { DialogModule } from 'primeng/dialog';
 import { Tooltip } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';

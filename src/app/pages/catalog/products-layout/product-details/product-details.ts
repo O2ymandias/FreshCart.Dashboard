@@ -29,7 +29,7 @@ import { ProductGallery } from './product-gallery/product-gallery';
 import { CurrencyPipe } from '@angular/common';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageModule } from "primeng/message";
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-product-details',
@@ -44,8 +44,8 @@ import { MessageModule } from "primeng/message";
     ProductTranslations,
     ProductGallery,
     CurrencyPipe,
-    MessageModule
-],
+    MessageModule,
+  ],
 
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
@@ -81,6 +81,7 @@ export class ProductDetails implements OnInit {
       routerLink: '/dashboard',
       icon: 'pi pi-home',
     },
+
     {
       label: 'Products',
       routerLink: '/products',
