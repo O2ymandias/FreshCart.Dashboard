@@ -1,0 +1,105 @@
+@let userData = user();
+@if (userData) {
+  <div class="app-ring-1 grid gap-6 rounded-2xl shadow md:grid-cols-4">
+    <!-- Profile -->
+    <div class="flex flex-col items-center gap-4 p-4">
+      <img
+        [src]="userData.pictureUrl ?? '/anonymous-avatar.png'"
+        alt="User Avatar"
+        class="size-36 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-800"
+      />
+
+      <h2 class="text-xl font-semibold">
+        {{ userData.displayName }}
+      </h2>
+    </div>
+
+    <!-- Details -->
+    <div
+      class="bg-surface-50 dark:bg-surface-900 grid gap-4 rounded-2xl p-4 md:col-span-3"
+    >
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col">
+          <p
+            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
+            <i class="pi pi-user text-blue-500"></i>
+            Username
+          </p>
+          <p>{{ userData.userName }}</p>
+        </div>
+
+        <div class="flex flex-col">
+          <p
+            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
+            <i class="pi pi-phone text-green-500"></i>
+            Phone
+          </p>
+          <p>{{ userData.phoneNumber }}</p>
+        </div>
+
+        <div class="col-span-2 flex flex-col md:col-span-1">
+          <p
+            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
+            <i class="pi pi-envelope text-amber-500"></i>
+            Email
+          </p>
+          <a
+            class="break-words text-blue-600 transition-colors duration-300 hover:text-blue-600/75 dark:text-blue-400 dark:hover:text-blue-400/75"
+            href="mailto:{{ userData.email }}"
+          >
+            {{ userData.email }}
+          </a>
+        </div>
+
+        <div class="col-span-2 flex flex-col md:col-span-1">
+          <p
+            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
+            <i class="pi pi-id-card text-purple-500"></i>
+            ID
+          </p>
+          <p>{{ userData.id }}</p>
+        </div>
+      </div>
+
+      <!-- Roles / Permissions -->
+      <div class="app-ring-1 flex flex-col gap-2 rounded px-4 py-2 shadow-sm">
+        <div class="flex items-center gap-6">
+          <div
+            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+          >
+            <i class="pi pi-shield text-sky-500"></i>
+            <span> Roles </span>
+          </div>
+
+          <!-- Edit icon -->
+          <p-button
+            icon="pi pi-plus"
+            severity="help"
+            outlined
+            rounded
+            size="small"
+          />
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          @for (role of userData.roles; track $index) {
+            <p-tag severity="info" rounded class="font-medium">
+              {{ role }}
+            </p-tag>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="w-full md:mx-auto md:w-3/4">
+    <p-message size="large" severity="warn">
+      This user either does
+      <strong>not exist</strong> or has been <strong>deleted</strong>.
+    </p-message>
+  </div>
+}

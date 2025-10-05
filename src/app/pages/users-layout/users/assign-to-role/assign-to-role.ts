@@ -16,7 +16,7 @@ import {
 import { Role } from '../../../../shared/models/roles.model';
 import {
   AssignToRoleRequestData,
-  UserInfo,
+  User,
 } from '../../../../shared/models/users-model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -51,7 +51,7 @@ export class AssignToRole implements OnInit {
   }
 
   roles = input.required<Role[]>();
-  user = input.required<UserInfo>();
+  user = input.required<User>();
   assignToRoleForm = new FormGroup(
     {
       roles: new FormArray([]),

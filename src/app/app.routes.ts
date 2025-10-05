@@ -19,6 +19,7 @@ import { Users } from './pages/users-layout/users/users';
 import { NotFound } from './pages/not-found/not-found';
 import { UserDetails } from './pages/users-layout/user-details/user-details';
 import { UsersLayout } from './pages/users-layout/users-layout';
+import { Login } from './pages/login/login';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -119,10 +120,11 @@ export const routes: Routes = [
   },
 
   {
-    path: 'user-details/:id',
-    component: UserDetails,
-    title: 'User Details',
+    path: 'login',
+    component: Login,
+    title: 'Login',
   },
+
   {
     path: '**',
     component: NotFound,

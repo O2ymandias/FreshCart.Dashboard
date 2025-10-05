@@ -1,4 +1,4 @@
-export type UserInfo = {
+export type User = {
   id: string;
   userName: string;
   email: string;
@@ -22,7 +22,7 @@ export type UsersResponse = {
   pages: number;
   hasNext: boolean;
   hasPrevious: boolean;
-  results: UserInfo[];
+  results: User[];
 };
 
 export type AssignToRoleRequestData = {

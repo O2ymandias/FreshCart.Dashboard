@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -7,7 +8,6 @@ import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
-  withViewTransitions,
 } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -20,8 +20,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { attachTokenInterceptor } from './core/interceptors/attach-token-interceptor';
+import { appAuthInitialize } from './core/services/Auth/app-auth-initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,15 +36,17 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withComponentInputBinding(),
-      withViewTransitions(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
       }),
     ),
     provideClientHydration(withEventReplay()),
 
+    // App Initialization
+    provideAppInitializer(appAuthInitialize),
+
     // HTTP Client
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([attachTokenInterceptor])),
 
     // PrimeNG
     provideAnimationsAsync(),

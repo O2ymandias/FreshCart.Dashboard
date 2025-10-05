@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import {
   OrderResponse,
   OrdersQueryOptions,
+  OrderStatus,
+  PaymentStatus,
 } from '../../shared/models/orders-model';
 import { environment } from '../../environment';
 
@@ -15,21 +17,38 @@ export class OrderService {
   getOrders$(options: OrdersQueryOptions) {
     const url = `${environment.apiUrl}/orders`;
 
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZDg1NGM4NS1mMmE4LTQ3ODUtYWQ1Ni03ZjE2MDdlNzMwOWEiLCJpYXQiOjE3NTk0MjQxNzYsInN1YiI6Ijc4YThjZDU2LWIzZDMtNDE1OC1hYTdhLTg1MzQyY2I0MzcyYiIsInVuaXF1ZV9uYW1lIjoiQWRtaW4iLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFwcC5mcmVzaGNhcnRAZ21haWwuY29tIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzU5NDI3Nzc2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUxMTUiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.WpsewpoE9m_gm7kY5JXfW6rZ1pcj7tBaKwt4l1CXJQU';
+    let params = new HttpParams()
+      .append('pageNumber', options.pageNumber.toString())
+      .append('pageSize', options.pageSize.toString());
 
-    let params = new HttpParams();
-    params.append('pageNumber', options.pageNumber.toString());
-    params.append('pageSize', options.pageSize.toString());
     if (options.userId)
       params = params.append('userId', options.userId.toString());
 
-    return this._httpClient.get<OrderResponse>(url, {
-      params,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    return this._httpClient.get<OrderResponse>(url, { params });
+  }
+
+  statusToSeverity(status: OrderStatus | PaymentStatus): string {
+    switch (status) {
+      case 'Pending':
+        return 'primary';
+
+      case 'Processing':
+      case 'AwaitingPayment':
+        return 'info';
+
+      case 'Shipped':
+        return 'secondary';
+
+      case 'Delivered':
+      case 'PaymentReceived':
+        return 'success';
+
+      case 'Cancelled':
+      case 'PaymentFailed':
+        return 'danger';
+
+      default:
+        return 'primary';
+    }
   }
 }

@@ -1,0 +1,80 @@
+<section class="px-6 py-12">
+  <div
+    class="bg-surface-0 dark:bg-surface-900 mx-auto flex w-full max-w-xl flex-col gap-8 rounded-2xl p-8 shadow-sm md:p-12"
+  >
+    <!-- Header -->
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" class="size-20" />
+      </div>
+
+      <div class="flex w-full flex-col items-center gap-2">
+        <div
+          class="text-surface-900 dark:text-surface-0 w-full text-center text-2xl leading-tight font-semibold"
+        >
+          Welcome Back
+        </div>
+        <p class="text-surface-600 dark:text-surface-400 text-sm">
+          This is only for admin users
+        </p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+      class="flex w-full flex-col gap-6"
+    >
+      <div class="flex w-full flex-col gap-2">
+        <label
+          for="userNameOrEmail"
+          class="text-surface-900 dark:text-surface-0 leading-normal font-medium"
+          >UserName or Email</label
+        >
+        <input
+          formControlName="userNameOrEmail"
+          pInputText
+          id="userNameOrEmail"
+          type="text"
+          placeholder="UserName or Email"
+          class="w-full rounded-lg px-3 py-2 shadow-sm"
+        />
+      </div>
+
+      <div class="flex w-full flex-col gap-2">
+        <label
+          for="password"
+          class="text-surface-900 dark:text-surface-0 leading-normal font-medium"
+          >Password</label
+        >
+        <input
+          formControlName="password"
+          pInputText
+          id="password"
+          type="password"
+          placeholder="Password"
+          class="w-full rounded-lg px-3 py-2 shadow-sm"
+        />
+      </div>
+
+      <div
+        class="flex w-full flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-0"
+      >
+        <a
+          class="text-primary hover:text-primary-emphasis cursor-pointer font-medium"
+          >Forgot your password?</a
+        >
+      </div>
+      <button
+        type="submit"
+        pButton
+        [disabled]="loginForm.invalid"
+        class="flex w-full items-center justify-center gap-2 rounded-lg py-2"
+      >
+        <i pButtonIcon class="pi pi-user text-base! leading-normal!"></i>
+        <span pButtonLabel>Sign In</span>
+      </button>
+    </form>
+  </div>
+</section>

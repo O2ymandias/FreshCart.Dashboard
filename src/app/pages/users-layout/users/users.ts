@@ -5,10 +5,11 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { UserInfo, UsersQueryOptions } from '../../../shared/models/users-model';
+import { User, UsersQueryOptions } from '../../../shared/models/users-model';
 import { MenuItem } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
@@ -28,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AssignToRole } from './assign-to-role/assign-to-role';
 import { RouterLink } from '@angular/router';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -47,7 +49,7 @@ import { RouterLink } from '@angular/router';
     CheckboxModule,
     FieldsetModule,
     AssignToRole,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './users.html',
   styleUrl: './users.scss',
@@ -57,13 +59,14 @@ export class Users implements OnInit {
   private readonly _userService = inject(UserService);
   private readonly _roleService = inject(RoleService);
   private readonly _destroyRef = inject(DestroyRef);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   // Constants
   readonly DEFAULT_PAGE_NUMBER = 1;
   readonly DEFAULT_PAGE_SIZE = 10;
 
   // Properties
-  users = signal<UserInfo[]>([]);
+  users = signal<User[]>([]);
   roles = signal<Role[]>([]);
 
   // Pagination
@@ -96,10 +99,12 @@ export class Users implements OnInit {
   ];
 
   // Assign To Role Dialog
-  userToAssignRoles = signal<UserInfo | null>(null);
+  userToAssignRoles = signal<User | null>(null);
   showAssignToRoleDialog = signal(false);
 
   ngOnInit(): void {
+    if (isPlatformServer(this._platformId)) return;
+
     this._loadUsers({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.DEFAULT_PAGE_SIZE,
@@ -174,7 +179,7 @@ export class Users implements OnInit {
     });
   }
 
-  assignToRole(user: UserInfo): void {
+  assignToRole(user: User): void {
     this.showAssignToRoleDialog.set(true);
     this.userToAssignRoles.set(user);
   }

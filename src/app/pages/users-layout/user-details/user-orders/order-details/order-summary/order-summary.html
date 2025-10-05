@@ -1,0 +1,32 @@
+<section class="space-y-2">
+  <h3 class="flex items-center gap-2 text-lg font-semibold">Order Summary</h3>
+  <div
+    class="app-ring-1 flex flex-wrap items-center justify-between gap-6 rounded-lg px-6 py-4"
+  >
+    <div class="flex flex-col gap-2">
+      <p class="font-semibold">Order ID</p>
+      <p class="text-sm opacity-75">#{{ order().orderId }}</p>
+    </div>
+    <div class="flex flex-col gap-2">
+      <p class="font-semibold">Order Date</p>
+      <p class="text-sm opacity-75">
+        {{ order().orderDate | date: "medium" }}
+      </p>
+    </div>
+    <div class="flex flex-col gap-2">
+      <p class="font-semibold">Order Status</p>
+      <p-tag
+        [severity]="statusToSeverity(order().orderStatus)"
+        [value]="order().orderStatus"
+        rounded
+        class="font-medium"
+      />
+    </div>
+    <div class="flex flex-col gap-2">
+      <p class="font-semibold">Total</p>
+      <p class="text-primary font-medium">
+        {{ order().total | currency: "USD" : "symbol" : "1.2-2" }}
+      </p>
+    </div>
+  </div>
+</section>
