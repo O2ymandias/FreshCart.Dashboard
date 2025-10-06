@@ -1,0 +1,9 @@
+<p-select
+  [(ngModel)]="order().paymentStatus"
+  [options]="selectOptions"
+  size="small"
+  appendTo="body"
+  (onChange)="updatePaymentStatus()"
+  [loading]="loading()"
+  variant="filled"
+/>

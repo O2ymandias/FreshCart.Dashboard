@@ -1,3 +1,4 @@
+import { OrdersQueryOptions } from './../../../../shared/models/orders-model';
 import {
   Component,
   computed,
@@ -8,14 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { OrderService } from '../../../../core/services/order-service';
-import {
-  OrderResult,
-  OrdersQueryOptions,
-  OrderStatus,
-  PaymentStatus,
-} from '../../../../shared/models/orders-model';
-import { tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OrderResult } from '../../../../shared/models/orders-model';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -24,6 +18,12 @@ import { TagModule } from 'primeng/tag';
 import { MessageModule } from 'primeng/message';
 import { DialogModule } from 'primeng/dialog';
 import { OrderDetails } from './order-details/order-details';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { OrderStatusSelectOptions } from './order-status-select-options/order-status-select-options';
+import { tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PaymentStatusSelectOptions } from './payment-status-select-options/payment-status-select-options';
 
 @Component({
   selector: 'app-user-orders',
@@ -37,6 +37,10 @@ import { OrderDetails } from './order-details/order-details';
     MessageModule,
     DialogModule,
     OrderDetails,
+    SelectModule,
+    FormsModule,
+    OrderStatusSelectOptions,
+    PaymentStatusSelectOptions,
   ],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',
@@ -51,9 +55,6 @@ export class UserOrders {
   userId = input.required<string>();
   orders = signal<OrderResult[]>([]);
 
-  selectedOrder = signal<OrderResult | null>(null);
-  showOrderDetails = signal(false);
-
   // Pagination
   pageSize = signal(this.DEFAULT_PAGE_SIZE);
   pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
@@ -65,6 +66,10 @@ export class UserOrders {
     this.DEFAULT_PAGE_SIZE * 2,
   ];
 
+  // View Order
+  orderToView = signal<OrderResult | null>(null);
+  showOrderToViewDialog = signal(false);
+
   ngOnInit(): void {
     if (isPlatformServer(this._platformId)) return;
 
@@ -75,24 +80,9 @@ export class UserOrders {
     });
   }
 
-  onSelectOrder(order: OrderResult): void {
-    this.selectedOrder.set(order);
-    this.showOrderDetails.set(true);
-  }
-
-  private _loadOrders(options: OrdersQueryOptions): void {
-    this._ordersService
-      .getOrders$(options)
-      .pipe(
-        tap((res) => {
-          this.orders.set(res.results);
-          this.pageNumber.set(res.pageNumber);
-          this.pageSize.set(res.pageSize);
-          this.totalRecords.set(res.total);
-        }),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe();
+  onViewOrder(order: OrderResult): void {
+    this.orderToView.set(order);
+    this.showOrderToViewDialog.set(true);
   }
 
   onPageChange(event: PaginatorState): void {
@@ -109,28 +99,18 @@ export class UserOrders {
     });
   }
 
-  statusToSeverity(status: OrderStatus | PaymentStatus): string {
-    switch (status) {
-      case 'Pending':
-        return 'primary';
-
-      case 'Processing':
-      case 'AwaitingPayment':
-        return 'info';
-
-      case 'Shipped':
-        return 'secondary';
-
-      case 'Delivered':
-      case 'PaymentReceived':
-        return 'success';
-
-      case 'Cancelled':
-      case 'PaymentFailed':
-        return 'danger';
-
-      default:
-        return 'primary';
-    }
+  private _loadOrders(options: OrdersQueryOptions): void {
+    this._ordersService
+      .getOrders$(options)
+      .pipe(
+        tap((res) => {
+          this.orders.set(res.results);
+          this.pageNumber.set(res.pageNumber);
+          this.pageSize.set(res.pageSize);
+          this.totalRecords.set(res.total);
+        }),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
   }
 }

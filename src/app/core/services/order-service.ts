@@ -5,8 +5,11 @@ import {
   OrdersQueryOptions,
   OrderStatus,
   PaymentStatus,
+  UpdateOrderStatusRequest,
+  UpdatePaymentStatusRequest,
 } from '../../shared/models/orders-model';
 import { environment } from '../../environment';
+import { SaveResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +28,16 @@ export class OrderService {
       params = params.append('userId', options.userId.toString());
 
     return this._httpClient.get<OrderResponse>(url, { params });
+  }
+
+  updateOrderStatus$(requestData: UpdateOrderStatusRequest) {
+    const url = `${environment.apiUrl}/orders/order-status`;
+    return this._httpClient.put<SaveResult>(url, requestData);
+  }
+
+  updatePaymentStatus$(requestData: UpdatePaymentStatusRequest) {
+    const url = `${environment.apiUrl}/orders/payment-status`;
+    return this._httpClient.put<SaveResult>(url, requestData);
   }
 
   statusToSeverity(status: OrderStatus | PaymentStatus): string {

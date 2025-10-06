@@ -1,7 +1,17 @@
 @let userOrders = orders();
 
 @if (userOrders.length > 0) {
-  <section class="flex flex-col gap-6">
+  <section class="flex flex-col gap-4">
+    <div
+      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+    >
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-bold">User Orders</h1>
+        </div>
+      </div>
+    </div>
+
     <p-table
       class="app-ring-1 overflow-hidden rounded-2xl"
       #dt
@@ -9,28 +19,14 @@
       rowHover="true"
       dataKey="id"
     >
-      <ng-template #caption>
-        <div class="space-y-4">
-          <div
-            class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-          >
-            <div class="flex flex-col gap-2">
-              <div class="flex items-center gap-2">
-                <h1 class="text-2xl font-bold">User Orders</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
       <ng-template #header>
         <tr>
           <th>Order ID</th>
           <th>Order Date</th>
-          <th>Status</th>
-          <th>Payment</th>
+          <th>Order Status</th>
+          <th>Payment Status</th>
           <th>Total</th>
-          <th>Actions</th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template #body let-userOrder>
@@ -38,24 +34,10 @@
           <td>{{ userOrder.orderId }}</td>
           <td>{{ userOrder.orderDate | date: "medium" }}</td>
           <td>
-            <div class="flex items-center gap-2">
-              <p-tag
-                [severity]="statusToSeverity(userOrder.orderStatus)"
-                [value]="userOrder.orderStatus"
-                rounded
-                class="font-medium"
-              />
-            </div>
+            <app-order-status-select-options [order]="userOrder" />
           </td>
           <td>
-            <div class="flex items-center gap-2">
-              <p-tag
-                [severity]="statusToSeverity(userOrder.paymentStatus)"
-                [value]="userOrder.paymentStatus"
-                rounded
-                class="font-medium"
-              />
-            </div>
+            <app-payment-status-select-options [order]="userOrder" />
           </td>
           <td>{{ userOrder.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
           <td>
@@ -64,9 +46,8 @@
                 icon="pi pi-search"
                 rounded
                 outlined
-                (onClick)="onSelectOrder(userOrder)"
+                (onClick)="onViewOrder(userOrder)"
               />
-              <p-button icon="pi pi-cog" severity="info" rounded outlined />
             </div>
           </td></tr
       ></ng-template>
@@ -92,15 +73,15 @@
   </section>
 }
 
-@let selected = selectedOrder();
-@if (selected) {
+@let selectedOrderToView = orderToView();
+@if (selectedOrderToView) {
   <p-dialog
     header="Order Details"
     [modal]="true"
-    [(visible)]="showOrderDetails"
+    [(visible)]="showOrderToViewDialog"
   >
     <div class="my-4">
-      <app-order-details [order]="selected" />
+      <app-order-details [order]="selectedOrderToView" />
     </div>
   </p-dialog>
 }

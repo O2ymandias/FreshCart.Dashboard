@@ -62,3 +62,13 @@ export type ShippingAddress = {
   city: string;
   country: string;
 };
+
+export type UpdateOrderStatusRequest = {
+  orderId: number;
+  newOrderStatus: OrderStatus;
+};
+
+export type UpdatePaymentStatusRequest = {
+  orderId: number;
+  newPaymentStatus: PaymentStatus;
+};
