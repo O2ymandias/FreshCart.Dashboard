@@ -46,12 +46,14 @@
             <i class="pi pi-envelope text-amber-500"></i>
             Email
           </p>
-          <a
-            class="break-words text-sky-600 transition-colors duration-300 hover:text-sky-600/75 dark:text-sky-400 dark:hover:text-sky-400/75"
-            href="mailto:{{ userData.email }}"
-          >
-            {{ userData.email }}
-          </a>
+          <p>
+            <a
+              class="break-words text-sky-600 transition-colors duration-300 hover:text-sky-600/75 dark:text-sky-400 dark:hover:text-sky-400/75"
+              href="mailto:{{ userData.email }}"
+            >
+              {{ userData.email }}
+            </a>
+          </p>
         </div>
 
         <div class="col-span-2 flex flex-col md:col-span-1">
@@ -68,7 +70,7 @@
       <!-- Roles  -->
       <app-user-roles
         [user]="userData"
-        (userRolesUpdated)="onUserRolesUpdate()"
+        (userRolesUpdate)="onUserRolesUpdate()"
       />
     </div>
   </div>

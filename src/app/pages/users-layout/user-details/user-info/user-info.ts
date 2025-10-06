@@ -16,7 +16,6 @@ import { TagModule } from 'primeng/tag';
 import { UserRoles } from './user-roles/user-roles';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { Role } from '../../../../shared/models/roles.model';
 
 @Component({
   selector: 'app-user-info',
@@ -26,26 +25,22 @@ import { Role } from '../../../../shared/models/roles.model';
 })
 export class UserInfo {
   private readonly _userService = inject(UserService);
-
   private readonly _platformId = inject(PLATFORM_ID);
   private readonly _destroyRef = inject(DestroyRef);
 
   userId = input.required<string>();
   user = signal<User | null>(null);
 
-  availableRoles = signal<Role[]>([]);
-  showAssignToRoleDialog = signal(false);
-
   ngOnInit(): void {
     if (isPlatformServer(this._platformId)) return;
-    this._getUserDetails();
+    this._loadUserDetails();
   }
 
   onUserRolesUpdate(): void {
-    this._getUserDetails();
+    this._loadUserDetails();
   }
 
-  private _getUserDetails(): void {
+  private _loadUserDetails(): void {
     this._userService
       .getUser$(this.userId())
       .pipe(

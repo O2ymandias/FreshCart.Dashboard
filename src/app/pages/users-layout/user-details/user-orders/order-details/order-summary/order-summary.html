@@ -18,13 +18,12 @@
       <p-tag
         [severity]="statusToSeverity(order().orderStatus)"
         [value]="order().orderStatus"
-        rounded
         class="font-medium"
       />
     </div>
     <div class="flex flex-col gap-2">
       <p class="font-semibold">Total</p>
-      <p class="text-primary font-medium">
+      <p class="text-primary text-lg font-semibold">
         {{ order().total | currency: "USD" : "symbol" : "1.2-2" }}
       </p>
     </div>
