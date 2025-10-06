@@ -1,0 +1,21 @@
+<div class="app-ring-1 flex flex-col gap-2 rounded px-4 py-2 shadow-sm">
+  <div class="flex items-center gap-6">
+    <div
+      class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+    >
+      <i class="pi pi-shield text-sky-500"></i>
+      <span> Roles </span>
+    </div>
+
+    <!-- Edit icon -->
+    <p-button icon="pi pi-plus" severity="help" outlined rounded size="small" />
+  </div>
+
+  <div class="flex flex-wrap gap-2">
+    @for (role of user().roles; track $index) {
+      <p-tag severity="info" rounded class="font-medium">
+        {{ role }}
+      </p-tag>
+    }
+  </div>
+</div>

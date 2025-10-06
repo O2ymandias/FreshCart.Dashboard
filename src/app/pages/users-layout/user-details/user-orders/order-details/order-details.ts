@@ -1,14 +1,13 @@
 import { Component, input } from '@angular/core';
 import { OrderResult } from '../../../../../shared/models/orders-model';
-import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { Badge } from 'primeng/badge';
 import { OrderSummary } from './order-summary/order-summary';
 import { OrderShippingInfo } from './order-shipping-info/order-shipping-info';
+import { OrderItems } from './order-items/order-items';
+import { PaymentSummary } from './payment-summary/payment-summary';
 
 @Component({
   selector: 'app-order-details',
-  imports: [CurrencyPipe, RouterLink, Badge, OrderSummary, OrderShippingInfo],
+  imports: [OrderSummary, OrderShippingInfo, OrderItems, PaymentSummary],
   templateUrl: './order-details.html',
   styleUrl: './order-details.scss',
 })

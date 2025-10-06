@@ -1,7 +1,7 @@
 @let userData = user();
 @if (userData) {
   <div class="app-ring-1 grid gap-6 rounded-2xl shadow md:grid-cols-4">
-    <!-- Profile -->
+    <!-- Avatar & Name -->
     <div class="flex flex-col items-center gap-4 p-4">
       <img
         [src]="userData.pictureUrl ?? '/anonymous-avatar.png'"
@@ -14,7 +14,7 @@
       </h2>
     </div>
 
-    <!-- Details -->
+    <!-- More Details -->
     <div
       class="bg-surface-50 dark:bg-surface-900 grid gap-4 rounded-2xl p-4 md:col-span-3"
     >
@@ -65,41 +65,11 @@
         </div>
       </div>
 
-      <!-- Roles / Permissions -->
-      <div class="app-ring-1 flex flex-col gap-2 rounded px-4 py-2 shadow-sm">
-        <div class="flex items-center gap-6">
-          <div
-            class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400"
-          >
-            <i class="pi pi-shield text-sky-500"></i>
-            <span> Roles </span>
-          </div>
-
-          <!-- Edit icon -->
-          <p-button
-            icon="pi pi-plus"
-            severity="help"
-            outlined
-            rounded
-            size="small"
-          />
-        </div>
-
-        <div class="flex flex-wrap gap-2">
-          @for (role of userData.roles; track $index) {
-            <p-tag severity="info" rounded class="font-medium">
-              {{ role }}
-            </p-tag>
-          }
-        </div>
-      </div>
+      <!-- Roles  -->
+      <app-user-roles
+        [user]="userData"
+        (userRolesUpdated)="onUserRolesUpdate()"
+      />
     </div>
-  </div>
-} @else {
-  <div class="w-full md:mx-auto md:w-3/4">
-    <p-message size="large" severity="warn">
-      This user either does
-      <strong>not exist</strong> or has been <strong>deleted</strong>.
-    </p-message>
   </div>
 }
