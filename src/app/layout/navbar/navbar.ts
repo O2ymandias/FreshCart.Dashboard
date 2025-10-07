@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { ThemeController } from './theme-controller/theme-controller';
 import { NavDrawer } from './nav-drawer/nav-drawer';
 import { Logo } from './logo/logo';
+import { AuthService } from '../../core/services/Auth/auth-service';
+import { Logout } from './logout/logout';
 @Component({
   selector: 'app-navbar',
   imports: [
@@ -22,10 +24,12 @@ import { Logo } from './logo/logo';
     ThemeController,
     NavDrawer,
     Logo,
+    Logout,
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  checked = signal(false);
+  private readonly _authService = inject(AuthService);
+  isAuthenticated = this._authService.isAuthenticated;
 }

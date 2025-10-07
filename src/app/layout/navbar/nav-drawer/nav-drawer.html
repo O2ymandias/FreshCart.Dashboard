@@ -135,19 +135,22 @@
         </ul>
         <!-- Application  -->
       </div>
-      <div class="mt-auto">
-        <hr class="border-surface mx-4 mb-4 border-0 border-t" />
-        <a
-          pRipple
-          class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple m-4 flex cursor-pointer items-center gap-2 p-4 transition-colors duration-150"
-        >
-          <p-avatar
-            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-            shape="circle"
-          />
-          <span class="font-bold">Amy Elsner</span>
-        </a>
-      </div>
+
+      @let payload = jwtPayload();
+      @if (payload) {
+        <div class="mt-auto">
+          <hr class="border-surface mx-4 mb-4 border-0 border-t" />
+          <a
+            pRipple
+            class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple m-4 flex cursor-pointer items-center gap-2 p-4 transition-colors duration-150"
+          >
+            <p-avatar image="/anonymous-avatar.png" shape="circle" />
+            <span class="font-bold">
+              {{ payload.name }}
+            </span>
+          </a>
+        </div>
+      }
     </div>
   </ng-template>
 </p-drawer>

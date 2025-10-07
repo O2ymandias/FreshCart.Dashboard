@@ -1,19 +1,18 @@
 <p-menubar>
   <ng-template #start>
     <div class="flex items-center gap-4">
-      <app-nav-drawer />
+      @if (isAuthenticated()) {
+        <app-nav-drawer />
+      }
       <app-logo />
     </div>
   </ng-template>
   <ng-template #end>
     <div class="flex items-center gap-2">
       <app-theme-controller />
-      <p-button
-        label="Logout"
-        icon="pi pi-sign-out"
-        severity="danger"
-        variant="text"
-      ></p-button>
+      @if (isAuthenticated()) {
+        <app-logout />
+      }
     </div>
   </ng-template>
 </p-menubar>

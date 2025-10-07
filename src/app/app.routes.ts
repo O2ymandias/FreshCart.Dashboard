@@ -20,13 +20,21 @@ import { NotFound } from './pages/not-found/not-found';
 import { UserDetails } from './pages/users-layout/user-details/user-details';
 import { UsersLayout } from './pages/users-layout/users-layout';
 import { Login } from './pages/login/login';
+import { authGuard } from './core/guards/auth-guard';
+import { nonAuthGuard } from './core/guards/non-auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: Dashboard, title: 'Dashboard' },
+  {
+    path: 'dashboard',
+    component: Dashboard,
+    title: 'Dashboard',
+    canActivate: [authGuard],
+  },
   {
     path: 'products',
     component: ProductsLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -53,6 +61,7 @@ export const routes: Routes = [
   {
     path: 'brands',
     component: BrandsLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -79,6 +88,7 @@ export const routes: Routes = [
   {
     path: 'categories',
     component: CategoriesLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -105,6 +115,7 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -118,13 +129,12 @@ export const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'login',
     component: Login,
     title: 'Login',
+    canActivate: [nonAuthGuard],
   },
-
   {
     path: '**',
     component: NotFound,
