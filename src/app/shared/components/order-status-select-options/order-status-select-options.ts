@@ -1,15 +1,13 @@
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
-import {
-  OrderResult,
-  OrderStatus,
-} from '../../../../../shared/models/orders-model';
+
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
-import { OrderService } from '../../../../../core/services/order-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, tap, throwError } from 'rxjs';
-import { ToasterService } from '../../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { OrderService } from '../../../core/services/order-service';
+import { ToasterService } from '../../../core/services/toaster-service';
+import { OrderResult, OrderStatus } from '../../models/orders-model';
 
 @Component({
   selector: 'app-order-status-select-options',

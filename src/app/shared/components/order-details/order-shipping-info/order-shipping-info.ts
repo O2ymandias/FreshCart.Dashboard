@@ -1,11 +1,12 @@
 import { Component, inject, input } from '@angular/core';
+
+import { TagModule } from 'primeng/tag';
+import { OrderService } from '../../../../core/services/order-service';
 import {
   OrderResult,
   OrderStatus,
   PaymentStatus,
-} from '../../../../../../shared/models/orders-model';
-import { TagModule } from 'primeng/tag';
-import { OrderService } from '../../../../../../core/services/order-service';
+} from '../../../models/orders-model';
 
 @Component({
   selector: 'app-order-shipping-info',

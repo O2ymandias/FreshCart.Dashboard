@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { OrderResult } from '../../../../../../shared/models/orders-model';
 import { CurrencyPipe } from '@angular/common';
+import { OrderResult } from '../../../models/orders-model';
 
 @Component({
   selector: 'app-payment-summary',

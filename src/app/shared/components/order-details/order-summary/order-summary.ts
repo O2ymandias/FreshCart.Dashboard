@@ -1,12 +1,9 @@
 import { Component, inject, input } from '@angular/core';
-import {
-  OrderResult,
-  OrderStatus,
-  PaymentStatus,
-} from '../../../../../../shared/models/orders-model';
+
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
-import { OrderService } from '../../../../../../core/services/order-service';
+import { OrderService } from '../../../../core/services/order-service';
+import { OrderResult, OrderStatus, PaymentStatus } from '../../../models/orders-model';
 
 @Component({
   selector: 'app-order-summary',

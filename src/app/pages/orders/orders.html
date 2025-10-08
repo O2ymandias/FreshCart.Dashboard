@@ -1,0 +1,124 @@
+<section class="flex flex-col gap-6 px-6 py-12">
+  <p-breadcrumb [model]="navigationItems" />
+
+  <p-table #dt [value]="orders()" rowHover="true" dataKey="id">
+    <ng-template #caption>
+      <div class="space-y-4">
+        <div
+          class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        >
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-bold">Manage Orders</h1>
+              <p-button
+                rounded
+                icon="pi pi-refresh"
+                size="small"
+                (onClick)="refresh()"
+              />
+            </div>
+            <p class="opacity-75">View and manage orders</p>
+          </div>
+        </div>
+
+        <!-- <div
+          class="flex flex-col items-center gap-4 md:flex-row md:items-center md:justify-between"
+        >
+          <p-inputgroup class="w-full md:w-1/2">
+            <input
+              type="search"
+              pInputText
+              pTooltip="By Name, Description, Category or Brand"
+              tooltipPosition="top"
+              tooltipEvent="focus"
+              placeholder="Search products"
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="search()"
+            />
+            <p-inputgroup-addon>
+              <p-button
+                icon="pi pi-search"
+                severity="secondary"
+                variant="text"
+                (onClick)="search()"
+              />
+            </p-inputgroup-addon>
+          </p-inputgroup>
+
+          <p-select
+            class="w-full md:w-1/4"
+            [options]="sortOptions"
+            [(ngModel)]="selectedSortOption"
+            [showClear]="true"
+            placeholder="Sort By"
+            optionLabel="label"
+            (onChange)="sort()"
+          />
+        </div> -->
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th>Order ID</th>
+        <th>Order Date</th>
+        <th>Order Status</th>
+        <th>Payment Status</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-order>
+      <tr>
+        <td>{{ order.orderId }}</td>
+        <td>{{ order.orderDate | date: "medium" }}</td>
+        <td>
+          <app-order-status-select-options [order]="order" />
+        </td>
+        <td>
+          <app-payment-status-select-options [order]="order" />
+        </td>
+        <td>{{ order.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
+        <td>
+          <p-button
+            icon="pi pi-search"
+            rounded
+            outlined
+            (click)="viewOrder(order)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #footer>
+      <tr>
+        <td colspan="8">
+          <p-paginator
+            [rows]="pageSize()"
+            [totalRecords]="totalRecords()"
+            [rowsPerPageOptions]="rowsPerPageOptions"
+            [first]="first()"
+            [showCurrentPageReport]="true"
+            [currentPageReportTemplate]="
+              'Showing {first} to {last} of {totalRecords} entries'
+            "
+            (onPageChange)="onPageChange($event)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+@let selectedOrderToView = orderToView();
+@if (selectedOrderToView) {
+  <p-dialog
+    header="Order Details"
+    [modal]="true"
+    [(visible)]="showOrderToViewDialog"
+  >
+    <div class="my-4">
+      <app-order-details [order]="selectedOrderToView" />
+    </div>
+  </p-dialog>
+}

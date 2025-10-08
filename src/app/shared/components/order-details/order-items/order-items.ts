@@ -1,8 +1,8 @@
 import { Component, input } from '@angular/core';
-import { OrderResult } from '../../../../../../shared/models/orders-model';
 import { BadgeModule } from 'primeng/badge';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { OrderResult } from '../../../models/orders-model';
 
 @Component({
   selector: 'app-order-items',

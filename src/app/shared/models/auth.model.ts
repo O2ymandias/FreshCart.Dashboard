@@ -16,7 +16,7 @@ export type JwtPayload = {
   unique_name: string;
   name: string;
   email: string;
-  role: string;
+  role: string | string[];
   exp: number;
   iss: string;
   aud: string[] | string;

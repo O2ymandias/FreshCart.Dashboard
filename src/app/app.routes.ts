@@ -22,6 +22,7 @@ import { UsersLayout } from './pages/users-layout/users-layout';
 import { Login } from './pages/login/login';
 import { authGuard } from './core/guards/auth-guard';
 import { nonAuthGuard } from './core/guards/non-auth-guard';
+import { Orders } from './pages/orders/orders';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -128,6 +129,12 @@ export const routes: Routes = [
         title: 'User Details',
       },
     ],
+  },
+  {
+    path: 'orders',
+    component: Orders,
+    title: 'Orders',
+    canActivate: [authGuard],
   },
   {
     path: 'login',

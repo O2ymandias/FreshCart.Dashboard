@@ -17,13 +17,13 @@ import { CurrencyPipe, DatePipe, isPlatformServer } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { MessageModule } from 'primeng/message';
 import { DialogModule } from 'primeng/dialog';
-import { OrderDetails } from './order-details/order-details';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
-import { OrderStatusSelectOptions } from './order-status-select-options/order-status-select-options';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PaymentStatusSelectOptions } from './payment-status-select-options/payment-status-select-options';
+import { OrderStatusSelectOptions } from '../../../../shared/components/order-status-select-options/order-status-select-options';
+import { PaymentStatusSelectOptions } from '../../../../shared/components/payment-status-select-options/payment-status-select-options';
+import { OrderDetails } from '../../../../shared/components/order-details/order-details';
 
 @Component({
   selector: 'app-user-orders',
@@ -36,11 +36,11 @@ import { PaymentStatusSelectOptions } from './payment-status-select-options/paym
     TagModule,
     MessageModule,
     DialogModule,
-    OrderDetails,
     SelectModule,
     FormsModule,
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
+    OrderDetails,
   ],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',
