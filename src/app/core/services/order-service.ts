@@ -27,6 +27,20 @@ export class OrderService {
     if (options.userId)
       params = params.append('userId', options.userId.toString());
 
+    if (options.orderId)
+      params = params.append('orderId', options.orderId.toString());
+
+    if (options.sort) {
+      params = params.append('sort.key', options.sort.key);
+      params = params.append('sort.dir', options.sort.dir);
+    }
+
+    if (options.paymentStatus)
+      params = params.append('paymentStatus', options.paymentStatus);
+
+    if (options.orderStatus)
+      params = params.append('orderStatus', options.orderStatus);
+
     return this._httpClient.get<OrderResponse>(url, { params });
   }
 

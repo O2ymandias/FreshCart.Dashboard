@@ -16,24 +16,23 @@
                 size="small"
                 (onClick)="refresh()"
               />
+              <app-filtration-drawer />
             </div>
             <p class="opacity-75">View and manage orders</p>
           </div>
         </div>
 
-        <!-- <div
+        <div
           class="flex flex-col items-center gap-4 md:flex-row md:items-center md:justify-between"
         >
           <p-inputgroup class="w-full md:w-1/2">
-            <input
-              type="search"
-              pInputText
-              pTooltip="By Name, Description, Category or Brand"
-              tooltipPosition="top"
-              tooltipEvent="focus"
-              placeholder="Search products"
-              [(ngModel)]="searchQuery"
+            <p-inputnumber
+              [(ngModel)]="searchByOrderId"
+              placeholder="Search by Order ID"
+              mode="decimal"
+              [useGrouping]="false"
               (keyup.enter)="search()"
+              [min]="1"
             />
             <p-inputgroup-addon>
               <p-button
@@ -54,7 +53,7 @@
             optionLabel="label"
             (onChange)="sort()"
           />
-        </div> -->
+        </div>
       </div>
     </ng-template>
 
@@ -64,6 +63,7 @@
         <th>Order Date</th>
         <th>Order Status</th>
         <th>Payment Status</th>
+        <th>Payment Method</th>
         <th>Total</th>
         <th></th>
       </tr>
@@ -78,7 +78,23 @@
         <td>
           <app-payment-status-select-options [order]="order" />
         </td>
-        <td>{{ order.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
+        <td>
+          <p-tag
+            severity="info"
+            [value]="order.paymentMethod"
+            class="font-medium"
+            [icon]="
+              order.paymentMethod === 'Cash'
+                ? 'pi pi-money-bill'
+                : 'pi pi-credit-card'
+            "
+          />
+        </td>
+        <td>
+          <p class="text-lg font-medium">
+            {{ order.total | currency: "USD" : "symbol" : "1.2-2" }}
+          </p>
+        </td>
         <td>
           <p-button
             icon="pi pi-search"

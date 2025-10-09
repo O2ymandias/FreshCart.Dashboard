@@ -1,0 +1,18 @@
+<p-button
+  severity="secondary"
+  icon="pi pi-filter"
+  size="small"
+  rounded
+  (click)="visible.set(true)"
+/>
+<p-drawer header="Filter Orders" [(visible)]="visible" position="right">
+  <p-select
+    class="w-full"
+    [options]="OrderStatusOptions"
+    [(ngModel)]="selectedOrderStatus"
+    [showClear]="true"
+    placeholder="Order Status"
+    optionLabel="label"
+    (onChange)="filterByOrderStatus()"
+  />
+</p-drawer>

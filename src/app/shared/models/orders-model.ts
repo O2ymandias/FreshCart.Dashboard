@@ -1,9 +1,19 @@
+import { SortDirection } from './shared.model';
+
 export type OrdersQueryOptions = {
   pageNumber: number;
   pageSize: number;
   userId?: string;
-  orderId?: string;
+  orderId?: number;
+  sort?: {
+    key: OrderSortKey;
+    dir: SortDirection;
+  };
+  paymentStatus?: PaymentStatus;
+  orderStatus?: OrderStatus;
 };
+
+export type OrderSortKey = 'createdAt' | 'subTotal';
 
 export type OrderResponse = {
   pageSize: number;
@@ -71,4 +81,12 @@ export type UpdateOrderStatusRequest = {
 export type UpdatePaymentStatusRequest = {
   orderId: number;
   newPaymentStatus: PaymentStatus;
+};
+
+export type OrderSortOption = {
+  label: string;
+  value: {
+    key: OrderSortKey;
+    dir: SortDirection;
+  };
 };

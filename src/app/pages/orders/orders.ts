@@ -2,7 +2,6 @@ import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
 import { InputGroup } from 'primeng/inputgroup';
 import { FormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -11,7 +10,9 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   OrderResult,
+  OrderSortOption,
   OrdersQueryOptions,
+  OrderStatus,
 } from '../../shared/models/orders-model';
 import { OrderService } from '../../core/services/order-service';
 import { MenuItem } from 'primeng/api';
@@ -19,8 +20,14 @@ import { OrderStatusSelectOptions } from '../../shared/components/order-status-s
 import { PaymentStatusSelectOptions } from '../../shared/components/payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
 import { OrderDetails } from '../../shared/components/order-details/order-details';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToasterService } from '../../core/services/toaster-service';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { Tag } from 'primeng/tag';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FiltrationDrawer } from './filtration-drawer/filtration-drawer';
 
 @Component({
   selector: 'app-orders',
@@ -28,7 +35,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     BreadcrumbModule,
     TableModule,
     ButtonModule,
-    RouterLink,
     InputGroup,
     FormsModule,
     SelectModule,
@@ -40,12 +46,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     PaymentStatusSelectOptions,
     DialogModule,
     OrderDetails,
+    InputNumberModule,
+    Tag,
+    MultiSelectModule,
+    FiltrationDrawer,
   ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
 export class Orders {
   private readonly _ordersService = inject(OrderService);
+  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   private readonly DEFAULT_PAGE_NUMBER = 1;
@@ -54,7 +65,7 @@ export class Orders {
   orders = signal<OrderResult[]>([]);
 
   // Search Query
-  // searchQuery = signal('');
+  searchByOrderId = signal<number | undefined>(undefined);
 
   // Pagination
   pageSize = signal(this.DEFAULT_PAGE_SIZE);
@@ -71,51 +82,67 @@ export class Orders {
   showOrderToViewDialog = signal(false);
 
   // Sort
-  // sortOptions: ProductSortOption[] = [
-  //   {
-  //     label: 'Name: A to Z',
-  //     value: {
-  //       key: 'name',
-  //       dir: 'asc',
-  //     },
-  //   },
-  //   {
-  //     label: 'Name: Z to A',
-  //     value: {
-  //       key: 'name',
-  //       dir: 'desc',
-  //     },
-  //   },
-  //   {
-  //     label: 'Price: High to Low',
-  //     value: {
-  //       key: 'price',
-  //       dir: 'desc',
-  //     },
-  //   },
-  //   {
-  //     label: 'Price: Low to High',
-  //     value: {
-  //       key: 'price',
-  //       dir: 'asc',
-  //     },
-  //   },
-  //   {
-  //     label: 'Stock: Low to High',
-  //     value: {
-  //       key: 'unitsInStock',
-  //       dir: 'asc',
-  //     },
-  //   },
-  //   {
-  //     label: 'Stock: High to Low',
-  //     value: {
-  //       key: 'unitsInStock',
-  //       dir: 'desc',
-  //     },
-  //   },
-  // ];
-  // selectedSortOption = signal<ProductSortOption | null>(null);
+  sortOptions: OrderSortOption[] = [
+    {
+      label: 'Created At: New to Old',
+      value: {
+        key: 'createdAt',
+        dir: 'desc',
+      },
+    },
+    {
+      label: 'Created At: Old to New',
+      value: {
+        key: 'createdAt',
+        dir: 'asc',
+      },
+    },
+    {
+      label: 'SubTotal: High to Low',
+      value: {
+        key: 'subTotal',
+        dir: 'desc',
+      },
+    },
+    {
+      label: 'SubTotal: Low to High',
+      value: {
+        key: 'subTotal',
+        dir: 'asc',
+      },
+    },
+  ];
+  selectedSortOption = signal<OrderSortOption | null>(null);
+
+  // Filter by
+  selectedOrderStatus = signal<
+    { label: string; value: OrderStatus } | undefined
+  >(undefined);
+  selectedPaymentStatus = signal<string | null>(null);
+  selectedPaymentMethod = signal<string | null>(null);
+
+  OrderStatusOptions: { label: string; value: OrderStatus }[] = [
+    {
+      label: 'Pending',
+      value: 'Pending',
+    },
+    {
+      label: 'Processing',
+      value: 'Processing',
+    },
+    {
+      label: 'Shipped',
+      value: 'Shipped',
+    },
+    {
+      label: 'Delivered',
+      value: 'Delivered',
+    },
+    {
+      label: 'Cancelled',
+      value: 'Cancelled',
+    },
+  ];
 
   navigationItems: MenuItem[] = [
     {
@@ -144,39 +171,40 @@ export class Orders {
     this.pageNumber.set(pageNumber);
     this.pageSize.set(pageSize);
 
-    // Considers: search query and sort options
-    // const search = this.searchQuery();
-    // const sortOption = this.selectedSortOption();
-    // const sort = sortOption
-    //   ? { key: sortOption.value.key, dir: sortOption.value.dir }
-    //   : undefined;
+    // Considers: searchByOrderId and sort options
+    const orderId = this.searchByOrderId();
+
+    const sortOption = this.selectedSortOption();
+    const sort = sortOption
+      ? { key: sortOption.value.key, dir: sortOption.value.dir }
+      : undefined;
 
     this._loadOrders({
       pageNumber,
       pageSize,
-      // search,
-      // sort,
+      orderId,
+      sort,
     });
   }
 
   search(): void {
     // Reset the sort option
-    // this.selectedSortOption.set(null);
+    this.selectedSortOption.set(null);
 
     // Reset to first page BUT keep the current page size.
     this._loadOrders({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
-      // search: this.searchQuery(),
+      orderId: this.searchByOrderId(),
     });
   }
 
   refresh(): void {
     // Reset the search query.
-    // this.searchQuery.set('');
+    this.searchByOrderId.set(undefined);
 
     // Reset the sort option.
-    // this.selectedSortOption.set(null);
+    this.selectedSortOption.set(null);
 
     // Reset to first page.
     this._loadOrders({
@@ -185,25 +213,41 @@ export class Orders {
     });
   }
 
-  // sort(): void {
-  //   const sortOption = this.selectedSortOption();
-  //   if (!sortOption) return;
+  sort(): void {
+    const sortOption = this.selectedSortOption();
+    if (!sortOption) {
+      this._loadOrders({
+        pageNumber: this.DEFAULT_PAGE_NUMBER,
+        pageSize: this.pageSize(),
+        orderId: this.searchByOrderId(),
+      });
+      return;
+    }
 
-  //   const { key, dir } = sortOption.value;
+    const { key, dir } = sortOption.value;
 
-  //   // Reset to first page BUT keep the current page size.
-  //   // Keep the current search query.
-  //   this._loadProducts({
-  //     pageNumber: this.DEFAULT_PAGE_NUMBER,
-  //     pageSize: this.pageSize(),
-  //     search: this.searchQuery(),
-  //     sort: { key, dir },
-  //   });
-  // }
+    // Reset to first page BUT keep the current page size.
+    // Keep the current search query.
+    this._loadOrders({
+      pageNumber: this.DEFAULT_PAGE_NUMBER,
+      pageSize: this.pageSize(),
+      orderId: this.searchByOrderId(),
+      sort: { key, dir },
+    });
+  }
 
   viewOrder(order: OrderResult): void {
     this.orderToView.set(order);
     this.showOrderToViewDialog.set(true);
+  }
+
+  filterByOrderStatus(): void {
+    this._loadOrders({
+      pageNumber: this.DEFAULT_PAGE_NUMBER,
+      pageSize: this.pageSize(),
+      orderId: this.searchByOrderId(),
+      orderStatus: this.selectedOrderStatus()?.value,
+    });
   }
 
   private _loadOrders(options: OrdersQueryOptions): void {
@@ -215,6 +259,14 @@ export class Orders {
           this.pageNumber.set(res.pageNumber);
           this.pageSize.set(res.pageSize);
           this.totalRecords.set(res.total);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          let errorMessage = err.message;
+          if (err.error.errors) {
+            errorMessage = err.error.errors.join(', ');
+          }
+          this._toasterService.error(errorMessage);
+          return throwError(() => err);
         }),
         takeUntilDestroyed(this._destroyRef),
       )
