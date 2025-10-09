@@ -11,6 +11,7 @@ export type OrdersQueryOptions = {
   };
   paymentStatus?: PaymentStatus;
   orderStatus?: OrderStatus;
+  paymentMethod?: PaymentMethod;
 };
 
 export type OrderSortKey = 'createdAt' | 'subTotal';
@@ -89,4 +90,19 @@ export type OrderSortOption = {
     key: OrderSortKey;
     dir: SortDirection;
   };
+};
+
+export type OrderStatusOption = {
+  label: string;
+  value: OrderStatus;
+};
+
+export type PaymentStatusOption = {
+  label: string;
+  value: PaymentStatus;
+};
+
+export type PaymentMethodOption = {
+  label: string;
+  value: PaymentMethod;
 };

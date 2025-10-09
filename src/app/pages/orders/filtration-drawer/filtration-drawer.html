@@ -5,14 +5,69 @@
   rounded
   (click)="visible.set(true)"
 />
-<p-drawer header="Filter Orders" [(visible)]="visible" position="right">
-  <p-select
-    class="w-full"
-    [options]="OrderStatusOptions"
-    [(ngModel)]="selectedOrderStatus"
-    [showClear]="true"
-    placeholder="Order Status"
-    optionLabel="label"
-    (onChange)="filterByOrderStatus()"
-  />
+<p-drawer header="Advanced Filter" [(visible)]="visible" position="right">
+  <div class="flex flex-col gap-4">
+    <!-- Order Status -->
+    <div class="flex flex-col gap-1">
+      <label
+        class="opacity-75"
+        for="orderStatus"
+        (click)="orderStatusElement.show()"
+      >
+        Order Status</label
+      >
+      <p-select
+        #orderStatusElement
+        class="w-full"
+        [options]="OrderStatusOptions"
+        [(ngModel)]="orderStatus"
+        [showClear]="true"
+        placeholder="None"
+        optionLabel="label"
+        (onChange)="filter()"
+      />
+    </div>
+
+    <!-- Payment Status -->
+    <div class="flex flex-col gap-1">
+      <label
+        class="opacity-75"
+        for="paymentStatus"
+        (click)="paymentStatusElement.show()"
+      >
+        Payment Status</label
+      >
+      <p-select
+        #paymentStatusElement
+        class="w-full"
+        [options]="PaymentStatusOptions"
+        [(ngModel)]="paymentStatus"
+        [showClear]="true"
+        placeholder="None"
+        optionLabel="label"
+        (onChange)="filter()"
+      />
+    </div>
+
+    <!-- Payment Status -->
+    <div class="flex flex-col gap-1">
+      <label
+        class="opacity-75"
+        for="paymentMethod"
+        (click)="paymentMethodElement.show()"
+      >
+        Payment Method</label
+      >
+      <p-select
+        #paymentMethodElement
+        class="w-full"
+        [options]="PaymentMethodOptions"
+        [(ngModel)]="paymentMethod"
+        [showClear]="true"
+        placeholder="None"
+        optionLabel="label"
+        (onChange)="filter()"
+      />
+    </div>
+  </div>
 </p-drawer>

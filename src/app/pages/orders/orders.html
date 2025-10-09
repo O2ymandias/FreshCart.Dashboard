@@ -25,34 +25,13 @@
         <div
           class="flex flex-col items-center gap-4 md:flex-row md:items-center md:justify-between"
         >
-          <p-inputgroup class="w-full md:w-1/2">
-            <p-inputnumber
-              [(ngModel)]="searchByOrderId"
-              placeholder="Search by Order ID"
-              mode="decimal"
-              [useGrouping]="false"
-              (keyup.enter)="search()"
-              [min]="1"
-            />
-            <p-inputgroup-addon>
-              <p-button
-                icon="pi pi-search"
-                severity="secondary"
-                variant="text"
-                (onClick)="search()"
-              />
-            </p-inputgroup-addon>
-          </p-inputgroup>
+          <div class="w-full md:w-1/2">
+            <app-orders-search />
+          </div>
 
-          <p-select
-            class="w-full md:w-1/4"
-            [options]="sortOptions"
-            [(ngModel)]="selectedSortOption"
-            [showClear]="true"
-            placeholder="Sort By"
-            optionLabel="label"
-            (onChange)="sort()"
-          />
+          <div class="w-full md:w-1/4">
+            <app-orders-sort />
+          </div>
         </div>
       </div>
     </ng-template>
@@ -109,17 +88,7 @@
     <ng-template #footer>
       <tr>
         <td colspan="8">
-          <p-paginator
-            [rows]="pageSize()"
-            [totalRecords]="totalRecords()"
-            [rowsPerPageOptions]="rowsPerPageOptions"
-            [first]="first()"
-            [showCurrentPageReport]="true"
-            [currentPageReportTemplate]="
-              'Showing {first} to {last} of {totalRecords} entries'
-            "
-            (onPageChange)="onPageChange($event)"
-          />
+          <app-orders-pagination />
         </td>
       </tr>
     </ng-template>
