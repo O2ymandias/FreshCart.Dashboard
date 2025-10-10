@@ -8,7 +8,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrderService } from '../../../../core/services/Orders/order-service';
 import { OrderResult } from '../../../../shared/models/orders-model';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';

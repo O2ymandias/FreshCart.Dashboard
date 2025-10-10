@@ -9,9 +9,9 @@ import {
   PaymentStatus,
   UpdateOrderStatusRequest,
   UpdatePaymentStatusRequest,
-} from '../../shared/models/orders-model';
-import { environment } from '../../environment';
-import { SaveResult } from '../../shared/models/shared.model';
+} from '../../../shared/models/orders-model';
+import { environment } from '../../../environment';
+import { SaveResult } from '../../../shared/models/shared.model';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -35,6 +35,11 @@ export class OrderService {
 
   // Sort
   selectedSortOption = signal<OrderSortOption | undefined>(undefined);
+
+  ordersQueryOptions = signal<OrdersQueryOptions>({
+    pageNumber: this.DEFAULT_PAGE_NUMBER,
+    pageSize: this.DEFAULT_PAGE_SIZE,
+  });
 
   getOrders$(options: OrdersQueryOptions) {
     const url = `${environment.apiUrl}/orders`;

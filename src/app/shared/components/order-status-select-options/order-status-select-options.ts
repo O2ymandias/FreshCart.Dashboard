@@ -5,7 +5,7 @@ import { SelectModule } from 'primeng/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { OrderService } from '../../../core/services/order-service';
+import { OrderService } from '../../../core/services/Orders/order-service';
 import { ToasterService } from '../../../core/services/toaster-service';
 import { OrderResult, OrderStatus } from '../../models/orders-model';
 
