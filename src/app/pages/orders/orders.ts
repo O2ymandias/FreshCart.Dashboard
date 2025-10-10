@@ -60,7 +60,7 @@ export class Orders {
   orders = this._ordersService.orders;
 
   // Search Query
-  searchByOrderId = this._ordersService.searchByOrderId;
+  // searchByOrderId = this._ordersService.searchByOrderId;
 
   // Pagination
   pageSize = this._ordersService.pageSize;
@@ -72,36 +72,6 @@ export class Orders {
 
   orderToView = signal<OrderResult | null>(null);
   showOrderToViewDialog = signal(false);
-
-  // Filter by
-  // selectedOrderStatus = signal<
-  //   { label: string; value: OrderStatus } | undefined
-  // >(undefined);
-  // selectedPaymentStatus = signal<string | null>(null);
-  // selectedPaymentMethod = signal<string | null>(null);
-
-  // OrderStatusOptions: { label: string; value: OrderStatus }[] = [
-  //   {
-  //     label: 'Pending',
-  //     value: 'Pending',
-  //   },
-  //   {
-  //     label: 'Processing',
-  //     value: 'Processing',
-  //   },
-  //   {
-  //     label: 'Shipped',
-  //     value: 'Shipped',
-  //   },
-  //   {
-  //     label: 'Delivered',
-  //     value: 'Delivered',
-  //   },
-  //   {
-  //     label: 'Cancelled',
-  //     value: 'Cancelled',
-  //   },
-  // ];
 
   navigationItems: MenuItem[] = [
     {
@@ -136,13 +106,4 @@ export class Orders {
     this.orderToView.set(order);
     this.showOrderToViewDialog.set(true);
   }
-
-  // filterByOrderStatus(): void {
-  //   this._loadOrders({
-  //     pageNumber: this.DEFAULT_PAGE_NUMBER,
-  //     pageSize: this.pageSize(),
-  //     orderId: this.searchByOrderId(),
-  //     orderStatus: this.selectedOrderStatus()?.value,
-  //   });
-  // }
 }

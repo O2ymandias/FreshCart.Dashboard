@@ -18,9 +18,6 @@ export class OrdersSort {
   private readonly _ordersService = inject(OrderService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  pageSize = this._ordersService.pageSize;
-  searchByOrderId = this._ordersService.searchByOrderId;
-
   selectedSortOption = this._ordersService.selectedSortOption;
   sortOptions: OrderSortOption[] = [
     {
@@ -54,25 +51,21 @@ export class OrdersSort {
   ];
 
   sort(): void {
+    // Reset to first page BUT keep the current page size.
+
     const sortOption = this.selectedSortOption();
     if (!sortOption) {
       this._loadOrders({
         pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
-        pageSize: this.pageSize(),
-        orderId: this.searchByOrderId(),
+        pageSize: this._ordersService.pageSize(),
       });
       return;
     }
 
-    const { key, dir } = sortOption.value;
-
-    // Reset to first page BUT keep the current page size.
-    // Keep the current search query.
     this._loadOrders({
       pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
-      pageSize: this.pageSize(),
-      orderId: this.searchByOrderId(),
-      sort: { key, dir },
+      pageSize: this._ordersService.pageSize(),
+      sort: sortOption.value,
     });
   }
 

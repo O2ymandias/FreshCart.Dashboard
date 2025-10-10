@@ -36,7 +36,7 @@ export class OrderService {
   totalRecords = signal(0);
 
   // SearchById
-  searchByOrderId = signal<number | undefined>(undefined);
+  // searchByOrderId = signal<number | undefined>(undefined);
 
   // Sort
   selectedSortOption = signal<OrderSortOption | undefined>(undefined);
@@ -106,7 +106,7 @@ export class OrderService {
     this.pageSize.set(this.DEFAULT_PAGE_SIZE);
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.totalRecords.set(0);
-    this.searchByOrderId.set(undefined);
+    // this.searchByOrderId.set(undefined);
     this.selectedSortOption.set(undefined);
     return this.getOrders$({
       pageNumber: this.DEFAULT_PAGE_NUMBER,
