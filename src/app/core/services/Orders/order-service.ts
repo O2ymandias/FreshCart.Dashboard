@@ -1,3 +1,8 @@
+import {
+  OrderStatusOption,
+  PaymentMethodOption,
+  PaymentStatusOption,
+} from './../../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
@@ -30,16 +35,18 @@ export class OrderService {
   pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
   totalRecords = signal(0);
 
-  // Search
+  // SearchById
   searchByOrderId = signal<number | undefined>(undefined);
 
   // Sort
   selectedSortOption = signal<OrderSortOption | undefined>(undefined);
 
-  ordersQueryOptions = signal<OrdersQueryOptions>({
-    pageNumber: this.DEFAULT_PAGE_NUMBER,
-    pageSize: this.DEFAULT_PAGE_SIZE,
-  });
+  // Filtration
+  orderStatusOption = signal<OrderStatusOption | undefined>(undefined);
+  paymentStatusOption = signal<PaymentStatusOption | undefined>(undefined);
+  paymentMethodOption = signal<PaymentMethodOption | undefined>(undefined);
+  minSubTotal = signal<number | undefined>(undefined);
+  maxSubTotal = signal<number | undefined>(undefined);
 
   getOrders$(options: OrdersQueryOptions) {
     const url = `${environment.apiUrl}/orders`;

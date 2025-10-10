@@ -36,7 +36,7 @@ export class FiltrationDrawer {
 
   visible = signal(false);
 
-  orderStatus = signal<OrderStatusOption | undefined>(undefined);
+  orderStatusOption = this._ordersService.orderStatusOption;
   OrderStatusOptions: OrderStatusOption[] = [
     {
       label: 'Pending',
@@ -60,7 +60,7 @@ export class FiltrationDrawer {
     },
   ];
 
-  paymentStatus = signal<PaymentStatusOption | undefined>(undefined);
+  paymentStatusOption = this._ordersService.paymentStatusOption;
   PaymentStatusOptions: PaymentStatusOption[] = [
     {
       label: 'Pending',
@@ -80,7 +80,7 @@ export class FiltrationDrawer {
     },
   ];
 
-  paymentMethod = signal<PaymentMethodOption | undefined>(undefined);
+  paymentMethodOption = this._ordersService.paymentMethodOption;
   PaymentMethodOptions: PaymentMethodOption[] = [
     {
       label: 'Cash',
@@ -97,9 +97,9 @@ export class FiltrationDrawer {
 
   noFilters = computed(
     () =>
-      !this.orderStatus() &&
-      !this.paymentStatus() &&
-      !this.paymentMethod() &&
+      !this.orderStatusOption() &&
+      !this.paymentStatusOption() &&
+      !this.paymentMethodOption() &&
       !this.minSubTotal() &&
       !this.maxSubTotal(),
   );
@@ -113,9 +113,9 @@ export class FiltrationDrawer {
     const query: OrdersQueryOptions = {
       pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
       pageSize: this._ordersService.pageSize(),
-      orderStatus: this.orderStatus()?.value,
-      paymentStatus: this.paymentStatus()?.value,
-      paymentMethod: this.paymentMethod()?.value,
+      orderStatus: this.orderStatusOption()?.value,
+      paymentStatus: this.paymentStatusOption()?.value,
+      paymentMethod: this.paymentMethodOption()?.value,
       minSubTotal: this.minSubTotal(),
       maxSubTotal: this.maxSubTotal(),
     };
@@ -131,9 +131,9 @@ export class FiltrationDrawer {
   }
 
   clearFilters() {
-    this.orderStatus.set(undefined);
-    this.paymentStatus.set(undefined);
-    this.paymentMethod.set(undefined);
+    this.orderStatusOption.set(undefined);
+    this.paymentStatusOption.set(undefined);
+    this.paymentMethodOption.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);
   }

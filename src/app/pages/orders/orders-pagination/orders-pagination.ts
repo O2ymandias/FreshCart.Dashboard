@@ -3,6 +3,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { OrderService } from '../../../core/services/Orders/order-service';
 import { ToasterService } from '../../../core/services/toaster-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OrdersQueryOptions } from '../../../shared/models/orders-model';
 
 @Component({
   selector: 'app-orders-pagination',
@@ -19,15 +20,26 @@ export class OrdersPagination {
   orders = this._ordersService.orders;
 
   // Search
-  searchByOrderId = this._ordersService.searchByOrderId;
+  // searchByOrderId = this._ordersService.searchByOrderId;
 
   // Sort
-  selectedSortOption = this._ordersService.selectedSortOption;
+  sort = computed(() => this._ordersService.selectedSortOption()?.value);
 
   // Pagination
   pageSize = this._ordersService.pageSize;
   pageNumber = this._ordersService.pageNumber;
   totalRecords = this._ordersService.totalRecords;
+
+  // Filtration
+  orderStatus = computed(() => this._ordersService.orderStatusOption()?.value);
+  paymentStatus = computed(
+    () => this._ordersService.paymentStatusOption()?.value,
+  );
+  paymentMethod = computed(
+    () => this._ordersService.paymentMethodOption()?.value,
+  );
+  minSubTotal = this._ordersService.minSubTotal;
+  maxSubTotal = this._ordersService.maxSubTotal;
 
   first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
   rowsPerPageOptions = [
@@ -38,6 +50,7 @@ export class OrdersPagination {
   ];
 
   onPageChange(event: PaginatorState): void {
+    // Set the page number and page size
     let pageNumber = this._ordersService.DEFAULT_PAGE_NUMBER;
     if (event.page) pageNumber = event.page + 1; // event.page is zero-based
     const pageSize = event.rows ?? this._ordersService.DEFAULT_PAGE_SIZE;
@@ -45,42 +58,25 @@ export class OrdersPagination {
     this.pageNumber.set(pageNumber);
     this.pageSize.set(pageSize);
 
+    const query: OrdersQueryOptions = {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+    };
+
     // Considers:
-    // [1] searchByOrderId
-    const orderId = this.searchByOrderId();
+    // [1] filtration
+    query.orderStatus = this.orderStatus();
+    query.paymentStatus = this.paymentStatus();
+    query.paymentMethod = this.paymentMethod();
+    query.minSubTotal = this.minSubTotal();
+    query.maxSubTotal = this.maxSubTotal();
 
     // [2] sort options
-    const sortOption = this.selectedSortOption();
-    const sort = sortOption
-      ? { key: sortOption.value.key, dir: sortOption.value.dir }
-      : undefined;
+    query.sort = this.sort();
 
     this._ordersService
-      .getOrders$({ pageNumber, pageSize, orderId, sort })
+      .getOrders$(query)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
   }
-
-  // private _loadOrders(options: OrdersQueryOptions): void {
-  //   this._ordersService
-  //     .getOrders$(options)
-  //     .pipe(
-  //       tap((res) => {
-  //         this.orders.set(res.results);
-  //         this.pageNumber.set(res.pageNumber);
-  //         this.pageSize.set(res.pageSize);
-  //         this.totalRecords.set(res.total);
-  //       }),
-  //       catchError((err: HttpErrorResponse) => {
-  //         let errorMessage = err.message;
-  //         if (err.error.errors) {
-  //           errorMessage = err.error.errors.join(', ');
-  //         }
-  //         this._toasterService.error(errorMessage);
-  //         return throwError(() => err);
-  //       }),
-  //       takeUntilDestroyed(this._destroyRef),
-  //     )
-  //     .subscribe();
-  // }
 }
