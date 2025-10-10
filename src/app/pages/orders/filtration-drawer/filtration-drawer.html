@@ -6,67 +6,117 @@
   (click)="visible.set(true)"
 />
 <p-drawer header="Advanced Filter" [(visible)]="visible" position="right">
-  <div class="flex flex-col gap-4">
-    <!-- Order Status -->
-    <div class="flex flex-col gap-1">
-      <label
-        class="opacity-75"
-        for="orderStatus"
-        (click)="orderStatusElement.show()"
-      >
-        Order Status</label
-      >
-      <p-select
-        #orderStatusElement
-        class="w-full"
-        [options]="OrderStatusOptions"
-        [(ngModel)]="orderStatus"
-        [showClear]="true"
-        placeholder="None"
-        optionLabel="label"
-        (onChange)="filter()"
-      />
+  <div class="space-y-4">
+    <!-- Filters -->
+    <div class="flex flex-col gap-4">
+      <!-- Order Status -->
+      <div class="flex flex-col gap-1">
+        <label
+          class="opacity-75"
+          for="orderStatus"
+          (click)="orderStatusElement.show()"
+        >
+          Order Status</label
+        >
+        <p-select
+          #orderStatusElement
+          class="w-full"
+          [options]="OrderStatusOptions"
+          [(ngModel)]="orderStatus"
+          [showClear]="true"
+          placeholder="None"
+          optionLabel="label"
+        />
+      </div>
+
+      <!-- Payment Status -->
+      <div class="flex flex-col gap-1">
+        <label
+          class="opacity-75"
+          for="paymentStatus"
+          (click)="paymentStatusElement.show()"
+        >
+          Payment Status</label
+        >
+        <p-select
+          #paymentStatusElement
+          class="w-full"
+          [options]="PaymentStatusOptions"
+          [(ngModel)]="paymentStatus"
+          [showClear]="true"
+          placeholder="None"
+          optionLabel="label"
+        />
+      </div>
+
+      <!-- Payment Status -->
+      <div class="flex flex-col gap-1">
+        <label
+          class="opacity-75"
+          for="paymentMethod"
+          (click)="paymentMethodElement.show()"
+        >
+          Payment Method</label
+        >
+        <p-select
+          #paymentMethodElement
+          class="w-full"
+          [options]="PaymentMethodOptions"
+          [(ngModel)]="paymentMethod"
+          [showClear]="true"
+          placeholder="None"
+          optionLabel="label"
+        />
+      </div>
+
+      <!-- Min Subtotal -->
+      <div class="flex flex-col gap-1">
+        <label class="opacity-75" for="minSubTotal">Min Subtotal</label>
+        <p-inputnumber
+          inputId="minSubTotal"
+          [(ngModel)]="minSubTotal"
+          mode="decimal"
+          [useGrouping]="false"
+          class="w-full"
+          [showButtons]="true"
+          placeholder="None"
+          [min]="1"
+        />
+      </div>
+
+      <!-- Max Subtotal -->
+      <div class="flex flex-col gap-1">
+        <label class="opacity-75" for="maxSubTotal">Max Subtotal</label>
+        <p-inputnumber
+          inputId="maxSubTotal"
+          [(ngModel)]="maxSubTotal"
+          mode="decimal"
+          [useGrouping]="false"
+          class="w-full"
+          [showButtons]="true"
+          placeholder="None"
+          [min]="1"
+        />
+      </div>
     </div>
 
-    <!-- Payment Status -->
-    <div class="flex flex-col gap-1">
-      <label
-        class="opacity-75"
-        for="paymentStatus"
-        (click)="paymentStatusElement.show()"
-      >
-        Payment Status</label
-      >
-      <p-select
-        #paymentStatusElement
-        class="w-full"
-        [options]="PaymentStatusOptions"
-        [(ngModel)]="paymentStatus"
-        [showClear]="true"
-        placeholder="None"
-        optionLabel="label"
-        (onChange)="filter()"
+    <!-- Buttons -->
+    <div class="flex items-center justify-between gap-2">
+      <p-button
+        label="Apply"
+        severity="primary"
+        icon="pi pi-check"
+        size="small"
+        [loading]="loading()"
+        [disabled]="noFilters()"
+        (onClick)="applyFilters()"
       />
-    </div>
-
-    <!-- Payment Status -->
-    <div class="flex flex-col gap-1">
-      <label
-        class="opacity-75"
-        for="paymentMethod"
-        (click)="paymentMethodElement.show()"
-      >
-        Payment Method</label
-      >
-      <p-select
-        #paymentMethodElement
-        class="w-full"
-        [options]="PaymentMethodOptions"
-        [(ngModel)]="paymentMethod"
-        [showClear]="true"
-        placeholder="None"
-        optionLabel="label"
-        (onChange)="filter()"
+      <p-button
+        label="Clear"
+        severity="secondary"
+        icon="pi pi-times"
+        size="small"
+        (onClick)="clearFilters()"
       />
     </div>
   </div>

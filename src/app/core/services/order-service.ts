@@ -63,6 +63,12 @@ export class OrderService {
     if (options.paymentMethod)
       params = params.append('paymentMethod', options.paymentMethod);
 
+    if (options.minSubTotal)
+      params = params.append('minSubTotal', options.minSubTotal.toString());
+
+    if (options.maxSubTotal)
+      params = params.append('maxSubTotal', options.maxSubTotal.toString());
+
     return this._httpClient.get<OrderResponse>(url, { params }).pipe(
       tap((res) => {
         this.orders.set(res.results);

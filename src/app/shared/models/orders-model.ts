@@ -12,6 +12,8 @@ export type OrdersQueryOptions = {
   paymentStatus?: PaymentStatus;
   orderStatus?: OrderStatus;
   paymentMethod?: PaymentMethod;
+  minSubTotal?: number;
+  maxSubTotal?: number;
 };
 
 export type OrderSortKey = 'createdAt' | 'subTotal';
