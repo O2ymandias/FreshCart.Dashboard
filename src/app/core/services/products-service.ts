@@ -1,7 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
-import { ProductGalleryResult, ProductTranslationResult } from '../../shared/models/product-details.model';
+import {
+  ProductGalleryResult,
+  ProductTranslationResult,
+} from '../../shared/models/product-details.model';
 import {
   Product,
   ProductsQueryOptions,
@@ -15,6 +18,8 @@ import { SaveResult } from '../../shared/models/shared.model';
 })
 export class ProductsService {
   private readonly _httpClient = inject(HttpClient);
+  readonly DEFAULT_PAGE_NUMBER = 1;
+  readonly DEFAULT_PAGE_SIZE = 10;
 
   getProducts$(options: ProductsQueryOptions) {
     const { pageNumber, pageSize } = options;

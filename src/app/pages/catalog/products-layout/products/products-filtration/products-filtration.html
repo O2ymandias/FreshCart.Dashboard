@@ -9,72 +9,42 @@
   <div class="flex h-full flex-col justify-between gap-4">
     <!-- Filters -->
     <div class="flex flex-col gap-4">
-      <!-- Order Status -->
+      <!-- Brand -->
       <div class="flex flex-col gap-1">
-        <label
-          class="opacity-75"
-          for="orderStatus"
-          (click)="orderStatusElement.show()"
-        >
-          Order Status</label
-        >
+        <label class="opacity-75" (click)="brandElement.show()"> Brand</label>
         <p-select
-          #orderStatusElement
+          #brandElement
           class="w-full"
-          [options]="OrderStatusOptions"
-          [(ngModel)]="orderStatusOption"
+          [options]="brandsOptions()"
+          [(ngModel)]="selectedBrand"
           [showClear]="true"
           placeholder="None"
-          optionLabel="label"
+          optionLabel="name"
         />
       </div>
 
-      <!-- Payment Status -->
+      <!-- Category -->
       <div class="flex flex-col gap-1">
-        <label
-          class="opacity-75"
-          for="paymentStatus"
-          (click)="paymentStatusElement.show()"
-        >
-          Payment Status</label
+        <label class="opacity-75" (click)="categoryElement.show()">
+          Category</label
         >
         <p-select
-          #paymentStatusElement
+          #categoryElement
           class="w-full"
-          [options]="PaymentStatusOptions"
-          [(ngModel)]="paymentStatusOption"
+          [options]="categoriesOptions()"
+          [(ngModel)]="selectedCategory"
           [showClear]="true"
           placeholder="None"
-          optionLabel="label"
+          optionLabel="name"
         />
       </div>
 
-      <!-- Payment Status -->
+      <!-- Min Price -->
       <div class="flex flex-col gap-1">
-        <label
-          class="opacity-75"
-          for="paymentMethod"
-          (click)="paymentMethodElement.show()"
-        >
-          Payment Method</label
-        >
-        <p-select
-          #paymentMethodElement
-          class="w-full"
-          [options]="PaymentMethodOptions"
-          [(ngModel)]="paymentMethodOption"
-          [showClear]="true"
-          placeholder="None"
-          optionLabel="label"
-        />
-      </div>
-
-      <!-- Min Subtotal -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="minSubTotal">Min Subtotal</label>
+        <label class="opacity-75" for="minPrice">Min Price</label>
         <p-inputnumber
-          inputId="minSubTotal"
-          [(ngModel)]="minSubTotal"
+          inputId="minPrice"
+          [(ngModel)]="minPrice"
           mode="decimal"
           [useGrouping]="false"
           class="w-full"
@@ -84,12 +54,12 @@
         />
       </div>
 
-      <!-- Max Subtotal -->
+      <!-- Max Price -->
       <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="maxSubTotal">Max Subtotal</label>
+        <label class="opacity-75" for="maxPrice">Max Price</label>
         <p-inputnumber
-          inputId="maxSubTotal"
-          [(ngModel)]="maxSubTotal"
+          inputId="maxPrice"
+          [(ngModel)]="maxPrice"
           mode="decimal"
           [useGrouping]="false"
           class="w-full"
