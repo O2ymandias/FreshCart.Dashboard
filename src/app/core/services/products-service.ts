@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environment';
 import {
   ProductGalleryResult,
@@ -7,11 +7,15 @@ import {
 } from '../../shared/models/product-details.model';
 import {
   Product,
+  ProductSortOption,
   ProductsQueryOptions,
   ProductsResponse,
   UpdateProductTranslationRequest,
 } from '../../shared/models/products.model';
 import { SaveResult } from '../../shared/models/shared.model';
+import { tap } from 'rxjs';
+import { BrandOption } from '../../shared/models/brands-model';
+import { CategoryOption } from '../../shared/models/categories.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +24,25 @@ export class ProductsService {
   private readonly _httpClient = inject(HttpClient);
   readonly DEFAULT_PAGE_NUMBER = 1;
   readonly DEFAULT_PAGE_SIZE = 10;
+
+  products = signal<Product[]>([]);
+
+  // Pagination
+  pageSize = signal(this.DEFAULT_PAGE_SIZE);
+  pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
+  totalRecords = signal(0);
+
+  // search
+  searchQuery = signal('');
+
+  // sort
+  selectedSortOption = signal<ProductSortOption | undefined>(undefined);
+
+  // filtration
+  selectedBrandOption = signal<BrandOption | undefined>(undefined);
+  selectedCategoryOption = signal<CategoryOption | undefined>(undefined);
+  minPrice = signal<number | undefined>(undefined);
+  maxPrice = signal<number | undefined>(undefined);
 
   getProducts$(options: ProductsQueryOptions) {
     const { pageNumber, pageSize } = options;
@@ -37,8 +60,32 @@ export class ProductsService {
       params = params.append('sort.dir', options.sort.dir);
     }
 
+    if (options.brandId) {
+      params = params.append('brandId', options.brandId.toString());
+    }
+
+    if (options.categoryId) {
+      params = params.append('categoryId', options.categoryId.toString());
+    }
+
+    if (options.minPrice) {
+      params = params.append('minPrice', options.minPrice.toString());
+    }
+
+    if (options.maxPrice) {
+      params = params.append('maxPrice', options.maxPrice.toString());
+    }
+
     const url = `${environment.apiUrl}/products`;
-    return this._httpClient.get<ProductsResponse>(url, { params });
+
+    return this._httpClient.get<ProductsResponse>(url, { params }).pipe(
+      tap((res) => {
+        this.products.set(res.results);
+        this.pageNumber.set(res.pageNumber);
+        this.pageSize.set(res.pageSize);
+        this.totalRecords.set(res.total);
+      }),
+    );
   }
 
   getProduct$(id: number) {

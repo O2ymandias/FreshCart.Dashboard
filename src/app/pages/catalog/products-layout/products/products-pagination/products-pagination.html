@@ -1,0 +1,11 @@
+<p-paginator
+  [rows]="pageSize()"
+  [totalRecords]="totalRecords()"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  [first]="first()"
+  [showCurrentPageReport]="true"
+  [currentPageReportTemplate]="
+    'Showing {first} to {last} of {totalRecords} entries'
+  "
+  (onPageChange)="onPageChange($event)"
+/>

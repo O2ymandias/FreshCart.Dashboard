@@ -8,7 +8,7 @@ import { BrandsService } from '../../../../../core/services/brands-service';
 import { CategoriesService } from '../../../../../core/services/categories-service';
 import { BrandOption } from '../../../../../shared/models/brands-model';
 import { CategoryOption } from '../../../../../shared/models/categories.model';
-import { map, tap } from 'rxjs';
+import { finalize, map, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductsQueryOptions } from '../../../../../shared/models/products.model';
 import { ProductsService } from '../../../../../core/services/products-service';
@@ -31,23 +31,25 @@ export class ProductsFiltration implements OnInit {
   private readonly _categoriesService = inject(CategoriesService);
   private readonly _destroyRef = inject(DestroyRef);
 
+  products = this._productService.products;
+
   visible = signal(false);
 
   brandsOptions = signal<BrandOption[]>([]);
-  selectedBrand = signal<BrandOption | undefined>(undefined);
+  selectedBrandOption = this._productService.selectedBrandOption;
 
   categoriesOptions = signal<CategoryOption[]>([]);
-  selectedCategory = signal<CategoryOption | undefined>(undefined);
+  selectedCategoryOption = this._productService.selectedCategoryOption;
 
-  minPrice = signal<number | undefined>(undefined);
-  maxPrice = signal<number | undefined>(undefined);
+  minPrice = this._productService.minPrice;
+  maxPrice = this._productService.maxPrice;
 
   loading = signal(false);
 
   noFilters() {
     return (
-      !this.selectedBrand() &&
-      !this.selectedCategory() &&
+      !this.selectedBrandOption() &&
+      !this.selectedCategoryOption() &&
       !this.minPrice() &&
       !this.maxPrice()
     );
@@ -66,8 +68,8 @@ export class ProductsFiltration implements OnInit {
       pageSize: this._productService.DEFAULT_PAGE_SIZE,
     };
 
-    const brandId = this.selectedBrand()?.id;
-    const categoryId = this.selectedCategory()?.id;
+    const brandId = this.selectedBrandOption()?.id;
+    const categoryId = this.selectedCategoryOption()?.id;
     const minPrice = this.minPrice();
     const maxPrice = this.maxPrice();
 
@@ -76,21 +78,19 @@ export class ProductsFiltration implements OnInit {
     if (minPrice) query.minPrice = minPrice;
     if (maxPrice) query.maxPrice = maxPrice;
 
-    console.log(`Query: ${JSON.stringify(query)}`);
-
-    // this._productService
-    //   .getProducts$(query)
-    //   .pipe(
-    //     tap(() => this.visible.set(false)),
-    //     finalize(() => this.loading.set(false)),
-    //     takeUntilDestroyed(this._destroyRef),
-    //   )
-    //   .subscribe();
+    this._productService
+      .getProducts$(query)
+      .pipe(
+        tap(() => this.visible.set(false)),
+        finalize(() => this.loading.set(false)),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
   }
 
   clearFilters() {
-    this.selectedBrand.set(undefined);
-    this.selectedCategory.set(undefined);
+    this.selectedBrandOption.set(undefined);
+    this.selectedCategoryOption.set(undefined);
     this.minPrice.set(undefined);
     this.maxPrice.set(undefined);
   }

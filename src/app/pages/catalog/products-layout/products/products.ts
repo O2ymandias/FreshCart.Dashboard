@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
@@ -18,8 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
-import { Paginator, PaginatorState } from 'primeng/paginator';
-import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroup } from 'primeng/inputgroup';
@@ -28,14 +19,14 @@ import { Tooltip } from 'primeng/tooltip';
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
 import {
-  Product,
   ProductsQueryOptions,
   ProductSortOption,
 } from '../../../../shared/models/products.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { ProductsActions } from './products-actions/products-actions';
-import { ProductsFiltration } from "./products-filtration/products-filtration";
+import { ProductsFiltration } from './products-filtration/products-filtration';
+import { ProductsPagination } from './products-pagination/products-pagination';
 
 @Component({
   selector: 'app-products',
@@ -51,7 +42,6 @@ import { ProductsFiltration } from "./products-filtration/products-filtration";
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    Paginator,
     InputGroup,
     InputGroupAddonModule,
     Tooltip,
@@ -59,8 +49,9 @@ import { ProductsFiltration } from "./products-filtration/products-filtration";
     RouterLink,
     Breadcrumb,
     ProductsActions,
-    ProductsFiltration
-],
+    ProductsFiltration,
+    ProductsPagination,
+  ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -68,24 +59,13 @@ export class Products implements OnInit {
   private readonly _productsService = inject(ProductsService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  private readonly DEFAULT_PAGE_NUMBER = 1;
-  private readonly DEFAULT_PAGE_SIZE = 10;
-
-  products = signal<Product[]>([]);
+  products = this._productsService.products;
 
   // Search Query
-  searchQuery = signal('');
+  searchQuery = this._productsService.searchQuery;
 
-  // Pagination
-  pageSize = signal(this.DEFAULT_PAGE_SIZE);
-  pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
-  totalRecords = signal(0);
-  first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
-  rowsPerPageOptions = [
-    this.DEFAULT_PAGE_SIZE * 0.5,
-    this.DEFAULT_PAGE_SIZE * 1,
-    this.DEFAULT_PAGE_SIZE * 2,
-  ];
+  pageSize = this._productsService.pageSize;
+  pageNumber = this._productsService.pageNumber;
 
   // Sort
   sortOptions: ProductSortOption[] = [
@@ -132,7 +112,7 @@ export class Products implements OnInit {
       },
     },
   ];
-  selectedSortOption = signal<ProductSortOption | null>(null);
+  selectedSortOption = this._productsService.selectedSortOption;
 
   navigationItems: MenuItem[] = [
     {
@@ -148,56 +128,25 @@ export class Products implements OnInit {
 
   ngOnInit(): void {
     this._loadProducts({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
-      pageSize: this.DEFAULT_PAGE_SIZE,
+      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
+      pageSize: this._productsService.DEFAULT_PAGE_SIZE,
     });
   }
 
   private _loadProducts(options: ProductsQueryOptions): void {
     this._productsService
       .getProducts$(options)
-      .pipe(
-        tap((res) => {
-          this.products.set(res.results);
-          this.pageNumber.set(res.pageNumber);
-          this.pageSize.set(res.pageSize);
-          this.totalRecords.set(res.total);
-        }),
-        takeUntilDestroyed(this._destroyRef),
-      )
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
-  }
-
-  onPageChange(event: PaginatorState): void {
-    let pageNumber = this.DEFAULT_PAGE_NUMBER;
-    if (event.page) pageNumber = event.page + 1; // event.page is zero-based
-    const pageSize = event.rows ?? this.DEFAULT_PAGE_SIZE;
-
-    this.pageNumber.set(pageNumber);
-    this.pageSize.set(pageSize);
-
-    // Considers: search query and sort options
-    const search = this.searchQuery();
-    const sortOption = this.selectedSortOption();
-    const sort = sortOption
-      ? { key: sortOption.value.key, dir: sortOption.value.dir }
-      : undefined;
-
-    this._loadProducts({
-      pageNumber,
-      pageSize,
-      search,
-      sort,
-    });
   }
 
   search(): void {
     // Reset the sort option
-    this.selectedSortOption.set(null);
+    this.selectedSortOption.set(undefined);
 
     // Reset to first page BUT keep the current page size.
     this._loadProducts({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
+      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
       search: this.searchQuery(),
     });
@@ -208,12 +157,12 @@ export class Products implements OnInit {
     this.searchQuery.set('');
 
     // Reset the sort option.
-    this.selectedSortOption.set(null);
+    this.selectedSortOption.set(undefined);
 
     // Reset to first page.
     this._loadProducts({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
-      pageSize: this.DEFAULT_PAGE_SIZE,
+      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
+      pageSize: this._productsService.DEFAULT_PAGE_SIZE,
     });
   }
 
@@ -226,7 +175,7 @@ export class Products implements OnInit {
     // Reset to first page BUT keep the current page size.
     // Keep the current search query.
     this._loadProducts({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
+      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
       search: this.searchQuery(),
       sort: { key, dir },
