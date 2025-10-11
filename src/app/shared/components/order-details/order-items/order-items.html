@@ -8,13 +8,13 @@
     <div class="space-y-4">
       @for (orderItem of order().items; track orderItem) {
         <div
-          class="app-ring-1 flex items-start gap-4 rounded p-4 shadow-sm max-sm:flex-col"
+          class="bg-surface-100 dark:bg-surface-800 flex items-start gap-4 rounded-lg p-4 shadow-sm max-sm:flex-col"
         >
           <img
             [routerLink]="['/products', 'details', orderItem.productId]"
             [src]="orderItem.pictureUrl"
             [alt]="orderItem.productName"
-            class="size-20 cursor-pointer rounded object-cover duration-300 hover:brightness-75 dark:brightness-125 dark:hover:brightness-100"
+            class="size-20 cursor-pointer rounded object-cover duration-300 hover:brightness-75"
           />
           <div class="flex-1">
             <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200">

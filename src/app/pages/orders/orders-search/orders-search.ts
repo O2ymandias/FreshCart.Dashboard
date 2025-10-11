@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -23,15 +23,15 @@ export class OrdersSearch {
   private readonly _ordersService = inject(OrderService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  searchByOrderId = signal<number | undefined>(undefined);
-
+  orderId = this._ordersService.searchByOrderId;
+  
   search(): void {
     // Reset to first page BUT keep the current page size.
     this._ordersService
       .getOrders$({
         pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
         pageSize: this._ordersService.pageSize(),
-        orderId: this.searchByOrderId(),
+        orderId: this.orderId(),
       })
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();

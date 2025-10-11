@@ -36,10 +36,10 @@ export class OrderService {
   totalRecords = signal(0);
 
   // SearchById
-  // searchByOrderId = signal<number | undefined>(undefined);
+  searchByOrderId = signal<number | undefined>(undefined);
 
   // Sort
-  selectedSortOption = signal<OrderSortOption | undefined>(undefined);
+  sortOption = signal<OrderSortOption | undefined>(undefined);
 
   // Filtration
   orderStatusOption = signal<OrderStatusOption | undefined>(undefined);
@@ -101,17 +101,18 @@ export class OrderService {
     return this._httpClient.put<SaveResult>(url, requestData);
   }
 
-  reset$() {
+  reset() {
     this.orders.set([]);
     this.pageSize.set(this.DEFAULT_PAGE_SIZE);
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.totalRecords.set(0);
-    // this.searchByOrderId.set(undefined);
-    this.selectedSortOption.set(undefined);
-    return this.getOrders$({
-      pageNumber: this.DEFAULT_PAGE_NUMBER,
-      pageSize: this.DEFAULT_PAGE_SIZE,
-    });
+    this.searchByOrderId.set(undefined);
+    this.sortOption.set(undefined);
+    this.orderStatusOption.set(undefined);
+    this.paymentStatusOption.set(undefined);
+    this.paymentMethodOption.set(undefined);
+    this.minSubTotal.set(undefined);
+    this.maxSubTotal.set(undefined);
   }
 
   statusToSeverity(status: OrderStatus | PaymentStatus): string {

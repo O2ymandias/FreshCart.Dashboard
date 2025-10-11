@@ -1,7 +1,6 @@
 import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { OrderService } from '../../../core/services/Orders/order-service';
-import { ToasterService } from '../../../core/services/toaster-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrdersQueryOptions } from '../../../shared/models/orders-model';
 
@@ -13,17 +12,13 @@ import { OrdersQueryOptions } from '../../../shared/models/orders-model';
 })
 export class OrdersPagination {
   private readonly _ordersService = inject(OrderService);
-  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   // Data
   orders = this._ordersService.orders;
 
-  // Search
-  // searchByOrderId = this._ordersService.searchByOrderId;
-
   // Sort
-  sort = computed(() => this._ordersService.selectedSortOption()?.value);
+  sort = computed(() => this._ordersService.sortOption()?.value);
 
   // Pagination
   pageSize = this._ordersService.pageSize;
@@ -43,7 +38,6 @@ export class OrdersPagination {
 
   first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
   rowsPerPageOptions = [
-    2,
     this._ordersService.DEFAULT_PAGE_SIZE * 0.5,
     this._ordersService.DEFAULT_PAGE_SIZE * 1,
     this._ordersService.DEFAULT_PAGE_SIZE * 2,

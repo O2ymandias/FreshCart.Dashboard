@@ -2,6 +2,7 @@
   <p-breadcrumb [model]="navigationItems" />
 
   <p-table #dt [value]="orders()" rowHover="true" dataKey="id">
+    <!-- Caption -->
     <ng-template #caption>
       <div class="space-y-4">
         <div
@@ -36,6 +37,7 @@
       </div>
     </ng-template>
 
+    <!-- Header -->
     <ng-template #header>
       <tr>
         <th>Order ID</th>
@@ -47,6 +49,8 @@
         <th></th>
       </tr>
     </ng-template>
+
+    <!-- Body -->
     <ng-template #body let-order>
       <tr>
         <td>{{ order.orderId }}</td>
@@ -85,6 +89,7 @@
       </tr>
     </ng-template>
 
+    <!-- Footer -->
     <ng-template #footer>
       <tr>
         <td colspan="8">
@@ -95,6 +100,7 @@
   </p-table>
 </section>
 
+<!-- Order Details -->
 @let selectedOrderToView = orderToView();
 @if (selectedOrderToView) {
   <p-dialog

@@ -8,7 +8,10 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { SelectModule } from 'primeng/select';
 import { PaginatorModule } from 'primeng/paginator';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { OrderResult } from '../../shared/models/orders-model';
+import {
+  OrderResult,
+  OrdersQueryOptions,
+} from '../../shared/models/orders-model';
 import { MenuItem } from 'primeng/api';
 import { OrderStatusSelectOptions } from '../../shared/components/order-status-select-options/order-status-select-options';
 import { PaymentStatusSelectOptions } from '../../shared/components/payment-status-select-options/payment-status-select-options';
@@ -59,17 +62,6 @@ export class Orders {
   // Orders
   orders = this._ordersService.orders;
 
-  // Search Query
-  // searchByOrderId = this._ordersService.searchByOrderId;
-
-  // Pagination
-  pageSize = this._ordersService.pageSize;
-  pageNumber = this._ordersService.pageNumber;
-  totalRecords = this._ordersService.totalRecords;
-
-  // Sort
-  selectedSortOption = this._ordersService.selectedSortOption;
-
   orderToView = signal<OrderResult | null>(null);
   showOrderToViewDialog = signal(false);
 
@@ -86,24 +78,28 @@ export class Orders {
   ];
 
   ngOnInit(): void {
-    this._ordersService
-      .getOrders$({
-        pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
-        pageSize: this._ordersService.DEFAULT_PAGE_SIZE,
-      })
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe();
+    this._loadInitialOrders();
   }
 
   refresh(): void {
-    this._ordersService
-      .reset$()
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe();
+    this._ordersService.reset();
+    this._loadInitialOrders();
   }
 
   viewOrder(order: OrderResult): void {
     this.orderToView.set(order);
     this.showOrderToViewDialog.set(true);
+  }
+
+  private _loadInitialOrders(): void {
+    const options: OrdersQueryOptions = {
+      pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
+      pageSize: this._ordersService.DEFAULT_PAGE_SIZE,
+    };
+
+    this._ordersService
+      .getOrders$(options)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
   }
 }
