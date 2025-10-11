@@ -18,14 +18,13 @@ import { PaymentStatusSelectOptions } from '../../shared/components/payment-stat
 import { DialogModule } from 'primeng/dialog';
 import { OrderDetails } from '../../shared/components/order-details/order-details';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ToasterService } from '../../core/services/toaster-service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Tag } from 'primeng/tag';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { FiltrationDrawer } from './filtration-drawer/filtration-drawer';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
 import { OrdersSearch } from './orders-search/orders-search';
 import { OrdersSort } from './orders-sort/orders-sort';
+import { OrdersFiltration } from './orders-filtration/orders-filtration';
 
 @Component({
   selector: 'app-orders',
@@ -46,17 +45,16 @@ import { OrdersSort } from './orders-sort/orders-sort';
     InputNumberModule,
     Tag,
     MultiSelectModule,
-    FiltrationDrawer,
     OrdersPagination,
     OrdersSearch,
     OrdersSort,
+    OrdersFiltration,
   ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
 export class Orders {
   private readonly _ordersService = inject(OrderService);
-  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   // Orders

@@ -6,7 +6,7 @@
   (click)="visible.set(true)"
 />
 <p-drawer header="Advanced Filter" [(visible)]="visible" position="right">
-  <div class="space-y-4">
+  <div class="flex flex-col justify-between gap-4">
     <!-- Filters -->
     <div class="flex flex-col gap-4">
       <!-- Order Status -->
@@ -106,7 +106,6 @@
         label="Apply"
         severity="primary"
         icon="pi pi-check"
-        size="small"
         [loading]="loading()"
         [disabled]="noFilters()"
         (onClick)="applyFilters()"
@@ -115,7 +114,6 @@
         label="Clear"
         severity="secondary"
         icon="pi pi-times"
-        size="small"
         (onClick)="clearFilters()"
       />
     </div>

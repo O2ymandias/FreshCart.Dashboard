@@ -17,7 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { finalize, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-filtration-drawer',
+  selector: 'app-orders-filtration',
   imports: [
     DrawerModule,
     SelectModule,
@@ -27,10 +27,10 @@ import { finalize, tap } from 'rxjs';
     InputNumberModule,
     InputTextModule,
   ],
-  templateUrl: './filtration-drawer.html',
-  styleUrl: './filtration-drawer.scss',
+  templateUrl: './orders-filtration.html',
+  styleUrl: './orders-filtration.scss',
 })
-export class FiltrationDrawer {
+export class OrdersFiltration {
   private readonly _ordersService = inject(OrderService);
   private readonly _destroyRef = inject(DestroyRef);
 
