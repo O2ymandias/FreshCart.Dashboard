@@ -1,3 +1,4 @@
+import { ProductTranslationResult } from './../../../../../shared/models/product-details.model';
 import {
   Component,
   DestroyRef,
@@ -7,7 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductTranslation } from '../../../../../shared/models/product-details.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
@@ -53,7 +53,7 @@ export class EditProductTranslations implements OnInit {
 
   productId = input.required<number>();
   visible = signal(false);
-  translations = signal<IProductTranslation[]>([]);
+  translations = signal<ProductTranslationResult[]>([]);
   translationsKeys = signal<LanguageCode[]>([]);
   selectedKey = signal<LanguageCode | null>(null);
 

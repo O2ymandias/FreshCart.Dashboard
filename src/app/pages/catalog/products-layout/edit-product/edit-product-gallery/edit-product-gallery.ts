@@ -9,7 +9,7 @@ import {
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductGallery } from '../../../../../shared/models/product-details.model';
+import { ProductGalleryResult } from '../../../../../shared/models/product-details.model';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../../../environment';
@@ -28,7 +28,7 @@ export class EditProductGallery implements OnInit {
 
   productId = input.required<number>();
   visible = signal(false);
-  gallery = signal<IProductGallery[]>([]);
+  gallery = signal<ProductGalleryResult[]>([]);
 
   ngOnInit(): void {
     this.refreshGallery();

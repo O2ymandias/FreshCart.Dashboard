@@ -1,6 +1,6 @@
 import { SortDirection, LanguageCode } from './shared.model';
 
-export interface IProductsQueryOptions {
+export type ProductsQueryOptions = {
   pageNumber: number;
   pageSize: number;
   search?: string;
@@ -8,29 +8,35 @@ export interface IProductsQueryOptions {
     key: ProductSortKey;
     dir: SortDirection;
   };
-}
+  brandId?: number;
+  categoryId?: number;
+  maxPrice?: number;
+  minPrice?: number;
+};
 
-export interface IProductsResponse {
+export type ProductsResponse = {
   pageSize: number;
   pageNumber: number;
   total: number;
   pages: number;
   hasNext: boolean;
   hasPrevious: boolean;
-  results: IProduct[];
-}
+  results: Product[];
+};
 
-export interface IProduct {
+export type Product = {
   id: number;
   name: string;
   description: string;
   pictureUrl: string;
   price: number;
   brand: string;
+  brandId: number;
   category: string;
+  categoryId: number;
   unitsInStock: number;
   inStock: boolean;
-}
+};
 
 export type ProductSortKey = 'name' | 'price' | 'unitsInStock';
 

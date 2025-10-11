@@ -10,12 +10,15 @@
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
               <h1 class="text-2xl font-bold">Manage Products</h1>
-              <p-button
-                rounded
-                icon="pi pi-refresh"
-                size="small"
-                (onClick)="refresh()"
-              />
+
+              <div class="flex items-center gap-2">
+                <p-button
+                  rounded
+                  icon="pi pi-refresh"
+                  size="small"
+                  (onClick)="refresh()"
+                />
+              </div>
             </div>
             <p class="opacity-75">View, update, or delete products</p>
           </div>

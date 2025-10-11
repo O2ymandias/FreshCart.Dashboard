@@ -12,9 +12,8 @@ import { Image } from 'primeng/image';
 import { ButtonModule } from 'primeng/button';
 
 import {
-  IProductDetails,
-  IProductGallery,
-  IProductTranslation,
+  ProductGalleryResult,
+  ProductTranslationResult,
 } from '../../../../shared/models/product-details.model';
 import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,6 +29,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
+import { Product } from '../../../../shared/models/products.model';
 
 @Component({
   selector: 'app-product-details',
@@ -58,10 +58,10 @@ export class ProductDetails implements OnInit {
   private readonly _router = inject(Router);
 
   id = input.required<number>();
-  productDetails = signal<IProductDetails | null>(null);
-  gallery = signal<IProductGallery[]>([]);
+  productDetails = signal<Product | null>(null);
+  gallery = signal<ProductGalleryResult[]>([]);
   averageRating = signal(0);
-  translations = signal<IProductTranslation[]>([]);
+  translations = signal<ProductTranslationResult[]>([]);
   nameTranslations = computed(() =>
     this.translations().map((t) => ({
       languageCode: t.languageCode,

@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { ProductsService } from '../../../../core/services/products-service';
 import { catchError, map, tap, throwError } from 'rxjs';
-import { IProductDetails } from '../../../../shared/models/product-details.model';
 import {
   FormControl,
   FormGroup,
@@ -36,6 +35,7 @@ import { EditProductGallery } from './edit-product-gallery/edit-product-gallery'
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { EditProductTranslations } from './edit-product-translations/edit-product-translations';
 import { FormImage } from "../../../../shared/components/form-image/form-image";
+import { Product } from '../../../../shared/models/products.model';
 
 
 @Component({
@@ -93,7 +93,7 @@ export class EditProduct implements OnInit {
   }
 
   id = input.required<number>();
-  productDetails = signal<IProductDetails | null>(null);
+  productDetails = signal<Product | null>(null);
   brandsOptions = signal<BrandOption[]>([]);
   categoriesOptions = signal<CategoryOption[]>([]);
   uploadedImage = signal<File | null>(null);

@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
-import { IProductGallery } from '../../../../../shared/models/product-details.model';
+import { ProductGalleryResult } from '../../../../../shared/models/product-details.model';
 import { ToasterService } from '../../../../../core/services/toaster-service';
 import { ProductsService } from '../../../../../core/services/products-service';
 import { tap } from 'rxjs';
@@ -26,7 +26,7 @@ export class ProductGallery implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   productId = input.required<number>();
-  gallery = signal<IProductGallery[]>([]);
+  gallery = signal<ProductGalleryResult[]>([]);
   galleryVisible = signal(false);
 
   ngOnInit(): void {

@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ProductsService } from '../../../../../core/services/products-service';
-import { IProductTranslation } from '../../../../../shared/models/product-details.model';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
@@ -20,6 +19,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FieldsetModule } from 'primeng/fieldset';
 import { LanguageCode } from '../../../../../shared/models/shared.model';
 import { CommonService } from '../../../../../core/services/common-service';
+import { ProductTranslationResult } from '../../../../../shared/models/product-details.model';
 
 @Component({
   selector: 'app-product-translations',
@@ -42,10 +42,10 @@ export class ProductTranslations implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   productId = input.required<number>();
-  translations = signal<IProductTranslation[]>([]);
+  translations = signal<ProductTranslationResult[]>([]);
   translationsKeys = signal<LanguageCode[]>([]);
   selectedOption = signal<LanguageCode | null>(null);
-  selectedTranslation = signal<IProductTranslation | null>(null);
+  selectedTranslation = signal<ProductTranslationResult | null>(null);
   visible = signal(false);
 
   ngOnInit(): void {

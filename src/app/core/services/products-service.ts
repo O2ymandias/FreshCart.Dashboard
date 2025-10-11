@@ -1,14 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environment';
+import { ProductGalleryResult, ProductTranslationResult } from '../../shared/models/product-details.model';
 import {
-  IProductDetails,
-  IProductGallery,
-  IProductTranslation,
-} from '../../shared/models/product-details.model';
-import {
-  IProductsQueryOptions,
-  IProductsResponse,
+  Product,
+  ProductsQueryOptions,
+  ProductsResponse,
   UpdateProductTranslationRequest,
 } from '../../shared/models/products.model';
 import { SaveResult } from '../../shared/models/shared.model';
@@ -19,7 +16,7 @@ import { SaveResult } from '../../shared/models/shared.model';
 export class ProductsService {
   private readonly _httpClient = inject(HttpClient);
 
-  getProducts$(options: IProductsQueryOptions) {
+  getProducts$(options: ProductsQueryOptions) {
     const { pageNumber, pageSize } = options;
 
     let params = new HttpParams()
@@ -36,17 +33,17 @@ export class ProductsService {
     }
 
     const url = `${environment.apiUrl}/products`;
-    return this._httpClient.get<IProductsResponse>(url, { params });
+    return this._httpClient.get<ProductsResponse>(url, { params });
   }
 
   getProduct$(id: number) {
     const url = `${environment.apiUrl}/products/${id}`;
-    return this._httpClient.get<IProductDetails>(url);
+    return this._httpClient.get<Product>(url);
   }
 
   getProductGallery$(id: number) {
     const url = `${environment.apiUrl}/products/gallery/${id}`;
-    return this._httpClient.get<IProductGallery[]>(url);
+    return this._httpClient.get<ProductGalleryResult[]>(url);
   }
 
   getProductAverageRating$(productId: number) {
@@ -56,7 +53,7 @@ export class ProductsService {
 
   getProductTranslations$(productId: number) {
     const url = `${environment.apiUrl}/translations/products/${productId}`;
-    return this._httpClient.get<IProductTranslation[]>(url);
+    return this._httpClient.get<ProductTranslationResult[]>(url);
   }
 
   createProduct$(formData: FormData) {

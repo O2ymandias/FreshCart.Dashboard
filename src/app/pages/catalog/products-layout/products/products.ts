@@ -28,8 +28,8 @@ import { Tooltip } from 'primeng/tooltip';
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
 import {
-  IProduct,
-  IProductsQueryOptions,
+  Product,
+  ProductsQueryOptions,
   ProductSortOption,
 } from '../../../../shared/models/products.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
@@ -69,7 +69,7 @@ export class Products implements OnInit {
   private readonly DEFAULT_PAGE_NUMBER = 1;
   private readonly DEFAULT_PAGE_SIZE = 10;
 
-  products = signal<IProduct[]>([]);
+  products = signal<Product[]>([]);
 
   // Search Query
   searchQuery = signal('');
@@ -151,7 +151,7 @@ export class Products implements OnInit {
     });
   }
 
-  private _loadProducts(options: IProductsQueryOptions): void {
+  private _loadProducts(options: ProductsQueryOptions): void {
     this._productsService
       .getProducts$(options)
       .pipe(
