@@ -7,7 +7,7 @@ import { Ripple } from 'primeng/ripple';
 
 import { Logo } from '../logo/logo';
 import { DrawerItem } from './drawer-item/drawer-item';
-import { AuthService } from '../../../core/services/Auth/auth-service';
+import { AuthService } from '../../../core/services/auth/auth-service';
 
 @Component({
   selector: 'app-nav-drawer',
