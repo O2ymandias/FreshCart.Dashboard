@@ -1,18 +1,9 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
 import { CommonModule } from '@angular/common';
-import { SelectModule } from 'primeng/select';
-import { FormsModule } from '@angular/forms';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
@@ -29,17 +20,7 @@ import { ProductsSort } from './products-sort/products-sort';
   selector: 'app-products',
   imports: [
     TableModule,
-    SelectModule,
-    ToastModule,
-    ToolbarModule,
-    InputTextModule,
-    TextareaModule,
     CommonModule,
-    InputTextModule,
-    FormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputGroupAddonModule,
     ButtonModule,
     RouterLink,
     Breadcrumb,

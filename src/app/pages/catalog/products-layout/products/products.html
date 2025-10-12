@@ -2,6 +2,7 @@
   <p-breadcrumb [model]="navigationItems" />
 
   <p-table #dt [value]="products()" rowHover="true" dataKey="id">
+    <!-- Caption -->
     <ng-template #caption>
       <div class="space-y-4">
         <div
@@ -48,6 +49,7 @@
       </div>
     </ng-template>
 
+    <!-- Header -->
     <ng-template #header>
       <tr>
         <th>Id</th>
@@ -60,6 +62,8 @@
         <th>Actions</th>
       </tr>
     </ng-template>
+
+    <!-- Body -->
     <ng-template #body let-product>
       <tr>
         <td>{{ product.id }}</td>
@@ -88,6 +92,7 @@
       </tr>
     </ng-template>
 
+    <!-- Footer -->
     <ng-template #footer>
       <tr>
         <td colspan="8">
