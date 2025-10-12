@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthService } from '../../core/services/auth/auth-service';
+import { AuthService } from '../../core/services/Auth/auth-service';
 import { ToasterService } from '../../core/services/toaster-service';
 import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

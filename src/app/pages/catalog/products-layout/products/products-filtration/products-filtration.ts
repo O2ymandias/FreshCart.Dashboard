@@ -12,6 +12,8 @@ import { finalize, map, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductsQueryOptions } from '../../../../../shared/models/products.model';
 import { ProductsService } from '../../../../../core/services/products-service';
+import { TooltipModule } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-products-filtration',
@@ -21,6 +23,8 @@ import { ProductsService } from '../../../../../core/services/products-service';
     SelectModule,
     InputNumberModule,
     FormsModule,
+    TooltipModule,
+    InputTextModule,
   ],
   templateUrl: './products-filtration.html',
   styleUrl: './products-filtration.scss',
@@ -35,6 +39,8 @@ export class ProductsFiltration implements OnInit {
 
   visible = signal(false);
 
+  searchQuery = this._productService.searchQuery;
+
   brandsOptions = signal<BrandOption[]>([]);
   selectedBrandOption = this._productService.selectedBrandOption;
 
@@ -48,6 +54,7 @@ export class ProductsFiltration implements OnInit {
 
   noFilters() {
     return (
+      !this.searchQuery() &&
       !this.selectedBrandOption() &&
       !this.selectedCategoryOption() &&
       !this.minPrice() &&
@@ -68,11 +75,13 @@ export class ProductsFiltration implements OnInit {
       pageSize: this._productService.DEFAULT_PAGE_SIZE,
     };
 
+    const search = this.searchQuery();
     const brandId = this.selectedBrandOption()?.id;
     const categoryId = this.selectedCategoryOption()?.id;
     const minPrice = this.minPrice();
     const maxPrice = this.maxPrice();
 
+    if (search) query.search = search;
     if (brandId) query.brandId = brandId;
     if (categoryId) query.categoryId = categoryId;
     if (minPrice) query.minPrice = minPrice;

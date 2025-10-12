@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ToasterService } from '../../../core/services/toaster-service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth/auth-service';
+import { AuthService } from '../../../core/services/Auth/auth-service';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

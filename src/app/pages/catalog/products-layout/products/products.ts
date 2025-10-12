@@ -13,8 +13,6 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputGroup } from 'primeng/inputgroup';
-import { Tooltip } from 'primeng/tooltip';
 
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
@@ -27,6 +25,7 @@ import { MenuItem } from 'primeng/api';
 import { ProductsActions } from './products-actions/products-actions';
 import { ProductsFiltration } from './products-filtration/products-filtration';
 import { ProductsPagination } from './products-pagination/products-pagination';
+import { ProductsSearch } from './products-search/products-search';
 
 @Component({
   selector: 'app-products',
@@ -42,15 +41,14 @@ import { ProductsPagination } from './products-pagination/products-pagination';
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    InputGroup,
     InputGroupAddonModule,
-    Tooltip,
     ButtonModule,
     RouterLink,
     Breadcrumb,
     ProductsActions,
     ProductsFiltration,
     ProductsPagination,
+    ProductsSearch,
   ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
@@ -60,9 +58,6 @@ export class Products implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   products = this._productsService.products;
-
-  // Search Query
-  searchQuery = this._productsService.searchQuery;
 
   pageSize = this._productsService.pageSize;
   pageNumber = this._productsService.pageNumber;
@@ -140,24 +135,8 @@ export class Products implements OnInit {
       .subscribe();
   }
 
-  search(): void {
-    // Reset the sort option
-    this.selectedSortOption.set(undefined);
-
-    // Reset to first page BUT keep the current page size.
-    this._loadProducts({
-      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
-      pageSize: this.pageSize(),
-      search: this.searchQuery(),
-    });
-  }
-
   refresh(): void {
-    // Reset the search query.
-    this.searchQuery.set('');
-
-    // Reset the sort option.
-    this.selectedSortOption.set(undefined);
+    this._productsService.reset();
 
     // Reset to first page.
     this._loadProducts({
@@ -177,7 +156,7 @@ export class Products implements OnInit {
     this._loadProducts({
       pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
       pageSize: this.pageSize(),
-      search: this.searchQuery(),
+      // search: this.searchQuery(),
       sort: { key, dir },
     });
   }

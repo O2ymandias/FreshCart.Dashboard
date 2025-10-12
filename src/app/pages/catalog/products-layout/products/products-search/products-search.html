@@ -1,0 +1,20 @@
+<p-inputgroup class="w-full">
+  <input
+    type="search"
+    pInputText
+    pTooltip="By Id, Name, Description, Category or Brand"
+    tooltipPosition="top"
+    tooltipEvent="focus"
+    placeholder="Search products"
+    [(ngModel)]="searchQuery"
+    (keyup.enter)="search()"
+  />
+  <p-inputgroup-addon>
+    <p-button
+      icon="pi pi-search"
+      severity="secondary"
+      variant="text"
+      (onClick)="search()"
+    />
+  </p-inputgroup-addon>
+</p-inputgroup>

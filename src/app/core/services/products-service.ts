@@ -140,4 +140,16 @@ export class ProductsService {
     const url = `${environment.apiUrl}/products/${productId}`;
     return this._httpClient.delete<SaveResult>(url);
   }
+
+  reset() {
+    this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
+    this.pageSize.set(this.DEFAULT_PAGE_SIZE);
+    this.totalRecords.set(0);
+    this.searchQuery.set('');
+    this.selectedSortOption.set(undefined);
+    this.selectedBrandOption.set(undefined);
+    this.selectedCategoryOption.set(undefined);
+    this.minPrice.set(undefined);
+    this.maxPrice.set(undefined);
+  }
 }
