@@ -16,16 +16,14 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products-service';
-import {
-  ProductsQueryOptions,
-  ProductSortOption,
-} from '../../../../shared/models/products.model';
+import { ProductsQueryOptions } from '../../../../shared/models/products.model';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { ProductsActions } from './products-actions/products-actions';
 import { ProductsFiltration } from './products-filtration/products-filtration';
 import { ProductsPagination } from './products-pagination/products-pagination';
 import { ProductsSearch } from './products-search/products-search';
+import { ProductsSort } from './products-sort/products-sort';
 
 @Component({
   selector: 'app-products',
@@ -49,6 +47,7 @@ import { ProductsSearch } from './products-search/products-search';
     ProductsFiltration,
     ProductsPagination,
     ProductsSearch,
+    ProductsSort,
   ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
@@ -58,56 +57,6 @@ export class Products implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   products = this._productsService.products;
-
-  pageSize = this._productsService.pageSize;
-  pageNumber = this._productsService.pageNumber;
-
-  // Sort
-  sortOptions: ProductSortOption[] = [
-    {
-      label: 'Name: A to Z',
-      value: {
-        key: 'name',
-        dir: 'asc',
-      },
-    },
-    {
-      label: 'Name: Z to A',
-      value: {
-        key: 'name',
-        dir: 'desc',
-      },
-    },
-    {
-      label: 'Price: High to Low',
-      value: {
-        key: 'price',
-        dir: 'desc',
-      },
-    },
-    {
-      label: 'Price: Low to High',
-      value: {
-        key: 'price',
-        dir: 'asc',
-      },
-    },
-    {
-      label: 'Stock: Low to High',
-      value: {
-        key: 'unitsInStock',
-        dir: 'asc',
-      },
-    },
-    {
-      label: 'Stock: High to Low',
-      value: {
-        key: 'unitsInStock',
-        dir: 'desc',
-      },
-    },
-  ];
-  selectedSortOption = this._productsService.selectedSortOption;
 
   navigationItems: MenuItem[] = [
     {
@@ -128,13 +77,6 @@ export class Products implements OnInit {
     });
   }
 
-  private _loadProducts(options: ProductsQueryOptions): void {
-    this._productsService
-      .getProducts$(options)
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe();
-  }
-
   refresh(): void {
     this._productsService.reset();
 
@@ -145,19 +87,10 @@ export class Products implements OnInit {
     });
   }
 
-  sort(): void {
-    const sortOption = this.selectedSortOption();
-    if (!sortOption) return;
-
-    const { key, dir } = sortOption.value;
-
-    // Reset to first page BUT keep the current page size.
-    // Keep the current search query.
-    this._loadProducts({
-      pageNumber: this._productsService.DEFAULT_PAGE_NUMBER,
-      pageSize: this.pageSize(),
-      // search: this.searchQuery(),
-      sort: { key, dir },
-    });
+  private _loadProducts(options: ProductsQueryOptions): void {
+    this._productsService
+      .getProducts$(options)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
   }
 }
