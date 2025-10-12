@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { ThemeController } from './theme-controller/theme-controller';
 import { NavDrawer } from './nav-drawer/nav-drawer';
 import { Logo } from './logo/logo';
-import { AuthService } from '../../core/services/Auth/auth-service';
+import { AuthService } from '../../core/services/auth/auth-service';
 import { Logout } from './logout/logout';
 @Component({
   selector: 'app-navbar',

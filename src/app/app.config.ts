@@ -27,7 +27,7 @@ import {
 } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { attachTokenInterceptor } from './core/interceptors/attach-token-interceptor';
-import { appAuthInitialize } from './core/services/Auth/app-auth-initializer';
+import { appAuthInitialize } from './core/services/auth/app-auth-initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
