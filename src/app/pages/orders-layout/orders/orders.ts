@@ -12,7 +12,6 @@ import { ConfirmationService, MenuItem } from 'primeng/api';
 import { OrderStatusSelectOptions } from '../../../shared/components/order-status-select-options/order-status-select-options';
 import { PaymentStatusSelectOptions } from '../../../shared/components/payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
-import { OrderDetails } from '../../../shared/components/order-details/order-details';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tag } from 'primeng/tag';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
@@ -35,7 +34,6 @@ import { HttpErrorResponse } from '@angular/common/http';
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
     DialogModule,
-    OrderDetails,
     Tag,
     OrdersPagination,
     OrdersSearch,

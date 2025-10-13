@@ -1,16 +1,21 @@
-<!-- Shipping Info -->
-<section class="space-y-2">
-  <h3 class="text-lg font-semibold">Shipping Information</h3>
-  <div class="app-ring-1 rounded-lg px-6 py-4">
+<p-fieldset legend="Shipping Information" [toggleable]="true">
+  <div class="px-4 py-2">
     <div class="grid gap-4 sm:grid-cols-2">
+      <!-- Customer Name -->
       <div class="flex flex-col gap-1">
-        <p class="font-semibold">Customer Name</p>
-        <p class="text-sm opacity-75">
-          {{ order().shippingAddress.recipientName }}
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-user text-blue-500"></i>
+          Customer Name
         </p>
+        <p class="opacity-75">{{ order().shippingAddress.recipientName }}</p>
       </div>
+
+      <!-- Payment Method -->
       <div class="flex flex-col gap-1">
-        <p class="font-semibold">Payment Method</p>
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-credit-card text-purple-500"></i>
+          Payment Method
+        </p>
         <p-tag
           [value]="order().paymentMethod"
           severity="secondary"
@@ -18,8 +23,12 @@
         />
       </div>
 
+      <!-- Payment Status -->
       <div class="flex flex-col gap-1">
-        <p class="font-semibold">Payment Status</p>
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-wallet text-green-500"></i>
+          Payment Status
+        </p>
         <p-tag
           [severity]="statusToSeverity(order().paymentStatus)"
           [value]="order().paymentStatus"
@@ -27,16 +36,22 @@
         />
       </div>
 
+      <!-- Phone Number -->
       <div class="flex flex-col gap-1">
-        <p class="font-semibold">Phone Number</p>
-        <p class="text-sm opacity-75">
-          {{ order().shippingAddress.phoneNumber }}
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-phone text-orange-500"></i>
+          Phone Number
         </p>
+        <p class="opacity-75">{{ order().shippingAddress.phoneNumber }}</p>
       </div>
 
+      <!-- Shipping Address -->
       <div class="flex flex-col gap-1 sm:col-span-2">
-        <p class="font-semibold">Shipping Address</p>
-        <p class="text-sm opacity-75">
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-map-marker text-red-500"></i>
+          Shipping Address
+        </p>
+        <p class="opacity-75">
           {{ order().shippingAddress.street }},
           {{ order().shippingAddress.city }},
           {{ order().shippingAddress.country }}
@@ -44,4 +59,4 @@
       </div>
     </div>
   </div>
-</section>
+</p-fieldset>

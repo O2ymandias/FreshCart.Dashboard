@@ -1,17 +1,24 @@
-<section class="space-y-2">
-  <h3 class="text-lg font-semibold">Payment Summary</h3>
-
-  <div class="app-ring-1 rounded-lg px-6 py-4">
+<p-fieldset legend="Payment Summary" [toggleable]="true">
+  <div class="px-4 py-2">
     <ul class="space-y-4">
-      <li class="flex justify-between">
-        <span class="font-semibold">Subtotal</span>
-        <span class="text-sm font-medium opacity-75">
+      <!-- Subtotal -->
+      <li class="flex items-center justify-between">
+        <span class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-shopping-cart text-blue-500"></i>
+          Subtotal
+        </span>
+        <span class="font-medium opacity-75">
           {{ order().subTotal | currency: "USD" : "symbol" : "1.2-2" }}
         </span>
       </li>
-      <li class="flex justify-between">
-        <span class="font-semibold">Shipping Cost</span>
-        <span class="text-sm font-medium opacity-75">
+
+      <!-- Shipping -->
+      <li class="flex items-center justify-between">
+        <span class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-truck text-green-500"></i>
+          Shipping Cost
+        </span>
+        <span class="font-medium opacity-75">
           {{
             order().deliveryMethodCost | currency: "USD" : "symbol" : "1.2-2"
           }}
@@ -20,12 +27,16 @@
 
       <hr class="border-gray-300 dark:border-gray-600" />
 
+      <!-- Total -->
       <li class="flex items-center justify-between text-lg">
-        <span class="font-bold"> Total </span>
-        <span class="text-primary font-semibold">
+        <span class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-wallet text-yellow-500"></i>
+          Total
+        </span>
+        <span class="text-primary text-lg font-semibold">
           {{ order().total | currency: "USD" : "symbol" : "1.2-2" }}
         </span>
       </li>
     </ul>
   </div>
-</section>
+</p-fieldset>

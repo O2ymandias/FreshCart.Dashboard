@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { OrderResult } from '../../../models/orders-model';
+import { FieldsetModule } from "primeng/fieldset";
 
 @Component({
   selector: 'app-payment-summary',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, FieldsetModule],
   templateUrl: './payment-summary.html',
   styleUrl: './payment-summary.scss',
 })

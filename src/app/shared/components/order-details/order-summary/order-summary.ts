@@ -8,10 +8,11 @@ import {
   OrderStatus,
   PaymentStatus,
 } from '../../../models/orders-model';
+import { ButtonModule } from "primeng/button";
 
 @Component({
   selector: 'app-order-summary',
-  imports: [DatePipe, CurrencyPipe, TagModule],
+  imports: [DatePipe, CurrencyPipe, TagModule, ButtonModule],
   templateUrl: './order-summary.html',
   styleUrl: './order-summary.scss',
 })

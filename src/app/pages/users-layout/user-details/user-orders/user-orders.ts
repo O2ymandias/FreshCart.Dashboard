@@ -23,7 +23,6 @@ import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderStatusSelectOptions } from '../../../../shared/components/order-status-select-options/order-status-select-options';
 import { PaymentStatusSelectOptions } from '../../../../shared/components/payment-status-select-options/payment-status-select-options';
-import { OrderDetails } from '../../../../shared/components/order-details/order-details';
 
 @Component({
   selector: 'app-user-orders',
@@ -40,7 +39,6 @@ import { OrderDetails } from '../../../../shared/components/order-details/order-
     FormsModule,
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
-    OrderDetails,
   ],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',

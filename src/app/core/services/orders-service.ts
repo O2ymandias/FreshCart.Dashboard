@@ -92,6 +92,11 @@ export class OrdersService {
     );
   }
 
+  getOrder$(orderId: number) {
+    const url = `${environment.apiUrl}/orders/${orderId}`;
+    return this._httpClient.get<OrderResult>(url);
+  }
+
   updateOrderStatus$(requestData: UpdateOrderStatusRequest) {
     const url = `${environment.apiUrl}/orders/order-status`;
     return this._httpClient.put<SaveResult>(url, requestData);
