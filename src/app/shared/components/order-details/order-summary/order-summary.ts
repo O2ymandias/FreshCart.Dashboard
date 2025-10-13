@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
-import { OrderService } from '../../../../core/services/Orders/order-service';
+import { OrderService } from '../../../../core/services/order-service';
 import {
   OrderResult,
   OrderStatus,

@@ -30,6 +30,7 @@ export type OrderResponse = {
 
 export type OrderResult = {
   orderId: number;
+  userId: string;
   orderDate: string;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;
@@ -107,4 +108,11 @@ export type PaymentStatusOption = {
 export type PaymentMethodOption = {
   label: string;
   value: PaymentMethod;
+};
+
+export type CancelOrderResult = {
+  manageToCancelOrder: boolean;
+  manageToExpireSession: boolean | null;
+  cancelMessage: string | null;
+  expireMessage: string | null;
 };

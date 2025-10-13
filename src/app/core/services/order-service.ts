@@ -1,8 +1,9 @@
 import {
+  CancelOrderResult,
   OrderStatusOption,
   PaymentMethodOption,
   PaymentStatusOption,
-} from './../../../shared/models/orders-model';
+} from '../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
@@ -14,9 +15,9 @@ import {
   PaymentStatus,
   UpdateOrderStatusRequest,
   UpdatePaymentStatusRequest,
-} from '../../../shared/models/orders-model';
-import { environment } from '../../../environment';
-import { SaveResult } from '../../../shared/models/shared.model';
+} from '../../shared/models/orders-model';
+import { environment } from '../../environment';
+import { SaveResult } from '../../shared/models/shared.model';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -99,6 +100,12 @@ export class OrderService {
   updatePaymentStatus$(requestData: UpdatePaymentStatusRequest) {
     const url = `${environment.apiUrl}/orders/payment-status`;
     return this._httpClient.put<SaveResult>(url, requestData);
+  }
+
+  cancelOrder$(orderId: number, userId: string) {
+    const url = `${environment.apiUrl}/orders/${orderId}`;
+    const params = new HttpParams().append('userId', userId);
+    return this._httpClient.delete<CancelOrderResult>(url, { params });
   }
 
   reset() {

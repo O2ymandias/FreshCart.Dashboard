@@ -79,12 +79,26 @@
           </p>
         </td>
         <td>
-          <p-button
-            icon="pi pi-search"
-            rounded
-            outlined
-            (click)="viewOrder(order)"
-          />
+          <div class="flex items-center gap-2">
+            <p-button
+              icon="pi pi-search"
+              rounded
+              outlined
+              (click)="viewOrder(order)"
+            />
+
+            @if (order.isCancellable) {
+              <p-button
+                pTooltip="Cancel Order"
+                tooltipPosition="top"
+                icon="pi pi-times"
+                severity="danger"
+                rounded
+                outlined
+                (click)="onCancelOrder($event, order)"
+              />
+            }
+          </div>
         </td>
       </tr>
     </ng-template>

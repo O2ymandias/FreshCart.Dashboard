@@ -1,30 +1,28 @@
-import { OrderService } from '../../core/services/Orders/order-service';
+import { OrderService } from '../../core/services/order-service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { SelectModule } from 'primeng/select';
-import { PaginatorModule } from 'primeng/paginator';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   OrderResult,
   OrdersQueryOptions,
 } from '../../shared/models/orders-model';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { OrderStatusSelectOptions } from '../../shared/components/order-status-select-options/order-status-select-options';
 import { PaymentStatusSelectOptions } from '../../shared/components/payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
 import { OrderDetails } from '../../shared/components/order-details/order-details';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { Tag } from 'primeng/tag';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
 import { OrdersSearch } from './orders-search/orders-search';
 import { OrdersSort } from './orders-sort/orders-sort';
 import { OrdersFiltration } from './orders-filtration/orders-filtration';
+import { TooltipModule } from 'primeng/tooltip';
+import { ToasterService } from '../../core/services/toaster-service';
+import { catchError, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-orders',
@@ -32,29 +30,26 @@ import { OrdersFiltration } from './orders-filtration/orders-filtration';
     BreadcrumbModule,
     TableModule,
     ButtonModule,
-    FormsModule,
-    SelectModule,
-    InputGroupAddonModule,
-    PaginatorModule,
     CurrencyPipe,
     DatePipe,
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
     DialogModule,
     OrderDetails,
-    InputNumberModule,
     Tag,
-    MultiSelectModule,
     OrdersPagination,
     OrdersSearch,
     OrdersSort,
     OrdersFiltration,
+    TooltipModule,
   ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
 export class Orders {
   private readonly _ordersService = inject(OrderService);
+  private readonly _confirmationService = inject(ConfirmationService);
+  private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   // Orders
@@ -98,6 +93,67 @@ export class Orders {
     this._ordersService
       .getOrders$(options)
       .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe();
+  }
+
+  onCancelOrder(event: Event, order: OrderResult): void {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: `Do you want to cancel this order #${order.orderId} ?`,
+      header: 'Cancel Order',
+      icon: 'pi pi-info-circle',
+
+      rejectButtonProps: {
+        label: 'Hide',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Cancel Order',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.cancelOrder(order);
+      },
+    });
+  }
+
+  cancelOrder(order: OrderResult): void {
+    this._ordersService
+      .cancelOrder$(order.orderId, order.userId)
+      .pipe(
+        tap((res) => {
+          if (res.manageToCancelOrder) {
+            this._toasterService.success(
+              res.cancelMessage ?? 'Order cancelled successfully',
+            );
+          } else {
+            this._toasterService.error(
+              res.cancelMessage ?? 'Order cancelled failed',
+            );
+          }
+
+          if (res.manageToExpireSession) {
+            this._toasterService.success(
+              res.expireMessage ?? 'Session expired successfully',
+            );
+          } else {
+            this._toasterService.error(
+              res.expireMessage ?? 'Session expired failed',
+            );
+          }
+
+          this.refresh();
+        }),
+
+        catchError((err: HttpErrorResponse) => {
+          this._toasterService.error(err.error.message);
+          return throwError(() => err);
+        }),
+
+        takeUntilDestroyed(this._destroyRef),
+      )
       .subscribe();
   }
 }

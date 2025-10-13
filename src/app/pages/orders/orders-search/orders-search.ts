@@ -4,7 +4,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { OrderService } from '../../../core/services/Orders/order-service';
+import { OrderService } from '../../../core/services/order-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -24,7 +24,7 @@ export class OrdersSearch {
   private readonly _destroyRef = inject(DestroyRef);
 
   orderId = this._ordersService.searchByOrderId;
-  
+
   search(): void {
     // Reset to first page BUT keep the current page size.
     this._ordersService
