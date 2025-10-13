@@ -1,4 +1,4 @@
-import { OrderService } from '../../core/services/order-service';
+import { OrderService } from '../../../core/services/order-service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';
@@ -7,12 +7,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   OrderResult,
   OrdersQueryOptions,
-} from '../../shared/models/orders-model';
+} from '../../../shared/models/orders-model';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { OrderStatusSelectOptions } from '../../shared/components/order-status-select-options/order-status-select-options';
-import { PaymentStatusSelectOptions } from '../../shared/components/payment-status-select-options/payment-status-select-options';
+import { OrderStatusSelectOptions } from '../../../shared/components/order-status-select-options/order-status-select-options';
+import { PaymentStatusSelectOptions } from '../../../shared/components/payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
-import { OrderDetails } from '../../shared/components/order-details/order-details';
+import { OrderDetails } from '../../../shared/components/order-details/order-details';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tag } from 'primeng/tag';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
@@ -20,7 +20,7 @@ import { OrdersSearch } from './orders-search/orders-search';
 import { OrdersSort } from './orders-sort/orders-sort';
 import { OrdersFiltration } from './orders-filtration/orders-filtration';
 import { TooltipModule } from 'primeng/tooltip';
-import { ToasterService } from '../../core/services/toaster-service';
+import { ToasterService } from '../../../core/services/toaster-service';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 

@@ -1,12 +1,12 @@
 import { FormsModule } from '@angular/forms';
 import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { SelectModule } from 'primeng/select';
-import { OrderService } from '../../../core/services/order-service';
+import { OrderService } from '../../../../core/services/order-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   OrderSortOption,
   OrdersQueryOptions,
-} from '../../../shared/models/orders-model';
+} from '../../../../shared/models/orders-model';
 
 @Component({
   selector: 'app-orders-sort',

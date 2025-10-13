@@ -6,11 +6,11 @@ import {
   OrderStatusOption,
   PaymentMethodOption,
   PaymentStatusOption,
-} from '../../../shared/models/orders-model';
+} from '../../../../shared/models/orders-model';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { OrderService } from '../../../core/services/order-service';
+import { OrderService } from '../../../../core/services/order-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';

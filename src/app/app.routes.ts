@@ -22,7 +22,8 @@ import { UsersLayout } from './pages/users-layout/users-layout';
 import { Login } from './pages/login/login';
 import { authGuard } from './core/guards/auth-guard';
 import { nonAuthGuard } from './core/guards/non-auth-guard';
-import { Orders } from './pages/orders/orders';
+import { OrdersLayout } from './pages/orders-layout/orders-layout';
+import { Orders } from './pages/orders-layout/orders/orders';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -132,9 +133,15 @@ export const routes: Routes = [
   },
   {
     path: 'orders',
-    component: Orders,
-    title: 'Orders',
+    component: OrdersLayout,
     canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: Orders,
+        title: 'Orders',
+      },
+    ],
   },
   {
     path: 'login',
