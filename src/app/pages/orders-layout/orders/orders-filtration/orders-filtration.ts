@@ -10,7 +10,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrdersService } from '../../../../core/services/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -31,7 +31,7 @@ import { finalize, tap } from 'rxjs';
   styleUrl: './orders-filtration.scss',
 })
 export class OrdersFiltration {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _destroyRef = inject(DestroyRef);
 
   visible = signal(false);

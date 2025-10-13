@@ -8,7 +8,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrdersService } from '../../../../core/services/orders-service';
 import { OrderResult } from '../../../../shared/models/orders-model';
 import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
@@ -46,7 +46,7 @@ import { OrderDetails } from '../../../../shared/components/order-details/order-
   styleUrl: './user-orders.scss',
 })
 export class UserOrders {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _destroyRef = inject(DestroyRef);
   private readonly _platformId = inject(PLATFORM_ID);
   readonly DEFAULT_PAGE_NUMBER = 1;

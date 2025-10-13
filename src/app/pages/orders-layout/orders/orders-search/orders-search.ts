@@ -4,7 +4,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrdersService } from '../../../../core/services/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -20,7 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './orders-search.scss',
 })
 export class OrdersSearch {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _destroyRef = inject(DestroyRef);
 
   orderId = this._ordersService.searchByOrderId;

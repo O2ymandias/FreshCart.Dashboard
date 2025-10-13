@@ -12,7 +12,7 @@ import { SelectModule } from 'primeng/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { OrderService } from '../../../core/services/order-service';
+import { OrdersService } from '../../../core/services/orders-service';
 import { ToasterService } from '../../../core/services/toaster-service';
 import { OrderResult, OrderStatus } from '../../models/orders-model';
 
@@ -23,7 +23,7 @@ import { OrderResult, OrderStatus } from '../../models/orders-model';
   styleUrl: './order-status-select-options.scss',
 })
 export class OrderStatusSelectOptions {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 

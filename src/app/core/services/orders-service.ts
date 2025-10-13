@@ -23,7 +23,7 @@ import { tap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderService {
+export class OrdersService {
   private readonly _httpClient = inject(HttpClient);
 
   readonly DEFAULT_PAGE_NUMBER = 1;

@@ -1,7 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { SelectModule } from 'primeng/select';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrdersService } from '../../../../core/services/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   OrderSortOption,
@@ -15,7 +15,7 @@ import {
   styleUrl: './orders-sort.scss',
 })
 export class OrdersSort {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _destroyRef = inject(DestroyRef);
 
   sortOption = this._ordersService.sortOption;

@@ -1,6 +1,9 @@
 <div class="flex flex-col gap-6">
-  <app-order-summary [order]="order()" />
-  <app-order-shipping-info [order]="order()" />
-  <app-order-items [order]="order()" />
-  <app-payment-summary [order]="order()" />
+  @let orderInfo = order();
+  @if (orderInfo) {
+    <app-order-summary [order]="orderInfo" />
+    <app-order-shipping-info [order]="orderInfo" />
+    <app-order-items [order]="orderInfo" />
+    <app-payment-summary [order]="orderInfo" />
+  }
 </div>

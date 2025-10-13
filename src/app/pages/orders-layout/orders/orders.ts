@@ -1,4 +1,4 @@
-import { OrderService } from '../../../core/services/order-service';
+import { OrdersService } from '../../../core/services/orders-service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';
@@ -47,7 +47,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './orders.scss',
 })
 export class Orders {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
   private readonly _confirmationService = inject(ConfirmationService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);

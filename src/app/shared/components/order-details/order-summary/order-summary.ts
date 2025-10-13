@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
-import { OrderService } from '../../../../core/services/order-service';
+import { OrdersService } from '../../../../core/services/orders-service';
 import {
   OrderResult,
   OrderStatus,
@@ -16,7 +16,7 @@ import {
   styleUrl: './order-summary.scss',
 })
 export class OrderSummary {
-  private readonly _ordersService = inject(OrderService);
+  private readonly _ordersService = inject(OrdersService);
 
   order = input.required<OrderResult>();
 

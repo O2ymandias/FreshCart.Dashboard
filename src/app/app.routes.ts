@@ -24,6 +24,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { nonAuthGuard } from './core/guards/non-auth-guard';
 import { OrdersLayout } from './pages/orders-layout/orders-layout';
 import { Orders } from './pages/orders-layout/orders/orders';
+import { OrderDetails } from './shared/components/order-details/order-details';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -140,6 +141,11 @@ export const routes: Routes = [
         path: '',
         component: Orders,
         title: 'Orders',
+      },
+      {
+        path: 'details/:id',
+        component: OrderDetails,
+        title: 'Order Details',
       },
     ],
   },
