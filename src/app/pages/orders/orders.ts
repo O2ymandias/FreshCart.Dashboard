@@ -99,8 +99,8 @@ export class Orders {
   onCancelOrder(event: Event, order: OrderResult): void {
     this._confirmationService.confirm({
       target: event.target as EventTarget,
-      message: `Do you want to cancel this order #${order.orderId} ?`,
-      header: 'Cancel Order',
+      message: `Do you want to cancel this order?`,
+      header: `Cancel Order #${order.orderId}`,
       icon: 'pi pi-info-circle',
 
       rejectButtonProps: {
@@ -128,22 +128,7 @@ export class Orders {
             this._toasterService.success(
               res.cancelMessage ?? 'Order cancelled successfully',
             );
-          } else {
-            this._toasterService.error(
-              res.cancelMessage ?? 'Order cancelled failed',
-            );
           }
-
-          if (res.manageToExpireSession) {
-            this._toasterService.success(
-              res.expireMessage ?? 'Session expired successfully',
-            );
-          } else {
-            this._toasterService.error(
-              res.expireMessage ?? 'Session expired failed',
-            );
-          }
-
           this.refresh();
         }),
 

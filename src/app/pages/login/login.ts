@@ -13,6 +13,7 @@ import { catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NotAdminError } from '../../shared/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -54,8 +55,12 @@ export class Login {
           this._router.navigate(['/']);
           this._toasterService.success(res.message);
         }),
-        catchError((err: HttpErrorResponse) => {
-          this._toasterService.error(err.error.message);
+        catchError((err: HttpErrorResponse | NotAdminError) => {
+          if (err instanceof NotAdminError)
+            this._toasterService.error(err.message);
+          else if (err instanceof HttpErrorResponse)
+            this._toasterService.error(err.error.message);
+
           return throwError(() => err);
         }),
         takeUntilDestroyed(this._destroyRef),

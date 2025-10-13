@@ -8,3 +8,8 @@ export type BrandOrCategoryTranslation = {
   name: string;
   languageCode: LanguageCode;
 };
+
+export const RolesConstants = {
+  Admin: 'Admin',
+  User: 'User',
+};

@@ -1,3 +1,4 @@
+import { RolesConstants } from './../../../shared/models/shared.model';
 import { jwtDecode } from 'jwt-decode';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
@@ -6,6 +7,7 @@ import {
   AuthResponse,
   JwtPayload,
   LoginRequestData,
+  NotAdminError,
 } from '../../../shared/models/auth.model';
 import { catchError, tap, throwError } from 'rxjs';
 
@@ -25,7 +27,16 @@ export class AuthService {
     const refreshTokenExpiresOn = this.refreshTokenExpiresOn();
     if (!refreshTokenExpiresOn) return false;
 
-    return new Date(refreshTokenExpiresOn) > new Date();
+    const payload = jwtDecode<JwtPayload>(token);
+    if (!payload) return false;
+
+    const isAdmin = Array.isArray(payload.role)
+      ? payload.role.includes(RolesConstants.Admin)
+      : payload.role.toLowerCase() === RolesConstants.Admin.toLowerCase();
+
+    const isActiveRefreshToken = new Date(refreshTokenExpiresOn) > new Date();
+
+    return isAdmin && isActiveRefreshToken;
   });
 
   jwtPayload = computed(() => {
@@ -40,8 +51,12 @@ export class AuthService {
       .post<AuthResponse>(url, requestData, { withCredentials: true })
       .pipe(
         tap((res) => {
-          this.jwtToken.set(res.token);
-          this.refreshTokenExpiresOn.set(res.refreshTokenExpiresOn);
+          if (res.roles.includes(RolesConstants.Admin)) {
+            this.jwtToken.set(res.token);
+            this.refreshTokenExpiresOn.set(res.refreshTokenExpiresOn);
+          } else {
+            throw new NotAdminError();
+          }
         }),
       );
   }

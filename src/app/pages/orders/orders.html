@@ -46,7 +46,7 @@
         <th>Payment Status</th>
         <th>Payment Method</th>
         <th>Total</th>
-        <th></th>
+        <th>Actions</th>
       </tr>
     </ng-template>
 
@@ -56,10 +56,16 @@
         <td>{{ order.orderId }}</td>
         <td>{{ order.orderDate | date: "medium" }}</td>
         <td>
-          <app-order-status-select-options [order]="order" />
+          <app-order-status-select-options
+            [order]="order"
+            (updated)="refresh()"
+          />
         </td>
         <td>
-          <app-payment-status-select-options [order]="order" />
+          <app-payment-status-select-options
+            [order]="order"
+            (updated)="refresh()"
+          />
         </td>
         <td>
           <p-tag
@@ -93,7 +99,7 @@
                 tooltipPosition="top"
                 icon="pi pi-times"
                 severity="danger"
-                rounded
+                rounded=""
                 outlined
                 (click)="onCancelOrder($event, order)"
               />

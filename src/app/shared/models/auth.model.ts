@@ -7,6 +7,7 @@ export type AuthResponse = {
   message: string;
   token: string;
   refreshTokenExpiresOn: Date;
+  roles: string[];
 };
 
 export type JwtPayload = {
@@ -21,3 +22,10 @@ export type JwtPayload = {
   iss: string;
   aud: string[] | string;
 };
+
+export class NotAdminError extends Error {
+  constructor() {
+    super('You are not an admin');
+    this.name = 'NotAdminError';
+  }
+}

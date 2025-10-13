@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 
@@ -21,6 +28,7 @@ export class PaymentStatusSelectOptions {
   private readonly _destroyRef = inject(DestroyRef);
 
   order = input.required<OrderResult>();
+  updated = output();
   loading = signal(false);
   selectOptions: PaymentStatus[] = [
     'Pending',
@@ -43,6 +51,7 @@ export class PaymentStatusSelectOptions {
         tap((res) => {
           if (res.success) {
             this._toasterService.success(res.message);
+            this.updated.emit();
           }
         }),
 
