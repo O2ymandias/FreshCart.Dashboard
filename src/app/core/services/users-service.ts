@@ -12,7 +12,7 @@ import { SaveResult } from '../../shared/models/shared.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UsersService {
   private readonly _httpClient = inject(HttpClient);
 
   getUsers$(options: UsersQueryOptions) {

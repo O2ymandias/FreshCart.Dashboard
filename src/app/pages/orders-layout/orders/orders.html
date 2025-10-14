@@ -56,16 +56,10 @@
         <td>{{ order.orderId }}</td>
         <td>{{ order.orderDate | date: "medium" }}</td>
         <td>
-          <app-order-status-select-options
-            [order]="order"
-            (updated)="refresh()"
-          />
+          <app-order-status-select-options [order]="order" />
         </td>
         <td>
-          <app-payment-status-select-options
-            [order]="order"
-            (updated)="refresh()"
-          />
+          <app-payment-status-select-options [order]="order" />
         </td>
         <td>
           <p-tag

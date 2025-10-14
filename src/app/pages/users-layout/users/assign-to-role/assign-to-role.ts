@@ -21,7 +21,7 @@ import {
 import { FieldsetModule } from 'primeng/fieldset';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
-import { UserService } from '../../../../core/services/user-service';
+import { UsersService } from '../../../../core/services/users-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToasterService } from '../../../../core/services/toaster-service';
@@ -42,7 +42,7 @@ import { MessageModule } from 'primeng/message';
   styleUrl: './assign-to-role.scss',
 })
 export class AssignToRole implements OnInit {
-  private readonly _userService = inject(UserService);
+  private readonly _userService = inject(UsersService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 

@@ -41,14 +41,15 @@
           </td>
           <td>{{ userOrder.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
           <td>
-            <div class="flex items-center gap-2">
-              <p-button
-                icon="pi pi-search"
-                rounded
-                outlined
-                (onClick)="onViewOrder(userOrder)"
-              />
-            </div>
+            <a
+              [routerLink]="['/orders', 'details', userOrder.orderId]"
+              pButton
+              severity="primary"
+              icon="pi pi-search"
+              rounded
+              outlined
+            >
+            </a>
           </td></tr
       ></ng-template>
 
@@ -72,16 +73,3 @@
     </p-table>
   </section>
 }
-
-<!-- @let selectedOrderToView = orderToView();
-@if (selectedOrderToView) {
-  <p-dialog
-    header="Order Details"
-    [modal]="true"
-    [(visible)]="showOrderToViewDialog"
-  >
-    <div class="my-4">
-      <app-order-details [order]="selectedOrderToView" />
-    </div>
-  </p-dialog>
-} -->

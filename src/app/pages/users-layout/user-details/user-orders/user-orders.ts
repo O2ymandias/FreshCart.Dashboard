@@ -23,6 +23,7 @@ import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderStatusSelectOptions } from '../../../orders-layout/orders/order-status-select-options/order-status-select-options';
 import { PaymentStatusSelectOptions } from '../../../orders-layout/orders/payment-status-select-options/payment-status-select-options';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-orders',
@@ -39,6 +40,7 @@ import { PaymentStatusSelectOptions } from '../../../orders-layout/orders/paymen
     FormsModule,
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
+    RouterLink
   ],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',
@@ -59,9 +61,9 @@ export class UserOrders {
   totalRecords = signal(0);
   first = computed(() => (this.pageNumber() - 1) * this.pageSize()); // Convert To Zero-Based Index
   rowsPerPageOptions = [
-    this.DEFAULT_PAGE_SIZE * 0.5,
-    this.DEFAULT_PAGE_SIZE * 1,
-    this.DEFAULT_PAGE_SIZE * 2,
+    this._ordersService.DEFAULT_PAGE_SIZE * 0.5,
+    this._ordersService.DEFAULT_PAGE_SIZE,
+    this._ordersService.DEFAULT_PAGE_SIZE * 2,
   ];
 
   // View Order

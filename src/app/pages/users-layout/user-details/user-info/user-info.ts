@@ -6,7 +6,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { UserService } from '../../../../core/services/user-service';
+import { UsersService } from '../../../../core/services/users-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { User } from '../../../../shared/models/users-model';
@@ -24,7 +24,7 @@ import { DialogModule } from 'primeng/dialog';
   styleUrl: './user-info.scss',
 })
 export class UserInfo {
-  private readonly _userService = inject(UserService);
+  private readonly _userService = inject(UsersService);
   private readonly _platformId = inject(PLATFORM_ID);
   private readonly _destroyRef = inject(DestroyRef);
 

@@ -21,8 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { UserService } from '../../../core/services/user-service';
-import { RoleService } from '../../../core/services/role-service';
+import { UsersService } from '../../../core/services/users-service';
+import { RolesService } from '../../../core/services/roles-service';
 import { DialogModule } from 'primeng/dialog';
 import { Tooltip } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -56,8 +56,8 @@ import { isPlatformServer } from '@angular/common';
 })
 export class Users implements OnInit {
   // Dependencies
-  private readonly _userService = inject(UserService);
-  private readonly _roleService = inject(RoleService);
+  private readonly _userService = inject(UsersService);
+  private readonly _roleService = inject(RolesService);
   private readonly _destroyRef = inject(DestroyRef);
   private readonly _platformId = inject(PLATFORM_ID);
 

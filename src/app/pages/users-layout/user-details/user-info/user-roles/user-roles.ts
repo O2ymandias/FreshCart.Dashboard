@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { User } from '../../../../../shared/models/users-model';
-import { RoleService } from '../../../../../core/services/role-service';
+import { RolesService } from '../../../../../core/services/roles-service';
 import { Role } from '../../../../../shared/models/roles.model';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -24,7 +24,7 @@ import { AssignToRole } from '../../../users/assign-to-role/assign-to-role';
   styleUrl: './user-roles.scss',
 })
 export class UserRoles implements OnInit {
-  private readonly _roleService = inject(RoleService);
+  private readonly _roleService = inject(RolesService);
   private readonly _destroyRef = inject(DestroyRef);
 
   user = input.required<User>();
