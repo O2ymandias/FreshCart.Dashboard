@@ -1,0 +1,51 @@
+<p-fieldset legend="Order Items" [toggleable]="true">
+  <div class="space-y-4 px-4 py-2">
+    <!-- Order Summary Header -->
+    <div
+      class="bg-surface-50 dark:bg-surface-800 flex items-center justify-between rounded-lg px-4 py-2 shadow-sm"
+    >
+      <p class="flex items-center text-sm opacity-80">
+        <i class="pi pi-shopping-bag text-primary mr-2"></i>
+        {{ order().items.length }} item(s) in this order
+      </p>
+      <p class="flex items-center gap-2 font-semibold">
+        <i class="pi pi-wallet text-purple-500"></i>
+        {{ order().total | currency: "USD" : "symbol" : "1.2-2" }}
+      </p>
+    </div>
+
+    <!-- Order Items List -->
+    <div class="space-y-4">
+      @for (orderItem of order().items; track orderItem) {
+        <div
+          class="ring-surface-200 dark:ring-surface-700 bg-surface-0 dark:bg-surface-900 hover:ring-primary/40 flex items-start gap-4 rounded-lg p-4 ring-1 transition duration-300 max-sm:flex-col"
+        >
+          <!-- Product Image -->
+          <img
+            [routerLink]="['/products', 'details', orderItem.productId]"
+            [src]="orderItem.pictureUrl"
+            [alt]="orderItem.productName"
+            class="size-20 cursor-pointer rounded-lg object-cover transition duration-300 hover:brightness-90"
+          />
+
+          <!-- Product Info -->
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 dark:text-gray-200">
+              {{ orderItem.productName }}
+            </h4>
+            <p class="mt-1 text-gray-500 dark:text-gray-400">
+              Qty: {{ orderItem.quantity }}
+            </p>
+          </div>
+
+          <!-- Price -->
+          <div class="text-right">
+            <p class="text-base font-semibold">
+              {{ orderItem.price | currency: "USD" : "symbol" : "1.2-2" }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</p-fieldset>

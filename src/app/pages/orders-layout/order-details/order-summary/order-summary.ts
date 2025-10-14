@@ -7,8 +7,8 @@ import {
   OrderResult,
   OrderStatus,
   PaymentStatus,
-} from '../../../models/orders-model';
-import { ButtonModule } from "primeng/button";
+} from '../../../../shared/models/orders-model';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-order-summary',

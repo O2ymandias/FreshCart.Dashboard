@@ -1,0 +1,45 @@
+<div
+  class="app-ring-1 bg-surface-0 dark:bg-surface-800 flex flex-wrap items-center justify-between gap-6 rounded-lg px-6 py-4 shadow-sm"
+>
+  <!-- Order ID -->
+  <div class="flex flex-col gap-2">
+    <p class="flex items-center gap-2 font-semibold">
+      <i class="pi pi-hashtag text-blue-500"></i>
+      Order ID
+    </p>
+    <p class="opacity-75">#{{ order().orderId }}</p>
+  </div>
+
+  <!-- Order Date -->
+  <div class="flex flex-col gap-2">
+    <p class="flex items-center gap-2 font-semibold">
+      <i class="pi pi-calendar text-green-500"></i>
+      Order Date
+    </p>
+    <p class="opacity-75">{{ order().orderDate | date: "medium" }}</p>
+  </div>
+
+  <!-- Order Status -->
+  <div class="flex flex-col gap-2">
+    <p class="flex items-center gap-2 font-semibold">
+      <i class="pi pi-info-circle text-yellow-500"></i>
+      Order Status
+    </p>
+    <p-tag
+      [severity]="statusToSeverity(order().orderStatus)"
+      [value]="order().orderStatus"
+      class="font-medium"
+    />
+  </div>
+
+  <!-- Total -->
+  <div class="flex flex-col gap-2">
+    <p class="flex items-center gap-2 font-semibold">
+      <i class="pi pi-wallet text-purple-500"></i>
+      Total
+    </p>
+    <p class="text-primary text-lg font-semibold">
+      {{ order().total | currency: "USD" : "symbol" : "1.2-2" }}
+    </p>
+  </div>
+</div>

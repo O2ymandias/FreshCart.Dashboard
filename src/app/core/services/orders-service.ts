@@ -1,5 +1,4 @@
 import {
-  CancelOrderResult,
   OrderStatusOption,
   PaymentMethodOption,
   PaymentStatusOption,
@@ -105,12 +104,6 @@ export class OrdersService {
   updatePaymentStatus$(requestData: UpdatePaymentStatusRequest) {
     const url = `${environment.apiUrl}/orders/payment-status`;
     return this._httpClient.put<SaveResult>(url, requestData);
-  }
-
-  cancelOrder$(orderId: number, userId: string) {
-    const url = `${environment.apiUrl}/orders/${orderId}`;
-    const params = new HttpParams().append('userId', userId);
-    return this._httpClient.delete<CancelOrderResult>(url, { params });
   }
 
   reset() {

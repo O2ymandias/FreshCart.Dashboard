@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { OrderResult } from '../../../models/orders-model';
+import { OrderResult } from '../../../../shared/models/orders-model';
 import { FieldsetModule } from "primeng/fieldset";
 
 @Component({

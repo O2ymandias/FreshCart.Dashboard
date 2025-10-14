@@ -6,50 +6,46 @@ import {
   output,
   signal,
 } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { OrdersService } from '../../../core/services/orders-service';
-import { ToasterService } from '../../../core/services/toaster-service';
-import { OrderResult, OrderStatus } from '../../models/orders-model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OrdersService } from '../../../../core/services/orders-service';
+import { ToasterService } from '../../../../core/services/toaster-service';
+import { OrderResult, PaymentStatus } from '../../../../shared/models/orders-model';
 
 @Component({
-  selector: 'app-order-status-select-options',
-  imports: [FormsModule, SelectModule],
-  templateUrl: './order-status-select-options.html',
-  styleUrl: './order-status-select-options.scss',
+  selector: 'app-payment-status-select-options',
+  imports: [SelectModule, FormsModule],
+  templateUrl: './payment-status-select-options.html',
+  styleUrl: './payment-status-select-options.scss',
 })
-export class OrderStatusSelectOptions {
+export class PaymentStatusSelectOptions {
   private readonly _ordersService = inject(OrdersService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
   order = input.required<OrderResult>();
-
   updated = output();
-
   loading = signal(false);
-
-  selectOptions: OrderStatus[] = [
+  selectOptions: PaymentStatus[] = [
     'Pending',
-    'Processing',
-    'Shipped',
-    'Delivered',
-    'Cancelled',
+    'AwaitingPayment',
+    'PaymentReceived',
+    'PaymentFailed',
   ];
 
-  updateOrderStatus() {
+  updatePaymentStatus() {
     this.loading.set(true);
 
-    const { orderId, orderStatus: newOrderStatus } = this.order();
+    const { orderId, paymentStatus: newPaymentStatus } = this.order();
 
     this._ordersService
-      .updateOrderStatus$({
+      .updatePaymentStatus$({
         orderId,
-        newOrderStatus,
+        newPaymentStatus,
       })
       .pipe(
         tap((res) => {

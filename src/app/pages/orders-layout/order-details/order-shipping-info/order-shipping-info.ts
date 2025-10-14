@@ -6,7 +6,7 @@ import {
   OrderResult,
   OrderStatus,
   PaymentStatus,
-} from '../../../models/orders-model';
+} from '../../../../shared/models/orders-model';
 import { FieldsetModule } from 'primeng/fieldset';
 
 @Component({

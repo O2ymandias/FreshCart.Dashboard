@@ -9,8 +9,8 @@ import {
   OrdersQueryOptions,
 } from '../../../shared/models/orders-model';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { OrderStatusSelectOptions } from '../../../shared/components/order-status-select-options/order-status-select-options';
-import { PaymentStatusSelectOptions } from '../../../shared/components/payment-status-select-options/payment-status-select-options';
+import { OrderStatusSelectOptions } from './order-status-select-options/order-status-select-options';
+import { PaymentStatusSelectOptions } from './payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tag } from 'primeng/tag';
@@ -20,8 +20,7 @@ import { OrdersSort } from './orders-sort/orders-sort';
 import { OrdersFiltration } from './orders-filtration/orders-filtration';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToasterService } from '../../../core/services/toaster-service';
-import { catchError, tap, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -40,6 +39,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     OrdersSort,
     OrdersFiltration,
     TooltipModule,
+    RouterLink,
   ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
@@ -91,52 +91,6 @@ export class Orders {
     this._ordersService
       .getOrders$(options)
       .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe();
-  }
-
-  onCancelOrder(event: Event, order: OrderResult): void {
-    this._confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: `Do you want to cancel this order?`,
-      header: `Cancel Order #${order.orderId}`,
-      icon: 'pi pi-info-circle',
-
-      rejectButtonProps: {
-        label: 'Hide',
-        severity: 'secondary',
-        outlined: true,
-      },
-      acceptButtonProps: {
-        label: 'Cancel Order',
-        severity: 'danger',
-      },
-
-      accept: () => {
-        this.cancelOrder(order);
-      },
-    });
-  }
-
-  cancelOrder(order: OrderResult): void {
-    this._ordersService
-      .cancelOrder$(order.orderId, order.userId)
-      .pipe(
-        tap((res) => {
-          if (res.manageToCancelOrder) {
-            this._toasterService.success(
-              res.cancelMessage ?? 'Order cancelled successfully',
-            );
-          }
-          this.refresh();
-        }),
-
-        catchError((err: HttpErrorResponse) => {
-          this._toasterService.error(err.error.message);
-          return throwError(() => err);
-        }),
-
-        takeUntilDestroyed(this._destroyRef),
-      )
       .subscribe();
   }
 }
