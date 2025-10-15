@@ -5,7 +5,7 @@
     #dt
     dataKey="id"
     [value]="roles()"
-    [globalFilterFields]="['name']"
+    [globalFilterFields]="['id', 'name']"
     [rowHover]="true"
     [paginator]="true"
     [rows]="5"
@@ -20,7 +20,7 @@
         >
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
-              <h1 class="text-2xl font-bold">Manage Roles</h1>
+              <h1 class="text-2xl font-bold">Explore Roles</h1>
               <p-button
                 icon="pi pi-refresh"
                 size="small"
@@ -28,15 +28,6 @@
                 (onClick)="dt.clear()"
               />
             </div>
-            <p class="opacity-75">View, update, or delete roles</p>
-          </div>
-          <div>
-            <a pButton [routerLink]="['/', 'brands', 'create']">
-              <span class="flex items-center gap-2" pButtonLabel>
-                <i class="pi pi-plus"></i>
-                New
-              </span>
-            </a>
           </div>
         </div>
         <div class="w-full md:w-1/2">
@@ -56,39 +47,15 @@
 
     <ng-template #header>
       <tr>
+        <th>Role ID</th>
         <th>Role Name</th>
-        <th>Permissions</th>
-        <th></th>
       </tr>
     </ng-template>
 
     <ng-template #body let-role>
       <tr>
+        <td>{{ role.id }}</td>
         <td>{{ role.name }}</td>
-        <td></td>
-        <td>
-          <div class="flex items-center gap-2">
-            <a
-              [routerLink]="['/', 'roles', 'edit', role.id]"
-              pButton
-              icon="pi pi-pencil"
-              type="button"
-              severity="info"
-              rounded
-              outlined
-            >
-            </a>
-
-            <p-button
-              type="button"
-              severity="danger"
-              icon="pi pi-trash"
-              rounded
-              outlined
-            />
-            <!-- (onClick)="OnDeleteBrand($event, brand.id)" -->
-          </div>
-        </td>
       </tr>
     </ng-template>
   </p-table>
