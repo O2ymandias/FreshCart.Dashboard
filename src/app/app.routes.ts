@@ -25,6 +25,9 @@ import { nonAuthGuard } from './core/guards/non-auth-guard';
 import { OrdersLayout } from './pages/orders-layout/orders-layout';
 import { Orders } from './pages/orders-layout/orders/orders';
 import { OrderDetails } from './pages/orders-layout/order-details/order-details';
+import { RolesLayout } from './pages/roles-layout/roles-layout';
+import { Roles } from './pages/roles-layout/roles/roles';
+import { EditRole } from './pages/roles-layout/roles/edit-role/edit-role';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -146,6 +149,24 @@ export const routes: Routes = [
         path: 'details/:id',
         component: OrderDetails,
         title: 'Order Details',
+      },
+    ],
+  },
+
+  {
+    path: 'roles',
+    component: RolesLayout,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: Roles,
+        title: 'Roles',
+      },
+      {
+        path: 'edit/:id',
+        component: EditRole,
+        title: 'Edit Role',
       },
     ],
   },

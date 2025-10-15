@@ -15,17 +15,22 @@ export class RolesService {
     return this._httpClient.get<Role[]>(url);
   }
 
+  getRole$(roleId: string) {
+    const url = `${environment.apiUrl}/roles/${roleId}`;
+    return this._httpClient.get<Role>(url);
+  }
+
   createRole$(roleName: string) {
     const url = `${environment.apiUrl}/roles`;
     return this._httpClient.post<SaveResult>(url, { roleName });
   }
 
-  updateRole$(newRoleName: string, roleId: number) {
-    const url = `${environment.apiUrl}/roles/${roleId}`;
-    return this._httpClient.put<SaveResult>(url, { newRoleName });
+  updateRole$(newRoleName: string, roleId: string) {
+    const url = `${environment.apiUrl}/roles`;
+    return this._httpClient.put<SaveResult>(url, { newRoleName, roleId });
   }
 
-  deleteRole$(roleId: number) {
+  deleteRole$(roleId: string) {
     const url = `${environment.apiUrl}/roles/${roleId}`;
     return this._httpClient.delete<SaveResult>(url);
   }
