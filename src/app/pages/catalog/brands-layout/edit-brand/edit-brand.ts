@@ -10,7 +10,7 @@ import {
 import { BrandsService } from '../../../../core/services/brands-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BrandResult } from '../../../../shared/models/brands-model';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, tap, throwError } from 'rxjs';
 
 import {
   FormArray,
@@ -104,6 +104,8 @@ export class EditBrand implements OnInit {
     translations: new FormArray<FormGroup>([]),
   });
 
+  loading = signal(false);
+
   get canSubmit() {
     return this.editBrandForm.valid && this.isValidUploadedImage();
   }
@@ -148,6 +150,8 @@ export class EditBrand implements OnInit {
       });
     }
 
+    this.loading.set(true);
+
     this._brandsService
       .updateBrand(formData)
       .pipe(
@@ -160,6 +164,8 @@ export class EditBrand implements OnInit {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
+
+        finalize(() => this.loading.set(false)),
 
         takeUntilDestroyed(this._destroyRef),
       )

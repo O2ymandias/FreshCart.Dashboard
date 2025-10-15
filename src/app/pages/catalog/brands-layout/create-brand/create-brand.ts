@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BrandsService } from '../../../../core/services/brands-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 
 import {
   FormArray,
@@ -76,6 +76,7 @@ export class CreateBrand {
     image: new FormControl('', [Validators.required]),
     translations: new FormArray<FormGroup>([]),
   });
+  loading = signal(false);
 
   get canSubmit() {
     return this.createBrandForm.valid && this.isValidUploadedImage();
@@ -119,6 +120,8 @@ export class CreateBrand {
       });
     }
 
+    this.loading.set(true);
+
     this._brandsService
       .createBrand(formData)
       .pipe(
@@ -133,6 +136,8 @@ export class CreateBrand {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
+
+        finalize(() => this.loading.set(false)),
 
         takeUntilDestroyed(this._destroyRef),
       )

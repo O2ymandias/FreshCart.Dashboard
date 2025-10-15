@@ -75,6 +75,7 @@ export class CreateCategory {
     image: new FormControl('', [Validators.required]),
     translations: new FormArray<FormGroup>([]),
   });
+  loading = signal(false);
 
   get canSubmit() {
     return this.createCategoryForm.valid && this.isValidUploadedImage();
@@ -118,6 +119,8 @@ export class CreateCategory {
       });
     }
 
+    this.loading.set(true);
+
     this._categoriesService
       .createCategory$(formData)
       .pipe(
@@ -132,6 +135,8 @@ export class CreateCategory {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
+
+        tap(() => this.loading.set(false)),
 
         takeUntilDestroyed(this._destroyRef),
       )
