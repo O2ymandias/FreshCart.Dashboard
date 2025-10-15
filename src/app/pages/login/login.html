@@ -71,6 +71,7 @@
       <button
         type="submit"
         pButton
+        [loading]="loading()"
         [disabled]="loginForm.invalid"
         class="flex w-full items-center justify-center gap-2 rounded-lg py-2"
       >

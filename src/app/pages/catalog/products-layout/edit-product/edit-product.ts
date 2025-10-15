@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ProductsService } from '../../../../core/services/products-service';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, tap, throwError } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -34,9 +34,8 @@ import { Router } from '@angular/router';
 import { EditProductGallery } from './edit-product-gallery/edit-product-gallery';
 import { ToasterService } from '../../../../core/services/toaster-service';
 import { EditProductTranslations } from './edit-product-translations/edit-product-translations';
-import { FormImage } from "../../../../shared/components/form-image/form-image";
+import { FormImage } from '../../../../shared/components/form-image/form-image';
 import { Product } from '../../../../shared/models/products.model';
-
 
 @Component({
   selector: 'app-edit-product',
@@ -53,8 +52,8 @@ import { Product } from '../../../../shared/models/products.model';
     BreadcrumbModule,
     EditProductGallery,
     EditProductTranslations,
-    FormImage
-],
+    FormImage,
+  ],
   templateUrl: './edit-product.html',
   styleUrl: './edit-product.scss',
 })
@@ -138,6 +137,8 @@ export class EditProduct implements OnInit {
     ]),
   });
 
+  loading = signal(false);
+
   ngOnInit(): void {
     this._getProductDetails();
     this._getBrands();
@@ -164,6 +165,8 @@ export class EditProduct implements OnInit {
     const image = this.uploadedImage();
     if (image) formData.append('image', image);
 
+    this.loading.set(true);
+
     this._productsService
       .updateProduct$(formData)
       .pipe(
@@ -173,10 +176,14 @@ export class EditProduct implements OnInit {
             this._router.navigate(['/products', 'details', this.id()]);
           }
         }),
+
         catchError((err) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
         }),
+
+        finalize(() => this.loading.set(false)),
+
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

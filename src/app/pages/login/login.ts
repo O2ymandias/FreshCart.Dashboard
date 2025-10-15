@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -32,6 +32,8 @@ export class Login {
     password: new FormControl('', [Validators.required]),
   });
 
+  loading = signal(false);
+
   login() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsDirty();
@@ -43,7 +45,7 @@ export class Login {
       return;
     }
 
-    console.log({ userNameOrEmail, password });
+    this.loading.set(true);
 
     this._authService
       .login$({
@@ -55,6 +57,7 @@ export class Login {
           this._router.navigate(['/']);
           this._toasterService.success(res.message);
         }),
+
         catchError((err: HttpErrorResponse | NotAdminError) => {
           if (err instanceof NotAdminError)
             this._toasterService.error(err.message);
@@ -63,6 +66,9 @@ export class Login {
 
           return throwError(() => err);
         }),
+
+        tap(() => this.loading.set(false)),
+
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

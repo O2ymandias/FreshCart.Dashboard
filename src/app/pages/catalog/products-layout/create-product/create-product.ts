@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageModule } from 'primeng/message';
-import { FormImage } from "../../../../shared/components/form-image/form-image";
+import { FormImage } from '../../../../shared/components/form-image/form-image';
 
 @Component({
   selector: 'app-create-product',
@@ -38,8 +38,8 @@ import { FormImage } from "../../../../shared/components/form-image/form-image";
     ButtonModule,
     InputTextModule,
     MessageModule,
-    FormImage
-],
+    FormImage,
+  ],
   templateUrl: './create-product.html',
   styleUrl: './create-product.scss',
 })
@@ -104,6 +104,7 @@ export class CreateProduct implements OnInit {
       Validators.minLength(3),
     ]),
   });
+
   get canSubmit() {
     return (
       this.createProductForm.valid &&
