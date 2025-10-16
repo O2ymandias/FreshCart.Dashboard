@@ -1,11 +1,10 @@
 <p-inputgroup class="w-full">
-  <p-inputnumber
-    [(ngModel)]="orderId"
-    placeholder="Search by Order ID"
-    mode="decimal"
-    [useGrouping]="false"
+  <input
+    type="search"
+    pInputText
+    [(ngModel)]="searchQuery"
+    placeholder="Search by Order ID or User Email"
     (keyup.enter)="search()"
-    [min]="1"
   />
   <p-inputgroup-addon>
     <p-button

@@ -30,6 +30,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { AssignToRole } from './assign-to-role/assign-to-role';
 import { RouterLink } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
+import { EmailLink } from "../../../shared/components/email-link/email-link";
+import { PhoneLink } from "../../../shared/components/phone-link/phone-link";
 
 @Component({
   selector: 'app-users',
@@ -50,7 +52,9 @@ import { isPlatformServer } from '@angular/common';
     FieldsetModule,
     AssignToRole,
     RouterLink,
-  ],
+    EmailLink,
+    PhoneLink
+],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })

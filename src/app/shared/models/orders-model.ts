@@ -1,6 +1,7 @@
 import { SortDirection } from './shared.model';
 
 export type OrdersQueryOptions = {
+  search?: string;
   pageNumber: number;
   pageSize: number;
   userId?: string;
@@ -30,7 +31,7 @@ export type OrderResponse = {
 
 export type OrderResult = {
   orderId: number;
-  userId: string;
+  userEmail: string;
   orderDate: string;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;

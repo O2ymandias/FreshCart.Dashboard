@@ -1,13 +1,22 @@
 <p-fieldset legend="Shipping Information" [toggleable]="true">
   <div class="px-4 py-2">
     <div class="grid gap-4 sm:grid-cols-2">
-      <!-- Customer Name -->
+      <!-- Recipient Name -->
       <div class="flex flex-col gap-1">
         <p class="flex items-center gap-2 font-semibold">
           <i class="pi pi-user text-blue-500"></i>
-          Customer Name
+          Recipient Name
         </p>
         <p class="opacity-75">{{ order().shippingAddress.recipientName }}</p>
+      </div>
+
+      <!-- User Email -->
+      <div class="flex flex-col gap-1">
+        <p class="flex items-center gap-2 font-semibold">
+          <i class="pi pi-envelope text-amber-500"></i>
+          User Email
+        </p>
+        <p class="break-words opacity-75">{{ order().userEmail }}</p>
       </div>
 
       <!-- Payment Method -->
@@ -18,7 +27,7 @@
         </p>
         <p-tag
           [value]="order().paymentMethod"
-          severity="secondary"
+          severity="info"
           class="w-fit font-medium"
         />
       </div>

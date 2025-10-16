@@ -1,1 +1,71 @@
-<p>dashboard works!</p>
+<section class="flex flex-col gap-6 px-6 py-12">
+  <div class="space-y-6">
+    <!-- Top Section -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
+      <p-card header="Total Sales" class="text-center">
+        <h2 class="text-primary text-2xl font-semibold">₤45,200</h2>
+        <p class="text-gray-500">This Month</p>
+      </p-card>
+
+      <p-card header="Orders" class="text-center">
+        <h2 class="text-primary text-2xl font-semibold">1,234</h2>
+        <p class="text-gray-500">Total Orders</p>
+      </p-card>
+
+      <p-card header="Customers" class="text-center">
+        <h2 class="text-primary text-2xl font-semibold">560</h2>
+        <p class="text-gray-500">Active Users</p>
+      </p-card>
+
+      <p-card header="Pending" class="text-center">
+        <h2 class="text-2xl font-semibold text-orange-500">72</h2>
+        <p class="text-gray-500">Pending Orders</p>
+      </p-card>
+    </div>
+
+    <!-- Table Section -->
+    <p-card header="Recent Orders">
+      <p-table [value]="orders()" rowHover="true" dataKey="orderId">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Order ID</th>
+            <th>User Email</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td>{{ order.orderId }}</td>
+            <td>
+              <app-email-link [email]="order.userEmail" />
+            </td>
+            <td>{{ order.orderDate | date: "medium" }}</td>
+            <td>
+              <p-tag
+                [value]="order.orderStatus"
+                [severity]="getSeverity(order.orderStatus)"
+                class="font-medium"
+              />
+            </td>
+            <td>{{ order.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
+            <td>
+              <a
+                [routerLink]="['/', 'orders', 'details', order.orderId]"
+                pButton
+                icon="pi pi-search"
+                type="button"
+                severity="primary"
+                rounded
+                outlined
+              >
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</section>

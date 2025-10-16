@@ -13,7 +13,6 @@ import { OrderStatusSelectOptions } from './order-status-select-options/order-st
 import { PaymentStatusSelectOptions } from './payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Tag } from 'primeng/tag';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
 import { OrdersSearch } from './orders-search/orders-search';
 import { OrdersSort } from './orders-sort/orders-sort';
@@ -33,7 +32,6 @@ import { RouterLink } from '@angular/router';
     OrderStatusSelectOptions,
     PaymentStatusSelectOptions,
     DialogModule,
-    Tag,
     OrdersPagination,
     OrdersSearch,
     OrdersSort,

@@ -8,19 +8,16 @@
         <div
           class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
         >
-          <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-bold">Manage Products</h1>
             <div class="flex items-center gap-2">
-              <h1 class="text-2xl font-bold">Manage Products</h1>
-
-              <div class="flex items-center gap-2">
-                <p-button
-                  rounded
-                  icon="pi pi-refresh"
-                  size="small"
-                  (onClick)="refresh()"
-                />
-                <app-products-filtration />
-              </div>
+              <p-button
+                rounded
+                icon="pi pi-refresh"
+                size="small"
+                (onClick)="refresh()"
+              />
+              <app-products-filtration />
             </div>
           </div>
 

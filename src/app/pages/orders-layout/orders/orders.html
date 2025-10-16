@@ -5,21 +5,15 @@
     <!-- Caption -->
     <ng-template #caption>
       <div class="space-y-4">
-        <div
-          class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-        >
-          <div class="flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <h1 class="text-2xl font-bold">Manage Orders</h1>
-              <p-button
-                rounded
-                icon="pi pi-refresh"
-                size="small"
-                (onClick)="refresh()"
-              />
-              <app-orders-filtration />
-            </div>
-          </div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-bold">Manage Orders</h1>
+          <p-button
+            rounded
+            icon="pi pi-refresh"
+            size="small"
+            (onClick)="refresh()"
+          />
+          <app-orders-filtration />
         </div>
 
         <div
@@ -43,7 +37,6 @@
         <th>Order Date</th>
         <th>Order Status</th>
         <th>Payment Status</th>
-        <th>Payment Method</th>
         <th>Total</th>
         <th></th>
       </tr>
@@ -59,18 +52,6 @@
         </td>
         <td>
           <app-payment-status-select-options [order]="order" />
-        </td>
-        <td>
-          <p-tag
-            severity="info"
-            [value]="order.paymentMethod"
-            class="font-medium"
-            [icon]="
-              order.paymentMethod === 'Cash'
-                ? 'pi pi-money-bill'
-                : 'pi pi-credit-card'
-            "
-          />
         </td>
         <td>
           <p class="text-lg font-medium">

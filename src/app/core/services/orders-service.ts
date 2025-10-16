@@ -35,8 +35,8 @@ export class OrdersService {
   pageNumber = signal(this.DEFAULT_PAGE_NUMBER);
   totalRecords = signal(0);
 
-  // SearchById
-  searchByOrderId = signal<number | undefined>(undefined);
+  // Search
+  searchQuery = signal<string | undefined>(undefined);
 
   // Sort
   sortOption = signal<OrderSortOption | undefined>(undefined);
@@ -54,6 +54,8 @@ export class OrdersService {
     let params = new HttpParams()
       .append('pageNumber', options.pageNumber.toString())
       .append('pageSize', options.pageSize.toString());
+
+    if (options.search) params = params.append('search', options.search);
 
     if (options.userId)
       params = params.append('userId', options.userId.toString());
@@ -111,7 +113,7 @@ export class OrdersService {
     this.pageSize.set(this.DEFAULT_PAGE_SIZE);
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.totalRecords.set(0);
-    this.searchByOrderId.set(undefined);
+    this.searchQuery.set(undefined);
     this.sortOption.set(undefined);
     this.orderStatusOption.set(undefined);
     this.paymentStatusOption.set(undefined);

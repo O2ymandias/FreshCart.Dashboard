@@ -17,6 +17,9 @@ export class OrdersPagination {
   // Data
   orders = this._ordersService.orders;
 
+  // Search
+  searchQuery = this._ordersService.searchQuery;
+
   // Sort
   sort = computed(() => this._ordersService.sortOption()?.value);
 
@@ -67,6 +70,9 @@ export class OrdersPagination {
 
     // [2] sort options
     query.sort = this.sort();
+
+    // [3] search query
+    query.search = this.searchQuery();
 
     this._ordersService
       .getOrders$(query)
