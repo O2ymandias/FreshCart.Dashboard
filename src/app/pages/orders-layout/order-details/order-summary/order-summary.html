@@ -1,4 +1,8 @@
-<p-card>
+<p-card class="relative">
+  <div class="absolute top-2 right-2">
+    <app-update-order [order]="order()" />
+  </div>
+
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
     <!-- Order ID -->
     <div class="flex flex-col gap-2">

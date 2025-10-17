@@ -16,6 +16,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-order-details',
@@ -25,6 +26,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     OrderItems,
     PaymentSummary,
     BreadcrumbModule,
+    ButtonModule,
   ],
   templateUrl: './order-details.html',
   styleUrl: './order-details.scss',

@@ -1,0 +1,38 @@
+<div class="space-y-2">
+  <div class="flex items-center gap-2">
+    <i class="pi pi-exclamation-circle text-yellow-500"></i>
+    <label
+      class="cursor-pointer text-sm font-semibold text-gray-700 dark:text-gray-300"
+      (click)="orderStatusElement.show()"
+    >
+      Order Status
+    </label>
+  </div>
+  <p-select
+    #orderStatusElement
+    [(ngModel)]="orderStatus"
+    [options]="selectOptions"
+    optionLabel="label"
+    optionValue="value"
+    [style]="{ width: '100%' }"
+    class="w-full"
+    appendTo="body"
+    (onChange)="onOrderStatusUpdate()"
+  >
+    <ng-template let-item pTemplate="item">
+      <div class="flex items-center gap-2 py-1">
+        <span
+          class="h-2 w-2 rounded-full"
+          [class]="{
+            'bg-primary-500': item.value === 'Pending',
+            'bg-blue-500': item.value === 'Processing',
+            'bg-slate-500': item.value === 'Shipped',
+            'bg-green-500': item.value === 'Delivered',
+            'bg-red-500': item.value === 'Cancelled',
+          }"
+        ></span>
+        <span>{{ item.label }}</span>
+      </div>
+    </ng-template>
+  </p-select>
+</div>

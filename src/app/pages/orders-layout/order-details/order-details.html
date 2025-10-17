@@ -1,16 +1,17 @@
 <section class="flex flex-col gap-6 px-6 py-12">
-  <p-breadcrumb [model]="navigationItems" />
+  <p-breadcrumb class="" [model]="navigationItems" />
   @let orderInfo = order();
   @if (orderInfo) {
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-      <div class="md:col-span-2">
+    <div class="grid grid-cols-2 gap-6">
+      <div class="col-span-full">
         <app-order-summary [order]="orderInfo" />
       </div>
-      <div class="md:col-span-1">
+
+      <div class="col-span-full lg:col-span-1">
         <app-order-items [order]="orderInfo" />
       </div>
 
-      <div class="flex flex-col gap-6 md:col-span-1">
+      <div class="col-span-full flex flex-col gap-6 lg:col-span-1">
         <app-payment-summary [order]="orderInfo" />
         <app-order-shipping-info [order]="orderInfo" />
       </div>

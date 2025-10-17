@@ -3,42 +3,34 @@ import {
   DestroyRef,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
-
-import { FormsModule } from '@angular/forms';
-import { SelectModule } from 'primeng/select';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, finalize, tap, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { OrdersService } from '../../../../core/services/orders-service';
-import { ToasterService } from '../../../../core/services/toaster-service';
 import {
   OrderResult,
   OrderStatus,
-} from '../../../../shared/models/orders-model';
+} from '../../../../../../shared/models/orders-model';
+import { OrdersService } from '../../../../../../core/services/orders-service';
+import { ToasterService } from '../../../../../../core/services/toaster-service';
+import { catchError, finalize, tap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SelectModule } from "primeng/select";
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-order-status-select-options',
-  imports: [FormsModule, SelectModule],
-  templateUrl: './order-status-select-options.html',
-  styleUrl: './order-status-select-options.scss',
+  selector: 'app-update-order-status',
+  imports: [SelectModule, FormsModule],
+  templateUrl: './update-order-status.html',
+  styleUrl: './update-order-status.scss',
 })
-export class OrderStatusSelectOptions {
-  // Dependencies
+export class UpdateOrderStatus implements OnInit {
   private readonly _ordersService = inject(OrdersService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  // Properties
   order = input.required<OrderResult>();
-
-  class = input<string>('');
-
-  updated = output();
-
-  loading = signal(false);
 
   selectOptions: { label: string; value: OrderStatus }[] = [
     {
@@ -63,25 +55,33 @@ export class OrderStatusSelectOptions {
     },
   ];
 
-  // Methods
-  updateOrderStatus() {
-    this.loading.set(true);
+  loading = signal(false);
 
-    const { orderId, orderStatus: newOrderStatus } = this.order();
+  orderStatus = signal<OrderStatus | undefined>(undefined);
+
+  updated = output();
+
+  ngOnInit(): void {
+    this.orderStatus.set(this.order().orderStatus);
+  }
+
+  onOrderStatusUpdate(): void {
+    const orderStatus = this.orderStatus();
+    if (!orderStatus) return;
+
+    this.loading.set(true);
 
     this._ordersService
       .updateOrderStatus$({
-        orderId,
-        newOrderStatus,
+        orderId: this.order().orderId,
+        newOrderStatus: orderStatus,
       })
       .pipe(
         tap((res) => {
           if (res.success) {
             this._toasterService.success(res.message);
-            this.updated.emit();
           }
         }),
-
         catchError((err: HttpErrorResponse) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);

@@ -8,24 +8,12 @@ import {
   OrderStatus,
   PaymentStatus,
 } from '../../../../shared/models/orders-model';
-import { ButtonModule } from 'primeng/button';
 import { Card } from 'primeng/card';
-import { OrderStatusSelectOptions } from '../../orders/order-status-select-options/order-status-select-options';
-import { DialogModule } from 'primeng/dialog';
-import { PaymentStatusSelectOptions } from "../../orders/payment-status-select-options/payment-status-select-options";
+import { UpdateOrder } from './update-order/update-order';
 
 @Component({
   selector: 'app-order-summary',
-  imports: [
-    DatePipe,
-    CurrencyPipe,
-    TagModule,
-    ButtonModule,
-    Card,
-    OrderStatusSelectOptions,
-    DialogModule,
-    PaymentStatusSelectOptions
-],
+  imports: [DatePipe, CurrencyPipe, TagModule, Card, UpdateOrder],
   templateUrl: './order-summary.html',
   styleUrl: './order-summary.scss',
 })

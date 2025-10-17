@@ -14,7 +14,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrdersService } from '../../../../core/services/orders-service';
 import { ToasterService } from '../../../../core/services/toaster-service';
-import { OrderResult, PaymentStatus } from '../../../../shared/models/orders-model';
+import {
+  OrderResult,
+  PaymentStatus,
+} from '../../../../shared/models/orders-model';
 
 @Component({
   selector: 'app-payment-status-select-options',
@@ -28,8 +31,13 @@ export class PaymentStatusSelectOptions {
   private readonly _destroyRef = inject(DestroyRef);
 
   order = input.required<OrderResult>();
+
+  class = input<string>('');
+
   updated = output();
+
   loading = signal(false);
+
   selectOptions: PaymentStatus[] = [
     'Pending',
     'AwaitingPayment',

@@ -8,10 +8,11 @@ import {
   PaymentStatus,
 } from '../../../../shared/models/orders-model';
 import { FieldsetModule } from 'primeng/fieldset';
+import { PaymentStatusSelectOptions } from "../../orders/payment-status-select-options/payment-status-select-options";
 
 @Component({
   selector: 'app-order-shipping-info',
-  imports: [TagModule, FieldsetModule],
+  imports: [TagModule, FieldsetModule, PaymentStatusSelectOptions],
   templateUrl: './order-shipping-info.html',
   styleUrl: './order-shipping-info.scss',
 })
