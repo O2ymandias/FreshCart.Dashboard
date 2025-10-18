@@ -48,10 +48,18 @@
         <td>{{ order.orderId }}</td>
         <td>{{ order.orderDate | date: "medium" }}</td>
         <td>
-          <app-order-status-select-options [order]="order" />
+          <p-tag
+            [value]="order.orderStatus"
+            [severity]="statusToSeverity(order.orderStatus)"
+            class="font-medium"
+          />
         </td>
         <td>
-          <app-payment-status-select-options [order]="order" />
+          <p-tag
+            [value]="order.paymentStatus"
+            [severity]="statusToSeverity(order.paymentStatus)"
+            class="font-medium"
+          />
         </td>
         <td>
           <p class="text-lg font-medium">

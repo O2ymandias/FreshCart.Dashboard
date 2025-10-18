@@ -34,10 +34,18 @@
           <td>{{ userOrder.orderId }}</td>
           <td>{{ userOrder.orderDate | date: "medium" }}</td>
           <td>
-            <app-order-status-select-options [order]="userOrder" />
+            <p-tag
+              [value]="userOrder.orderStatus"
+              [severity]="statusToSeverity(userOrder.orderStatus)"
+              class="font-medium"
+            />
           </td>
           <td>
-            <app-payment-status-select-options [order]="userOrder" />
+            <p-tag
+              [value]="userOrder.paymentStatus"
+              [severity]="statusToSeverity(userOrder.paymentStatus)"
+              class="font-medium"
+            />
           </td>
           <td>{{ userOrder.total | currency: "USD" : "symbol" : "1.2-2" }}</td>
           <td>

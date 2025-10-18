@@ -1,4 +1,8 @@
-import { OrdersQueryOptions } from './../../../../shared/models/orders-model';
+import {
+  OrdersQueryOptions,
+  OrderStatus,
+  PaymentStatus,
+} from './../../../../shared/models/orders-model';
 import {
   Component,
   computed,
@@ -21,8 +25,6 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OrderStatusSelectOptions } from '../../../orders-layout/orders/order-status-select-options/order-status-select-options';
-import { PaymentStatusSelectOptions } from '../../../orders-layout/orders/payment-status-select-options/payment-status-select-options';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -38,9 +40,7 @@ import { RouterLink } from '@angular/router';
     DialogModule,
     SelectModule,
     FormsModule,
-    OrderStatusSelectOptions,
-    PaymentStatusSelectOptions,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',
@@ -112,5 +112,9 @@ export class UserOrders {
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
+  }
+
+  statusToSeverity(status: OrderStatus | PaymentStatus): string {
+    return this._ordersService.statusToSeverity(status);
   }
 }

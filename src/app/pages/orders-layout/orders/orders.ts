@@ -7,10 +7,10 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   OrderResult,
   OrdersQueryOptions,
+  OrderStatus,
+  PaymentStatus,
 } from '../../../shared/models/orders-model';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { OrderStatusSelectOptions } from './order-status-select-options/order-status-select-options';
-import { PaymentStatusSelectOptions } from './payment-status-select-options/payment-status-select-options';
 import { DialogModule } from 'primeng/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
@@ -20,6 +20,7 @@ import { OrdersFiltration } from './orders-filtration/orders-filtration';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToasterService } from '../../../core/services/toaster-service';
 import { RouterLink } from '@angular/router';
+import { TagModule } from "primeng/tag";
 
 @Component({
   selector: 'app-orders',
@@ -29,8 +30,6 @@ import { RouterLink } from '@angular/router';
     ButtonModule,
     CurrencyPipe,
     DatePipe,
-    OrderStatusSelectOptions,
-    PaymentStatusSelectOptions,
     DialogModule,
     OrdersPagination,
     OrdersSearch,
@@ -38,7 +37,8 @@ import { RouterLink } from '@angular/router';
     OrdersFiltration,
     TooltipModule,
     RouterLink,
-  ],
+    TagModule
+],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
@@ -78,6 +78,10 @@ export class Orders {
   viewOrder(order: OrderResult): void {
     this.orderToView.set(order);
     this.showOrderToViewDialog.set(true);
+  }
+
+  statusToSeverity(status: OrderStatus | PaymentStatus): string {
+    return this._ordersService.statusToSeverity(status);
   }
 
   private _loadInitialOrders(): void {
