@@ -10,8 +10,8 @@ export class SalesService {
 
   getTotalSales$(totalSalesQueryOptions: {
     userId?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: string;
+    endDate?: string;
   }) {
     const url = `${environment.apiUrl}/sales/total`;
     let params = new HttpParams();
@@ -19,16 +19,10 @@ export class SalesService {
       params = params.append('userId', totalSalesQueryOptions.userId);
     }
     if (totalSalesQueryOptions.startDate) {
-      params = params.append(
-        'startDate',
-        totalSalesQueryOptions.startDate.toISOString(),
-      );
+      params = params.append('startDate', totalSalesQueryOptions.startDate);
     }
     if (totalSalesQueryOptions.endDate) {
-      params = params.append(
-        'endDate',
-        totalSalesQueryOptions.endDate.toISOString(),
-      );
+      params = params.append('endDate', totalSalesQueryOptions.endDate);
     }
     return this._httpClient.get<number>(url, { params });
   }

@@ -56,7 +56,6 @@ export class RecentOrders implements OnInit {
       .getOrders$(query)
       .pipe(
         tap((res) => this.orders.set(res.results)),
-        tap((res) => console.log(res)),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();
