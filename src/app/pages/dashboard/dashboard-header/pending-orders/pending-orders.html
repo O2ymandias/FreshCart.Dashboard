@@ -1,0 +1,15 @@
+<p-card header="Pending" class="relative text-center">
+  <p-button
+    class="absolute top-2 right-2"
+    icon="pi pi-arrow-up-right"
+    size="small"
+    rounded
+    severity="secondary"
+    (click)="navigateToPendingOrders()"
+  />
+
+  <h2 class="text-2xl font-semibold text-orange-500">
+    {{ pendingOrdersCount() }}
+  </h2>
+  <p class="text-gray-500">Pending Orders</p>
+</p-card>

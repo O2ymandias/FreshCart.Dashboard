@@ -1,5 +1,6 @@
 import {
   OrderStatusOption,
+  PaymentMethod,
   PaymentMethodOption,
   PaymentStatusOption,
 } from '../../shared/models/orders-model';
@@ -96,6 +97,25 @@ export class OrdersService {
   getOrder$(orderId: number) {
     const url = `${environment.apiUrl}/orders/${orderId}`;
     return this._httpClient.get<OrderResult>(url);
+  }
+
+  getOrdersCount$(options?: {
+    orderStatus?: OrderStatus;
+    paymentStatus?: PaymentStatus;
+    paymentMethod?: PaymentMethod;
+  }) {
+    const url = `${environment.apiUrl}/orders/count`;
+
+    let params = new HttpParams();
+
+    if (options) {
+      const { orderStatus, paymentStatus, paymentMethod } = options;
+      if (orderStatus) params = params.append('orderStatus', orderStatus);
+      if (paymentStatus) params = params.append('paymentStatus', paymentStatus);
+      if (paymentMethod) params = params.append('paymentMethod', paymentMethod);
+    }
+
+    return this._httpClient.get<number>(url, { params });
   }
 
   updateOrderStatus$(requestData: UpdateOrderStatusRequest) {

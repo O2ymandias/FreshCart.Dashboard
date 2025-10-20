@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { CardModule } from "primeng/card";
-import { MonthlySales } from "./monthly-sales/monthly-sales";
+import { CardModule } from 'primeng/card';
+import { TotalSales } from "./total-sales/total-sales";
+import { TotalOrders } from "./total-orders/total-orders";
+import { TotalCustomers } from "./total-customers/total-customers";
+import { PendingOrders } from "./pending-orders/pending-orders";
 
 @Component({
   selector: 'app-dashboard-header',
-  imports: [CardModule, MonthlySales],
+  imports: [CardModule, TotalSales, TotalOrders, TotalCustomers, PendingOrders],
   templateUrl: './dashboard-header.html',
-  styleUrl: './dashboard-header.scss'
+  styleUrl: './dashboard-header.scss',
 })
-export class DashboardHeader {
-
-}
+export class DashboardHeader {}

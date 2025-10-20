@@ -42,4 +42,9 @@ export class UsersService {
     const url = `${environment.apiUrl}/users/${id}`;
     return this._httpClient.get<User>(url);
   }
+
+  getUsersCount$() {
+    const url = `${environment.apiUrl}/users/count`;
+    return this._httpClient.get<number>(url);
+  }
 }

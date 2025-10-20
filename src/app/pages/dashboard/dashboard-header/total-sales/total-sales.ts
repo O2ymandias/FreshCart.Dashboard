@@ -1,17 +1,17 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { CardModule } from 'primeng/card';
-import { SalesService } from '../../../../core/services/sales-service';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CardModule } from 'primeng/card';
 import { tap } from 'rxjs';
+import { SalesService } from '../../../../core/services/sales-service';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-monthly-sales',
+  selector: 'app-total-sales',
   imports: [CardModule, CurrencyPipe],
-  templateUrl: './monthly-sales.html',
-  styleUrl: './monthly-sales.scss',
+  templateUrl: './total-sales.html',
+  styleUrl: './total-sales.scss',
 })
-export class MonthlySales implements OnInit {
+export class TotalSales {
   private readonly _salesService = inject(SalesService);
   private readonly _destroyRef = inject(DestroyRef);
 

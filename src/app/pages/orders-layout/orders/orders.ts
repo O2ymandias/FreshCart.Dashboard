@@ -10,7 +10,7 @@ import {
   OrderStatus,
   PaymentStatus,
 } from '../../../shared/models/orders-model';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrdersPagination } from './orders-pagination/orders-pagination';
@@ -18,9 +18,9 @@ import { OrdersSearch } from './orders-search/orders-search';
 import { OrdersSort } from './orders-sort/orders-sort';
 import { OrdersFiltration } from './orders-filtration/orders-filtration';
 import { TooltipModule } from 'primeng/tooltip';
-import { ToasterService } from '../../../core/services/toaster-service';
-import { RouterLink } from '@angular/router';
-import { TagModule } from "primeng/tag";
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TagModule } from 'primeng/tag';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -37,16 +37,19 @@ import { TagModule } from "primeng/tag";
     OrdersFiltration,
     TooltipModule,
     RouterLink,
-    TagModule
-],
+    TagModule,
+  ],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
 export class Orders {
   private readonly _ordersService = inject(OrdersService);
-  private readonly _confirmationService = inject(ConfirmationService);
-  private readonly _toasterService = inject(ToasterService);
+  private readonly _router = inject(Router);
+  private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _destroyRef = inject(DestroyRef);
+
+  // queryParam
+  orderStatus = signal<OrderStatus | undefined>(undefined);
 
   // Orders
   orders = this._ordersService.orders;
@@ -67,11 +70,21 @@ export class Orders {
   ];
 
   ngOnInit(): void {
+    this._activatedRoute.queryParams
+      .pipe(
+        tap((params) => {
+          this.orderStatus.set(params['orderStatus'] as OrderStatus);
+        }),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
+
     this._loadInitialOrders();
   }
 
   refresh(): void {
     this._ordersService.reset();
+    this._resetOrderStatus();
     this._loadInitialOrders();
   }
 
@@ -90,9 +103,32 @@ export class Orders {
       pageSize: this._ordersService.DEFAULT_PAGE_SIZE,
     };
 
+    const orderStatus = this.orderStatus();
+
+    if (orderStatus) {
+      this._ordersService.orderStatusOption.set({
+        label: orderStatus,
+        value: orderStatus,
+      });
+      options.orderStatus = this.orderStatus();
+    }
+
     this._ordersService
       .getOrders$(options)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
+  }
+
+  private _resetOrderStatus(): void {
+    this.orderStatus.set(undefined);
+    this._cleanQueryParams();
+  }
+
+  private _cleanQueryParams(): void {
+    this._router.navigate([], {
+      relativeTo: this._activatedRoute,
+      queryParams: {}, // remove all query params
+      replaceUrl: true, // avoid adding a new history entry
+    });
   }
 }
