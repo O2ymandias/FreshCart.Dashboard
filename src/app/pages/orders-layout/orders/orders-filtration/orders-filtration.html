@@ -16,9 +16,11 @@
   [(visible)]="visible"
   position="right"
 >
-  <div class="flex h-full flex-col justify-between gap-4">
+  <div class="flex flex-col justify-center gap-4">
     <!-- Filters -->
     <div class="flex flex-col gap-4">
+
+      
       <!-- Order Status -->
       <div class="flex flex-col gap-1">
         <label
@@ -59,7 +61,7 @@
         />
       </div>
 
-      <!-- Payment Status -->
+      <!-- Payment Method -->
       <div class="flex flex-col gap-1">
         <label
           class="opacity-75"
@@ -79,65 +81,73 @@
         />
       </div>
 
-      <!-- Min Subtotal -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="minSubTotal">Min Subtotal</label>
-        <p-inputnumber
-          inputId="minSubTotal"
-          [(ngModel)]="minSubTotal"
-          mode="decimal"
-          [useGrouping]="false"
-          class="w-full"
-          [showButtons]="true"
-          placeholder="None"
-          [min]="1"
-        />
-      </div>
+      <p-fieldset legend="Subtotal">
+        <div class="flex flex-col gap-4">
+          <!-- Min Subtotal -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="minSubTotal">Min</label>
+            <p-inputnumber
+              inputId="minSubTotal"
+              [(ngModel)]="minSubTotal"
+              mode="decimal"
+              [useGrouping]="false"
+              class="w-full"
+              [showButtons]="true"
+              placeholder="None"
+              [min]="1"
+            />
+          </div>
 
-      <!-- Max Subtotal -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="maxSubTotal">Max Subtotal</label>
-        <p-inputnumber
-          inputId="maxSubTotal"
-          [(ngModel)]="maxSubTotal"
-          mode="decimal"
-          [useGrouping]="false"
-          class="w-full"
-          [showButtons]="true"
-          placeholder="None"
-          [min]="1"
-        />
-      </div>
+          <!-- Max Subtotal -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="maxSubTotal">Max</label>
+            <p-inputnumber
+              inputId="maxSubTotal"
+              [(ngModel)]="maxSubTotal"
+              mode="decimal"
+              [useGrouping]="false"
+              class="w-full"
+              [showButtons]="true"
+              placeholder="None"
+              [min]="1"
+            />
+          </div>
+        </div>
+      </p-fieldset>
 
-      <!-- Start Date -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="startDate">Start Date</label>
-        <p-datepicker
-          inputId="startDate"
-          [(ngModel)]="startDate"
-          dateFormat="dd/mm/yy"
-          [showIcon]="true"
-          placeholder="None"
-          [showClear]="true"
-        />
-      </div>
+      <p-fieldset legend="Date ">
+        <div class="flex flex-col gap-4">
+          <!-- Start Date -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="startDate">Start Date</label>
+            <p-datepicker
+              inputId="startDate"
+              [(ngModel)]="startDate"
+              dateFormat="dd/mm/yy"
+              [showIcon]="true"
+              placeholder="None"
+              [showClear]="true"
+            />
+          </div>
 
-      <!-- End Date -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="endDate">End Date</label>
-        <p-datepicker
-          inputId="endDate"
-          [(ngModel)]="endDate"
-          dateFormat="dd/mm/yy"
-          [showIcon]="true"
-          placeholder="None"
-          [showClear]="true"
-        />
-      </div>
+          <!-- End Date -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="endDate">End Date</label>
+            <p-datepicker
+              inputId="endDate"
+              [(ngModel)]="endDate"
+              dateFormat="dd/mm/yy"
+              [showIcon]="true"
+              placeholder="None"
+              [showClear]="true"
+            />
+          </div>
+        </div>
+      </p-fieldset>
     </div>
 
     <!-- Buttons -->
-    <div class="flex items-center justify-between gap-2 pb-5">
+    <div class="flex items-center justify-between gap-2">
       <p-button
         label="Apply"
         severity="primary"

@@ -16,6 +16,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { finalize, tap } from 'rxjs';
 import { DatePickerModule } from 'primeng/datepicker';
+import { Fieldset } from 'primeng/fieldset';
 
 @Component({
   selector: 'app-orders-filtration',
@@ -28,6 +29,7 @@ import { DatePickerModule } from 'primeng/datepicker';
     InputNumberModule,
     InputTextModule,
     DatePickerModule,
+    Fieldset,
   ],
   templateUrl: './orders-filtration.html',
   styleUrl: './orders-filtration.scss',

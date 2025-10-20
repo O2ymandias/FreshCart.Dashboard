@@ -3,12 +3,12 @@ import { CardModule } from 'primeng/card';
 import { OrdersService } from '../../../../core/services/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-pending-orders',
-  imports: [CardModule, ButtonModule],
+  imports: [CardModule, ButtonModule, RouterLink],
   templateUrl: './pending-orders.html',
   styleUrl: './pending-orders.scss',
 })

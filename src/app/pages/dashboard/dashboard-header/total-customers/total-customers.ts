@@ -3,10 +3,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card } from 'primeng/card';
 import { tap } from 'rxjs';
 import { UsersService } from '../../../../core/services/users-service';
+import { ButtonModule } from "primeng/button";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-total-customers',
-  imports: [Card],
+  imports: [Card, ButtonModule, RouterLink],
   templateUrl: './total-customers.html',
   styleUrl: './total-customers.scss',
 })

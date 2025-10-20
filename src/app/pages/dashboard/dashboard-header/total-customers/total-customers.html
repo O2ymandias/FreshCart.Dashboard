@@ -1,4 +1,13 @@
-<p-card header="Customers" class="text-center">
+<p-card header="Customers" class="relative text-center">
+  <a
+    class="absolute top-2 right-2"
+    pButton
+    [routerLink]="['/users']"
+    icon="pi pi-arrow-up-right"
+    size="small"
+    rounded
+    severity="secondary"
+  ></a>
   <h2 class="text-primary text-2xl font-semibold">
     {{ totalCustomers() }}
   </h2>

@@ -1,12 +1,15 @@
 <p-card header="Pending" class="relative text-center">
-  <p-button
+  <a
+    pButton
     class="absolute top-2 right-2"
     icon="pi pi-arrow-up-right"
     size="small"
     rounded
     severity="secondary"
-    (click)="navigateToPendingOrders()"
-  />
+    [routerLink]="['/orders']"
+    [queryParams]="{ orderStatus: 'pending' }"
+  >
+  </a>
 
   <h2 class="text-2xl font-semibold text-orange-500">
     {{ pendingOrdersCount() }}

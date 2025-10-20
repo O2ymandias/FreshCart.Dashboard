@@ -3,10 +3,12 @@ import { CardModule } from 'primeng/card';
 import { OrdersService } from '../../../../core/services/orders-service';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-total-orders',
-  imports: [CardModule],
+  imports: [CardModule, RouterLink, ButtonModule],
   templateUrl: './total-orders.html',
   styleUrl: './total-orders.scss',
 })
