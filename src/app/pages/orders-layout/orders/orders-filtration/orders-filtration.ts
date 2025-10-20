@@ -15,6 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { finalize, tap } from 'rxjs';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-orders-filtration',
@@ -26,6 +27,7 @@ import { finalize, tap } from 'rxjs';
     FloatLabelModule,
     InputNumberModule,
     InputTextModule,
+    DatePickerModule,
   ],
   templateUrl: './orders-filtration.html',
   styleUrl: './orders-filtration.scss',
@@ -95,13 +97,18 @@ export class OrdersFiltration {
   minSubTotal = signal<number | undefined>(undefined);
   maxSubTotal = signal<number | undefined>(undefined);
 
+  startDate = signal<Date | undefined>(undefined);
+  endDate = signal<Date | undefined>(undefined);
+
   noFilters = computed(
     () =>
       !this.orderStatusOption() &&
       !this.paymentStatusOption() &&
       !this.paymentMethodOption() &&
       !this.minSubTotal() &&
-      !this.maxSubTotal(),
+      !this.maxSubTotal() &&
+      !this.startDate() &&
+      !this.endDate(),
   );
 
   loading = signal(false);
@@ -113,11 +120,16 @@ export class OrdersFiltration {
     const query: OrdersQueryOptions = {
       pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
       pageSize: this._ordersService.pageSize(),
+
       orderStatus: this.orderStatusOption()?.value,
       paymentStatus: this.paymentStatusOption()?.value,
       paymentMethod: this.paymentMethodOption()?.value,
+
       minSubTotal: this.minSubTotal(),
       maxSubTotal: this.maxSubTotal(),
+
+      startDate: this.startDate()?.toISOString(),
+      endDate: this.endDate()?.toISOString(),
     };
 
     this._ordersService
@@ -136,5 +148,7 @@ export class OrdersFiltration {
     this.paymentMethodOption.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);
+    this.startDate.set(undefined);
+    this.endDate.set(undefined);
   }
 }

@@ -5,7 +5,17 @@
   rounded
   (click)="visible.set(true)"
 />
-<p-drawer header="Advanced Filter" [(visible)]="visible" position="right">
+<p-drawer
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
+  styleClass="w-96"
+  header="Advanced Filter"
+  [(visible)]="visible"
+  position="right"
+>
   <div class="flex h-full flex-col justify-between gap-4">
     <!-- Filters -->
     <div class="flex flex-col gap-4">
@@ -98,10 +108,36 @@
           [min]="1"
         />
       </div>
+
+      <!-- Start Date -->
+      <div class="flex flex-col gap-1">
+        <label class="opacity-75" for="startDate">Start Date</label>
+        <p-datepicker
+          inputId="startDate"
+          [(ngModel)]="startDate"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          placeholder="None"
+          [showClear]="true"
+        />
+      </div>
+
+      <!-- End Date -->
+      <div class="flex flex-col gap-1">
+        <label class="opacity-75" for="endDate">End Date</label>
+        <p-datepicker
+          inputId="endDate"
+          [(ngModel)]="endDate"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          placeholder="None"
+          [showClear]="true"
+        />
+      </div>
     </div>
 
     <!-- Buttons -->
-    <div class="flex items-center justify-between gap-2">
+    <div class="flex items-center justify-between gap-2 pb-5">
       <p-button
         label="Apply"
         severity="primary"

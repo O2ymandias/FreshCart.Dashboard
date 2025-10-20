@@ -84,6 +84,11 @@ export class OrdersService {
     if (options.maxSubTotal)
       params = params.append('maxSubTotal', options.maxSubTotal.toString());
 
+    if (options.startDate)
+      params = params.append('startDate', options.startDate);
+
+    if (options.endDate) params = params.append('endDate', options.endDate);
+
     return this._httpClient.get<OrderResponse>(url, { params }).pipe(
       tap((res) => {
         this.orders.set(res.results);

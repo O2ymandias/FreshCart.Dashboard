@@ -1,20 +1,28 @@
 import { SortDirection } from './shared.model';
 
 export type OrdersQueryOptions = {
-  search?: string;
   pageNumber: number;
   pageSize: number;
+
+  search?: string;
+
   userId?: string;
   orderId?: number;
+
   sort?: {
     key: OrderSortKey;
     dir: SortDirection;
   };
+
   paymentStatus?: PaymentStatus;
   orderStatus?: OrderStatus;
   paymentMethod?: PaymentMethod;
+
   minSubTotal?: number;
   maxSubTotal?: number;
+
+  startDate?: string;
+  endDate?: string;
 };
 
 export type OrderSortKey = 'createdAt' | 'subTotal';
