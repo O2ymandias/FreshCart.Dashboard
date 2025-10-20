@@ -16,7 +16,7 @@
           <i class="pi pi-envelope text-amber-500"></i>
           User Email
         </p>
-        <p class="break-all opacity-75">{{ order().userEmail }}</p>
+        <app-email-link [email]="order().userEmail" />
       </div>
 
       <!-- Payment Method -->
@@ -51,7 +51,7 @@
           <i class="pi pi-phone text-orange-500"></i>
           Phone Number
         </p>
-        <p class="opacity-75">{{ order().shippingAddress.phoneNumber }}</p>
+        <app-phone-link [phoneNumber]="order().shippingAddress.phoneNumber" />
       </div>
 
       <!-- Shipping Address -->

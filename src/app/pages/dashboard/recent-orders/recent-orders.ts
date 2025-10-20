@@ -10,7 +10,7 @@ import {
 } from '../../../shared/models/orders-model';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
-import { EmailLink } from '../../../shared/components/email-link/email-link';
+import { EmailLink } from '../../orders-layout/order-details/order-shipping-info/email-link/email-link';
 import { TagModule } from 'primeng/tag';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
