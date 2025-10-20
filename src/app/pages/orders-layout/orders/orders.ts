@@ -85,7 +85,6 @@ export class Orders {
   refresh(): void {
     this._ordersService.reset();
     this._resetOrderStatus();
-    this._loadInitialOrders();
   }
 
   viewOrder(order: OrderResult): void {
@@ -121,14 +120,15 @@ export class Orders {
 
   private _resetOrderStatus(): void {
     this.orderStatus.set(undefined);
-    this._cleanQueryParams();
-  }
 
-  private _cleanQueryParams(): void {
-    this._router.navigate([], {
-      relativeTo: this._activatedRoute,
-      queryParams: {}, // remove all query params
-      replaceUrl: true, // avoid adding a new history entry
-    });
+    this._router
+      .navigate([], {
+        relativeTo: this._activatedRoute,
+        queryParams: {}, // remove all query params
+        replaceUrl: true, // avoid adding a new history entry
+      })
+      .then(() => {
+        this._loadInitialOrders();
+      });
   }
 }

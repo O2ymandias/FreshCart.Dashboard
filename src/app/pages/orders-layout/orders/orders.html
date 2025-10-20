@@ -37,6 +37,7 @@
         <th>Order Date</th>
         <th>Order Status</th>
         <th>Payment Status</th>
+        <th>Payment Method</th>
         <th>Total</th>
         <th></th>
       </tr>
@@ -58,6 +59,13 @@
           <p-tag
             [value]="order.paymentStatus"
             [severity]="statusToSeverity(order.paymentStatus)"
+            class="font-medium"
+          />
+        </td>
+        <td>
+          <p-tag
+            [value]="order.paymentMethod"
+            severity="info"
             class="font-medium"
           />
         </td>
