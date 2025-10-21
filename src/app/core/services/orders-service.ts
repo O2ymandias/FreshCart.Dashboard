@@ -1,7 +1,4 @@
-import {
-  PaymentMethod,
-  PaymentMethodOption,
-} from '../../shared/models/orders-model';
+import { PaymentMethod } from '../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
@@ -41,12 +38,9 @@ export class OrdersService {
   sortOption = signal<OrderSortOption | undefined>(undefined);
 
   // Filtration
-  // orderStatusOption = signal<OrderStatusOption | undefined>(undefined);
   orderStatus = signal<OrderStatus | undefined>(undefined);
-  // paymentStatusOption = signal<PaymentStatusOption | undefined>(undefined);
   paymentStatus = signal<PaymentStatus | undefined>(undefined);
-
-  paymentMethodOption = signal<PaymentMethodOption | undefined>(undefined);
+  paymentMethod = signal<PaymentMethod | undefined>(undefined);
   minSubTotal = signal<number | undefined>(undefined);
   maxSubTotal = signal<number | undefined>(undefined);
 
@@ -141,11 +135,9 @@ export class OrdersService {
     this.totalRecords.set(0);
     this.searchQuery.set(undefined);
     this.sortOption.set(undefined);
-    // this.orderStatusOption.set(undefined);
     this.orderStatus.set(undefined);
-    // this.paymentStatusOption.set(undefined);
     this.paymentStatus.set(undefined);
-    this.paymentMethodOption.set(undefined);
+    this.paymentMethod.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);
   }

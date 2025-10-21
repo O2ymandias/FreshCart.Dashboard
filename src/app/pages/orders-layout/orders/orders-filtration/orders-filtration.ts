@@ -4,7 +4,7 @@ import { SelectModule } from 'primeng/select';
 import {
   OrdersQueryOptions,
   OrderStatus,
-  PaymentMethodOption,
+  PaymentMethod,
   PaymentStatus,
 } from '../../../../shared/models/orders-model';
 import { FormsModule } from '@angular/forms';
@@ -57,17 +57,8 @@ export class OrdersFiltration {
     'PaymentFailed',
   ];
 
-  paymentMethodOption = this._ordersService.paymentMethodOption;
-  PaymentMethodOptions: PaymentMethodOption[] = [
-    {
-      label: 'Cash',
-      value: 'Cash',
-    },
-    {
-      label: 'Online',
-      value: 'Online',
-    },
-  ];
+  paymentMethod = this._ordersService.paymentMethod;
+  PaymentMethodOptions: PaymentMethod[] = ['Cash', 'Online'];
 
   minSubTotal = signal<number | undefined>(undefined);
   maxSubTotal = signal<number | undefined>(undefined);
@@ -79,7 +70,7 @@ export class OrdersFiltration {
     () =>
       !this.orderStatus() &&
       !this.paymentStatus() &&
-      !this.paymentMethodOption() &&
+      !this.paymentMethod() &&
       !this.minSubTotal() &&
       !this.maxSubTotal() &&
       !this.startDate() &&
@@ -98,7 +89,7 @@ export class OrdersFiltration {
 
       orderStatus: this.orderStatus(),
       paymentStatus: this.paymentStatus(),
-      paymentMethod: this.paymentMethodOption()?.value,
+      paymentMethod: this.paymentMethod(),
 
       minSubTotal: this.minSubTotal(),
       maxSubTotal: this.maxSubTotal(),
@@ -120,7 +111,7 @@ export class OrdersFiltration {
   clearFilters() {
     this.orderStatus.set(undefined);
     this.paymentStatus.set(undefined);
-    this.paymentMethodOption.set(undefined);
+    this.paymentMethod.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);
     this.startDate.set(undefined);

@@ -31,9 +31,7 @@ export class OrdersPagination {
   // Filtration
   orderStatus = this._ordersService.orderStatus;
   paymentStatus = this._ordersService.paymentStatus;
-  paymentMethod = computed(
-    () => this._ordersService.paymentMethodOption()?.value,
-  );
+  paymentMethod = this._ordersService.paymentMethod;
   minSubTotal = this._ordersService.minSubTotal;
   maxSubTotal = this._ordersService.maxSubTotal;
 
