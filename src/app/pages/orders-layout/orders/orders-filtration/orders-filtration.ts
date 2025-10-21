@@ -3,9 +3,9 @@ import { DrawerModule } from 'primeng/drawer';
 import { SelectModule } from 'primeng/select';
 import {
   OrdersQueryOptions,
-  OrderStatus,
-  PaymentMethod,
-  PaymentStatus,
+  OrderStatusOption,
+  PaymentMethodOption,
+  PaymentStatusOption,
 } from '../../../../shared/models/orders-model';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -41,24 +41,27 @@ export class OrdersFiltration {
   visible = signal(false);
 
   orderStatus = this._ordersService.orderStatus;
-  orderStatusOptions: OrderStatus[] = [
-    'Pending',
-    'Processing',
-    'Shipped',
-    'Delivered',
-    'Cancelled',
+  orderStatusOptions: OrderStatusOption[] = [
+    { label: 'Pending', value: 'Pending' },
+    { label: 'Processing', value: 'Processing' },
+    { label: 'Shipped', value: 'Shipped' },
+    { label: 'Delivered', value: 'Delivered' },
+    { label: 'Cancelled', value: 'Cancelled' },
   ];
 
   paymentStatus = this._ordersService.paymentStatus;
-  PaymentStatusOptions: PaymentStatus[] = [
-    'Pending',
-    'AwaitingPayment',
-    'PaymentReceived',
-    'PaymentFailed',
+  PaymentStatusOptions: PaymentStatusOption[] = [
+    { label: 'Pending', value: 'Pending' },
+    { label: 'Awaiting Payment', value: 'AwaitingPayment' },
+    { label: 'Payment Received', value: 'PaymentReceived' },
+    { label: 'Payment Failed', value: 'PaymentFailed' },
   ];
 
   paymentMethod = this._ordersService.paymentMethod;
-  PaymentMethodOptions: PaymentMethod[] = ['Cash', 'Online'];
+  PaymentMethodOptions: PaymentMethodOption[] = [
+    { label: 'Cash', value: 'Cash' },
+    { label: 'Online', value: 'Online' },
+  ];
 
   minSubTotal = signal<number | undefined>(undefined);
   maxSubTotal = signal<number | undefined>(undefined);
