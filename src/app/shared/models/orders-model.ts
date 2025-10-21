@@ -96,6 +96,11 @@ export type UpdatePaymentStatusRequest = {
   newPaymentStatus: PaymentStatus;
 };
 
+export type OrderSort = {
+  key: OrderSortKey;
+  dir: SortDirection;
+};
+
 export type OrderSortOption = {
   label: string;
   value: {

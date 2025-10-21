@@ -1,9 +1,10 @@
 <p-select
   class="w-full"
   [options]="sortOptions"
-  [(ngModel)]="sortOption"
+  [(ngModel)]="sort"
   [showClear]="true"
   placeholder="Sort By"
   optionLabel="label"
+  optionValue="value"
   (onChange)="applySort()"
 />

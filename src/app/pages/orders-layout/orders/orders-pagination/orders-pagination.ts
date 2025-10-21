@@ -21,7 +21,7 @@ export class OrdersPagination {
   searchQuery = this._ordersService.searchQuery;
 
   // Sort
-  sort = computed(() => this._ordersService.sortOption()?.value);
+  sort = this._ordersService.sort;
 
   // Pagination
   pageSize = this._ordersService.pageSize;

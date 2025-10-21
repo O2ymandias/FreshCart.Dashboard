@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { Component, computed, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { SelectModule } from 'primeng/select';
 import { OrdersService } from '../../../../core/services/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -18,7 +18,7 @@ export class OrdersSort {
   private readonly _ordersService = inject(OrdersService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  sortOption = this._ordersService.sortOption;
+  sort = this._ordersService.sort;
   sortOptions: OrderSortOption[] = [
     {
       label: 'Created At: New to Old',
@@ -49,7 +49,6 @@ export class OrdersSort {
       },
     },
   ];
-  sort = computed(() => this.sortOption()?.value);
 
   applySort(): void {
     // Reset to first page BUT keep the current page size.

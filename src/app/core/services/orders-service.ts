@@ -1,10 +1,9 @@
-import { PaymentMethod } from '../../shared/models/orders-model';
+import { OrderSort, PaymentMethod } from '../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
   OrderResponse,
   OrderResult,
-  OrderSortOption,
   OrdersQueryOptions,
   OrderStatus,
   PaymentStatus,
@@ -35,7 +34,7 @@ export class OrdersService {
   searchQuery = signal<string | undefined>(undefined);
 
   // Sort
-  sortOption = signal<OrderSortOption | undefined>(undefined);
+  sort = signal<OrderSort | undefined>(undefined);
 
   // Filtration
   orderStatus = signal<OrderStatus | undefined>(undefined);
@@ -134,7 +133,7 @@ export class OrdersService {
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.totalRecords.set(0);
     this.searchQuery.set(undefined);
-    this.sortOption.set(undefined);
+    this.sort.set(undefined);
     this.orderStatus.set(undefined);
     this.paymentStatus.set(undefined);
     this.paymentMethod.set(undefined);
