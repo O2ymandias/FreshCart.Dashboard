@@ -3,7 +3,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { SelectModule } from 'primeng/select';
 import {
   OrdersQueryOptions,
-  OrderStatusOption,
+  OrderStatus,
   PaymentMethodOption,
   PaymentStatusOption,
 } from '../../../../shared/models/orders-model';
@@ -40,28 +40,13 @@ export class OrdersFiltration {
 
   visible = signal(false);
 
-  orderStatusOption = this._ordersService.orderStatusOption;
-  OrderStatusOptions: OrderStatusOption[] = [
-    {
-      label: 'Pending',
-      value: 'Pending',
-    },
-    {
-      label: 'Processing',
-      value: 'Processing',
-    },
-    {
-      label: 'Shipped',
-      value: 'Shipped',
-    },
-    {
-      label: 'Delivered',
-      value: 'Delivered',
-    },
-    {
-      label: 'Cancelled',
-      value: 'Cancelled',
-    },
+  orderStatus = this._ordersService.orderStatus;
+  orderStatusOptions: OrderStatus[] = [
+    'Pending',
+    'Processing',
+    'Shipped',
+    'Delivered',
+    'Cancelled',
   ];
 
   paymentStatusOption = this._ordersService.paymentStatusOption;
@@ -104,7 +89,7 @@ export class OrdersFiltration {
 
   noFilters = computed(
     () =>
-      !this.orderStatusOption() &&
+      !this.orderStatus() &&
       !this.paymentStatusOption() &&
       !this.paymentMethodOption() &&
       !this.minSubTotal() &&
@@ -123,7 +108,7 @@ export class OrdersFiltration {
       pageNumber: this._ordersService.DEFAULT_PAGE_NUMBER,
       pageSize: this._ordersService.pageSize(),
 
-      orderStatus: this.orderStatusOption()?.value,
+      orderStatus: this.orderStatus(),
       paymentStatus: this.paymentStatusOption()?.value,
       paymentMethod: this.paymentMethodOption()?.value,
 
@@ -145,7 +130,7 @@ export class OrdersFiltration {
   }
 
   clearFilters() {
-    this.orderStatusOption.set(undefined);
+    this.orderStatus.set(undefined);
     this.paymentStatusOption.set(undefined);
     this.paymentMethodOption.set(undefined);
     this.minSubTotal.set(undefined);

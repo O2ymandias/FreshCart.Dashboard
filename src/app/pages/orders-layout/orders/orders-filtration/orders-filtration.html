@@ -19,8 +19,6 @@
   <div class="flex flex-col justify-center gap-4">
     <!-- Filters -->
     <div class="flex flex-col gap-4">
-
-      
       <!-- Order Status -->
       <div class="flex flex-col gap-1">
         <label
@@ -33,11 +31,10 @@
         <p-select
           #orderStatusElement
           class="w-full"
-          [options]="OrderStatusOptions"
-          [(ngModel)]="orderStatusOption"
+          [options]="orderStatusOptions"
+          [(ngModel)]="orderStatus"
           [showClear]="true"
           placeholder="None"
-          optionLabel="label"
         />
       </div>
 

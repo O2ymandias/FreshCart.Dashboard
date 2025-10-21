@@ -23,12 +23,6 @@ export class PendingOrders implements OnInit {
     this._initialize();
   }
 
-  navigateToPendingOrders() {
-    this._router.navigate(['/orders'], {
-      queryParams: { orderStatus: 'Pending' },
-    });
-  }
-
   private _initialize() {
     this._ordersService
       .getOrdersCount$({

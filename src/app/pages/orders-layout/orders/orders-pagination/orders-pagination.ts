@@ -29,7 +29,7 @@ export class OrdersPagination {
   totalRecords = this._ordersService.totalRecords;
 
   // Filtration
-  orderStatus = computed(() => this._ordersService.orderStatusOption()?.value);
+  orderStatus = this._ordersService.orderStatus;
   paymentStatus = computed(
     () => this._ordersService.paymentStatusOption()?.value,
   );

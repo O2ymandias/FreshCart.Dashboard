@@ -49,7 +49,7 @@ export class Orders {
   private readonly _destroyRef = inject(DestroyRef);
 
   // queryParam
-  orderStatus = signal<OrderStatus | undefined>(undefined);
+  orderStatusQueryParam = signal<OrderStatus | undefined>(undefined);
 
   // Orders
   orders = this._ordersService.orders;
@@ -73,7 +73,7 @@ export class Orders {
     this._activatedRoute.queryParams
       .pipe(
         tap((params) => {
-          this.orderStatus.set(params['orderStatus'] as OrderStatus);
+          this.orderStatusQueryParam.set(params['orderStatus'] as OrderStatus);
         }),
         takeUntilDestroyed(this._destroyRef),
       )
@@ -84,7 +84,7 @@ export class Orders {
 
   refresh(): void {
     this._ordersService.reset();
-    this._resetOrderStatus();
+    this._resetOrderStatusThenReloadOrders();
   }
 
   viewOrder(order: OrderResult): void {
@@ -102,14 +102,11 @@ export class Orders {
       pageSize: this._ordersService.DEFAULT_PAGE_SIZE,
     };
 
-    const orderStatus = this.orderStatus();
+    const orderStatusQueryParam = this.orderStatusQueryParam();
 
-    if (orderStatus) {
-      this._ordersService.orderStatusOption.set({
-        label: orderStatus,
-        value: orderStatus,
-      });
-      options.orderStatus = this.orderStatus();
+    if (orderStatusQueryParam) {
+      this._ordersService.orderStatus.set(orderStatusQueryParam);
+      options.orderStatus = orderStatusQueryParam;
     }
 
     this._ordersService
@@ -118,8 +115,8 @@ export class Orders {
       .subscribe();
   }
 
-  private _resetOrderStatus(): void {
-    this.orderStatus.set(undefined);
+  private _resetOrderStatusThenReloadOrders(): void {
+    this.orderStatusQueryParam.set(undefined);
 
     this._router
       .navigate([], {
