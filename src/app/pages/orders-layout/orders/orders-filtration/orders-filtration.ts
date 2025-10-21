@@ -5,7 +5,7 @@ import {
   OrdersQueryOptions,
   OrderStatus,
   PaymentMethodOption,
-  PaymentStatusOption,
+  PaymentStatus,
 } from '../../../../shared/models/orders-model';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -49,24 +49,12 @@ export class OrdersFiltration {
     'Cancelled',
   ];
 
-  paymentStatusOption = this._ordersService.paymentStatusOption;
-  PaymentStatusOptions: PaymentStatusOption[] = [
-    {
-      label: 'Pending',
-      value: 'Pending',
-    },
-    {
-      label: 'Awaiting Payment',
-      value: 'AwaitingPayment',
-    },
-    {
-      label: 'Payment Received',
-      value: 'PaymentReceived',
-    },
-    {
-      label: 'Payment Failed',
-      value: 'PaymentFailed',
-    },
+  paymentStatus = this._ordersService.paymentStatus;
+  PaymentStatusOptions: PaymentStatus[] = [
+    'Pending',
+    'AwaitingPayment',
+    'PaymentReceived',
+    'PaymentFailed',
   ];
 
   paymentMethodOption = this._ordersService.paymentMethodOption;
@@ -90,7 +78,7 @@ export class OrdersFiltration {
   noFilters = computed(
     () =>
       !this.orderStatus() &&
-      !this.paymentStatusOption() &&
+      !this.paymentStatus() &&
       !this.paymentMethodOption() &&
       !this.minSubTotal() &&
       !this.maxSubTotal() &&
@@ -109,7 +97,7 @@ export class OrdersFiltration {
       pageSize: this._ordersService.pageSize(),
 
       orderStatus: this.orderStatus(),
-      paymentStatus: this.paymentStatusOption()?.value,
+      paymentStatus: this.paymentStatus(),
       paymentMethod: this.paymentMethodOption()?.value,
 
       minSubTotal: this.minSubTotal(),
@@ -131,7 +119,7 @@ export class OrdersFiltration {
 
   clearFilters() {
     this.orderStatus.set(undefined);
-    this.paymentStatusOption.set(undefined);
+    this.paymentStatus.set(undefined);
     this.paymentMethodOption.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);

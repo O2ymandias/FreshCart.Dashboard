@@ -1,8 +1,6 @@
 import {
-  OrderStatusOption,
   PaymentMethod,
   PaymentMethodOption,
-  PaymentStatusOption,
 } from '../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
@@ -45,7 +43,9 @@ export class OrdersService {
   // Filtration
   // orderStatusOption = signal<OrderStatusOption | undefined>(undefined);
   orderStatus = signal<OrderStatus | undefined>(undefined);
-  paymentStatusOption = signal<PaymentStatusOption | undefined>(undefined);
+  // paymentStatusOption = signal<PaymentStatusOption | undefined>(undefined);
+  paymentStatus = signal<PaymentStatus | undefined>(undefined);
+
   paymentMethodOption = signal<PaymentMethodOption | undefined>(undefined);
   minSubTotal = signal<number | undefined>(undefined);
   maxSubTotal = signal<number | undefined>(undefined);
@@ -143,7 +143,8 @@ export class OrdersService {
     this.sortOption.set(undefined);
     // this.orderStatusOption.set(undefined);
     this.orderStatus.set(undefined);
-    this.paymentStatusOption.set(undefined);
+    // this.paymentStatusOption.set(undefined);
+    this.paymentStatus.set(undefined);
     this.paymentMethodOption.set(undefined);
     this.minSubTotal.set(undefined);
     this.maxSubTotal.set(undefined);

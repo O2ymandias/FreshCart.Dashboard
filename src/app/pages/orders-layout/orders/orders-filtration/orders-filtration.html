@@ -51,10 +51,9 @@
           #paymentStatusElement
           class="w-full"
           [options]="PaymentStatusOptions"
-          [(ngModel)]="paymentStatusOption"
+          [(ngModel)]="paymentStatus"
           [showClear]="true"
           placeholder="None"
-          optionLabel="label"
         />
       </div>
 
@@ -112,7 +111,7 @@
         </div>
       </p-fieldset>
 
-      <p-fieldset legend="Date ">
+      <p-fieldset legend="Date">
         <div class="flex flex-col gap-4">
           <!-- Start Date -->
           <div class="flex flex-col gap-1">

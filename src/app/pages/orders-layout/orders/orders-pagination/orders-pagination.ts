@@ -30,9 +30,7 @@ export class OrdersPagination {
 
   // Filtration
   orderStatus = this._ordersService.orderStatus;
-  paymentStatus = computed(
-    () => this._ordersService.paymentStatusOption()?.value,
-  );
+  paymentStatus = this._ordersService.paymentStatus;
   paymentMethod = computed(
     () => this._ordersService.paymentMethodOption()?.value,
   );
