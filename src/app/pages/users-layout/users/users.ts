@@ -23,11 +23,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { UsersService } from '../../../core/services/users-service';
 import { RolesService } from '../../../core/services/roles-service';
-import { DialogModule } from 'primeng/dialog';
 import { Tooltip } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FieldsetModule } from 'primeng/fieldset';
-import { AssignToRole } from './assign-to-role/assign-to-role';
 import { RouterLink } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 import { EmailLink } from '../../orders-layout/order-details/order-shipping-info/email-link/email-link';
@@ -45,12 +43,10 @@ import { PhoneLink } from '../../orders-layout/order-details/order-shipping-info
     PaginatorModule,
     InputTextModule,
     SelectModule,
-    DialogModule,
     Tooltip,
     ReactiveFormsModule,
     CheckboxModule,
     FieldsetModule,
-    AssignToRole,
     RouterLink,
     EmailLink,
     PhoneLink,
@@ -101,10 +97,6 @@ export class Users implements OnInit {
       disabled: true,
     },
   ];
-
-  // Assign To Role Dialog
-  userToAssignRoles = signal<User | null>(null);
-  showAssignToRoleDialog = signal(false);
 
   ngOnInit(): void {
     if (isPlatformServer(this._platformId)) return;
@@ -173,24 +165,11 @@ export class Users implements OnInit {
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.pageSize.set(this.DEFAULT_PAGE_SIZE);
 
-    // Reset user to assign roles
-    this.userToAssignRoles.set(null);
-
     // Reset to first page.
     this._loadUsers({
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
     });
-  }
-
-  assignToRole(user: User): void {
-    this.showAssignToRoleDialog.set(true);
-    this.userToAssignRoles.set(user);
-  }
-
-  onAssignToRole(): void {
-    this.showAssignToRoleDialog.set(false);
-    this.refresh();
   }
 
   private _loadUsers(options: UsersQueryOptions): void {

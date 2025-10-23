@@ -4,10 +4,12 @@ import { CardModule } from 'primeng/card';
 import { tap } from 'rxjs';
 import { SalesService } from '../../../../core/services/sales-service';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-total-sales',
-  imports: [CardModule, CurrencyPipe],
+  imports: [CardModule, CurrencyPipe, RouterLink, ButtonModule],
   templateUrl: './total-sales.html',
   styleUrl: './total-sales.scss',
 })

@@ -85,13 +85,6 @@
               [routerLink]="['/', 'users', 'details', user.id]"
             >
             </a>
-            <p-button
-              icon="pi pi-key"
-              severity="info"
-              rounded
-              outlined
-              (click)="assignToRole(user)"
-            />
           </div>
         </td>
       </tr>
@@ -116,25 +109,3 @@
     </ng-template>
   </p-table>
 </section>
-
-@let user = userToAssignRoles();
-@let availableRoles = roles();
-@if (user && availableRoles) {
-  <p-dialog
-    header="Assign User to a Role"
-    [modal]="true"
-    [(visible)]="showAssignToRoleDialog"
-    styleClass="w-3/4 md:w-1/2"
-    [closeButtonProps]="{
-      severity: 'secondary',
-      rounded: true,
-      outlined: true,
-    }"
-  >
-    <app-assign-to-role
-      [roles]="availableRoles"
-      [user]="user"
-      (onUpdate)="onAssignToRole()"
-    />
-  </p-dialog>
-}
