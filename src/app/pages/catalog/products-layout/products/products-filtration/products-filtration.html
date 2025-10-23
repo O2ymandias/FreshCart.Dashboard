@@ -9,6 +9,7 @@
   header="Advanced Filter"
   [(visible)]="visible"
   position="right"
+  styleClass="w-96"
   [closeButtonProps]="{
     severity: 'secondary',
     rounded: true,
@@ -63,35 +64,39 @@
         />
       </div>
 
-      <!-- Min Price -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="minPrice">Min Price</label>
-        <p-inputnumber
-          inputId="minPrice"
-          [(ngModel)]="minPrice"
-          mode="decimal"
-          [useGrouping]="false"
-          class="w-full"
-          [showButtons]="true"
-          placeholder="None"
-          [min]="1"
-        />
-      </div>
+      <p-fieldset legend="Price">
+        <div class="flex flex-col gap-4">
+          <!-- Min Price -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="minPrice">Min Price</label>
+            <p-inputnumber
+              inputId="minPrice"
+              [(ngModel)]="minPrice"
+              mode="decimal"
+              [useGrouping]="false"
+              class="w-full"
+              [showButtons]="true"
+              placeholder="None"
+              [min]="1"
+            />
+          </div>
 
-      <!-- Max Price -->
-      <div class="flex flex-col gap-1">
-        <label class="opacity-75" for="maxPrice">Max Price</label>
-        <p-inputnumber
-          inputId="maxPrice"
-          [(ngModel)]="maxPrice"
-          mode="decimal"
-          [useGrouping]="false"
-          class="w-full"
-          [showButtons]="true"
-          placeholder="None"
-          [min]="1"
-        />
-      </div>
+          <!-- Max Price -->
+          <div class="flex flex-col gap-1">
+            <label class="opacity-75" for="maxPrice">Max Price</label>
+            <p-inputnumber
+              inputId="maxPrice"
+              [(ngModel)]="maxPrice"
+              mode="decimal"
+              [useGrouping]="false"
+              class="w-full"
+              [showButtons]="true"
+              placeholder="None"
+              [min]="1"
+            />
+          </div>
+        </div>
+      </p-fieldset>
     </div>
 
     <!-- Buttons -->

@@ -14,6 +14,7 @@ import { ProductsQueryOptions } from '../../../../../shared/models/products.mode
 import { ProductsService } from '../../../../../core/services/products-service';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
+import { Fieldset } from "primeng/fieldset";
 
 @Component({
   selector: 'app-products-filtration',
@@ -25,7 +26,8 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     TooltipModule,
     InputTextModule,
-  ],
+    Fieldset
+],
   templateUrl: './products-filtration.html',
   styleUrl: './products-filtration.scss',
 })

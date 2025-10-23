@@ -1,4 +1,16 @@
 <section class="flex flex-col gap-6 px-6 py-12">
   <app-dashboard-header />
+
+  <p-card header="Sales Overview" class="mt-4 shadow-sm">
+    <div>
+      <p-chart
+        class="w-full"
+        #salesChart
+        [data]="salesChartData"
+        [options]="salesChartOptions"
+      />
+    </div>
+  </p-card>
+
   <app-recent-orders />
 </section>
