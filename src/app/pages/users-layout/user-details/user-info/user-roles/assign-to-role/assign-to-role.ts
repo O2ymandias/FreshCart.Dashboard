@@ -13,18 +13,18 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Role } from '../../../../shared/models/roles.model';
+import { Role } from '../../../../../../shared/models/roles.model';
 import {
   AssignToRoleRequestData,
   User,
-} from '../../../../shared/models/users-model';
+} from '../../../../../../shared/models/users-model';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
-import { UsersService } from '../../../../core/services/users-service';
+import { UsersService } from '../../../../../../core/services/users-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, tap, throwError } from 'rxjs';
-import { ToasterService } from '../../../../core/services/toaster-service';
+import { ToasterService } from '../../../../../../core/services/toaster-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { atLeastOneRoleSelected } from './assign-to-role.validators';
 import { MessageModule } from 'primeng/message';

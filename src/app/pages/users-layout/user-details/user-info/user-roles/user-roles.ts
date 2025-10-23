@@ -15,7 +15,7 @@ import { RolesService } from '../../../../../core/services/roles-service';
 import { Role } from '../../../../../shared/models/roles.model';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AssignToRole } from '../../../users/assign-to-role/assign-to-role';
+import { AssignToRole } from './assign-to-role/assign-to-role';
 
 @Component({
   selector: 'app-user-roles',

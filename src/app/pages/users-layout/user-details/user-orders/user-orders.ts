@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { Card } from "primeng/card";
 
 @Component({
   selector: 'app-user-orders',
@@ -41,7 +42,8 @@ import { RouterLink } from '@angular/router';
     SelectModule,
     FormsModule,
     RouterLink,
-  ],
+    Card
+],
   templateUrl: './user-orders.html',
   styleUrl: './user-orders.scss',
 })
