@@ -4,7 +4,6 @@ import {
   inject,
   input,
   OnInit,
-  output,
   signal,
 } from '@angular/core';
 import {
@@ -16,7 +15,7 @@ import { ToasterService } from '../../../../../../core/services/toaster-service'
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SelectModule } from "primeng/select";
+import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -58,8 +57,6 @@ export class UpdateOrderStatus implements OnInit {
   loading = signal(false);
 
   orderStatus = signal<OrderStatus | undefined>(undefined);
-
-  updated = output();
 
   ngOnInit(): void {
     this.orderStatus.set(this.order().orderStatus);
