@@ -6,7 +6,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { OrdersService } from '../../../../../../core/services/orders-service';
+import { OrdersService } from '../../../../../../core/services/orders/orders-service';
 import { ToasterService } from '../../../../../../core/services/toaster-service';
 import {
   OrderResult,

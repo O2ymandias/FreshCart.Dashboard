@@ -11,7 +11,7 @@ import { OrderShippingInfo } from './order-shipping-info/order-shipping-info';
 import { OrderItems } from './order-items/order-items';
 import { PaymentSummary } from './payment-summary/payment-summary';
 import { OrderResult } from '../../../shared/models/orders-model';
-import { OrdersService } from '../../../core/services/orders-service';
+import { OrdersService } from '../../../core/services/orders/orders-service';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';

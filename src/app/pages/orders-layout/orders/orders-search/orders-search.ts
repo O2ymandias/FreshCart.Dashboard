@@ -3,7 +3,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { OrdersService } from '../../../../core/services/orders-service';
+import { OrdersService } from '../../../../core/services/orders/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputTextModule } from 'primeng/inputtext';
 

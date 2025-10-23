@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
-import { OrdersService } from '../../../core/services/orders-service';
+import { OrdersService } from '../../../core/services/orders/orders-service';
 import {
   OrderResult,
   OrdersQueryOptions,

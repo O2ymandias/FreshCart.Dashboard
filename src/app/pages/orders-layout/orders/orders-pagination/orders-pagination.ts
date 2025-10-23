@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { OrdersService } from '../../../../core/services/orders-service';
+import { OrdersService } from '../../../../core/services/orders/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrdersQueryOptions } from '../../../../shared/models/orders-model';
 

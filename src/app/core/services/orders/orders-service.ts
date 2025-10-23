@@ -1,4 +1,4 @@
-import { OrderSort, PaymentMethod } from '../../shared/models/orders-model';
+import { OrderSort, PaymentMethod } from '../../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
@@ -9,9 +9,9 @@ import {
   PaymentStatus,
   UpdateOrderStatusRequest,
   UpdatePaymentStatusRequest,
-} from '../../shared/models/orders-model';
-import { environment } from '../../environment';
-import { SaveResult } from '../../shared/models/shared.model';
+} from '../../../shared/models/orders-model';
+import { environment } from '../../../environment';
+import { SaveResult } from '../../../shared/models/shared.model';
 import { tap } from 'rxjs';
 
 @Injectable({

@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import { OrdersService } from '../../../../core/services/orders-service';
+import { OrdersService } from '../../../../core/services/orders/orders-service';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';

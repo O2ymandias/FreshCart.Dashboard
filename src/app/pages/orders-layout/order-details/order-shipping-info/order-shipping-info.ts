@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 
 import { TagModule } from 'primeng/tag';
-import { OrdersService } from '../../../../core/services/orders-service';
+import { OrdersService } from '../../../../core/services/orders/orders-service';
 import {
   OrderResult,
   OrderStatus,

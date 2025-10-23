@@ -1,4 +1,4 @@
-import { OrdersService } from '../../../core/services/orders-service';
+import { OrdersService } from '../../../core/services/orders/orders-service';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';

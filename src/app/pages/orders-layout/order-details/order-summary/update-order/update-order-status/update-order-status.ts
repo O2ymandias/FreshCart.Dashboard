@@ -10,7 +10,7 @@ import {
   OrderResult,
   OrderStatus,
 } from '../../../../../../shared/models/orders-model';
-import { OrdersService } from '../../../../../../core/services/orders-service';
+import { OrdersService } from '../../../../../../core/services/orders/orders-service';
 import { ToasterService } from '../../../../../../core/services/toaster-service';
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';

@@ -1,7 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { SelectModule } from 'primeng/select';
-import { OrdersService } from '../../../../core/services/orders-service';
+import { OrdersService } from '../../../../core/services/orders/orders-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   OrderSortOption,
