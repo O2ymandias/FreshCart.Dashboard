@@ -17,15 +17,13 @@ import { PaginatorState, PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputGroup } from 'primeng/inputgroup';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { UsersService } from '../../../core/services/users-service';
 import { RolesService } from '../../../core/services/roles-service';
 import { Tooltip } from 'primeng/tooltip';
-import { CheckboxModule } from 'primeng/checkbox';
-import { FieldsetModule } from 'primeng/fieldset';
 import { RouterLink } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 import { EmailLink } from '../../orders-layout/order-details/order-shipping-info/email-link/email-link';
@@ -44,9 +42,6 @@ import { PhoneLink } from '../../orders-layout/order-details/order-shipping-info
     InputTextModule,
     SelectModule,
     Tooltip,
-    ReactiveFormsModule,
-    CheckboxModule,
-    FieldsetModule,
     RouterLink,
     EmailLink,
     PhoneLink,
