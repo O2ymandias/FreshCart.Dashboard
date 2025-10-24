@@ -1,20 +1,11 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { OrderSummary } from './order-summary/order-summary';
 import { OrderShippingInfo } from './order-shipping-info/order-shipping-info';
 import { OrderItems } from './order-items/order-items';
 import { PaymentSummary } from './payment-summary/payment-summary';
-import { OrderResult } from '../../../shared/models/orders-model';
 import { OrdersService } from '../../../core/services/orders/orders-service';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
-import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
 
@@ -36,7 +27,8 @@ export class OrderDetails implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   id = input.required<number>();
-  order = signal<OrderResult | null>(null);
+
+  order = this._ordersService.order;
 
   navigationItems: MenuItem[] = [
     {
@@ -61,10 +53,7 @@ export class OrderDetails implements OnInit {
   private _initOrderDetails() {
     this._ordersService
       .getOrder$(this.id())
-      .pipe(
-        tap((res) => this.order.set(res)),
-        takeUntilDestroyed(this._destroyRef),
-      )
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe();
   }
 }

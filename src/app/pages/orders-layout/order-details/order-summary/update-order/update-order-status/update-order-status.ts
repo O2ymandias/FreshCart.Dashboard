@@ -1,18 +1,8 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
-import {
-  OrderResult,
-  OrderStatus,
-} from '../../../../../../shared/models/orders-model';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { OrderStatus } from '../../../../../../shared/models/orders-model';
 import { OrdersService } from '../../../../../../core/services/orders/orders-service';
 import { ToasterService } from '../../../../../../core/services/toaster-service';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SelectModule } from 'primeng/select';
@@ -24,12 +14,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './update-order-status.html',
   styleUrl: './update-order-status.scss',
 })
-export class UpdateOrderStatus implements OnInit {
+export class UpdateOrderStatus {
   private readonly _ordersService = inject(OrdersService);
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  order = input.required<OrderResult>();
+  constructor() {
+    effect(() => {
+      const order = this.order();
+      if (order) this.orderStatus.set(order.orderStatus);
+    });
+  }
+
+  order = this._ordersService.order;
 
   selectOptions: { label: string; value: OrderStatus }[] = [
     {
@@ -58,11 +55,10 @@ export class UpdateOrderStatus implements OnInit {
 
   orderStatus = signal<OrderStatus | undefined>(undefined);
 
-  ngOnInit(): void {
-    this.orderStatus.set(this.order().orderStatus);
-  }
-
   onOrderStatusUpdate(): void {
+    const order = this.order();
+    if (!order) return;
+
     const orderStatus = this.orderStatus();
     if (!orderStatus) return;
 
@@ -70,15 +66,16 @@ export class UpdateOrderStatus implements OnInit {
 
     this._ordersService
       .updateOrderStatus$({
-        orderId: this.order().orderId,
+        orderId: order.orderId,
         newOrderStatus: orderStatus,
       })
       .pipe(
         tap((res) => {
-          if (res.success) {
-            this._toasterService.success(res.message);
-          }
+          if (res.success) this._toasterService.success(res.message);
         }),
+
+        switchMap(() => this._ordersService.getOrder$(order.orderId)),
+
         catchError((err: HttpErrorResponse) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);

@@ -23,6 +23,7 @@ export class OrdersService {
   readonly DEFAULT_PAGE_NUMBER = 1;
   readonly DEFAULT_PAGE_SIZE = 10;
 
+  order = signal<OrderResult | null>(null);
   orders = signal<OrderResult[]>([]);
 
   // Pagination
@@ -95,7 +96,9 @@ export class OrdersService {
 
   getOrder$(orderId: number) {
     const url = `${environment.apiUrl}/orders/${orderId}`;
-    return this._httpClient.get<OrderResult>(url);
+    return this._httpClient
+      .get<OrderResult>(url)
+      .pipe(tap((res) => this.order.set(res)));
   }
 
   getOrdersCount$(options?: {

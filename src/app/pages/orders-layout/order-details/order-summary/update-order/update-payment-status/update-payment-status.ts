@@ -1,18 +1,8 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { OrdersService } from '../../../../../../core/services/orders/orders-service';
 import { ToasterService } from '../../../../../../core/services/toaster-service';
-import {
-  OrderResult,
-  PaymentStatus,
-} from '../../../../../../shared/models/orders-model';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { PaymentStatus } from '../../../../../../shared/models/orders-model';
+import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SelectModule } from 'primeng/select';
@@ -29,7 +19,14 @@ export class UpdatePaymentStatus {
   private readonly _toasterService = inject(ToasterService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  order = input.required<OrderResult>();
+  constructor() {
+    effect(() => {
+      const order = this.order();
+      if (order) this.paymentStatus.set(order.paymentStatus);
+    });
+  }
+
+  order = this._ordersService.order;
 
   selectOptions: { label: string; value: PaymentStatus }[] = [
     {
@@ -54,13 +51,10 @@ export class UpdatePaymentStatus {
 
   paymentStatus = signal<PaymentStatus | undefined>(undefined);
 
-  updated = output();
-
-  ngOnInit(): void {
-    this.paymentStatus.set(this.order().paymentStatus);
-  }
-
   onPaymentStatusUpdate(): void {
+    const order = this.order();
+    if (!order) return;
+
     const paymentStatus = this.paymentStatus();
     if (!paymentStatus) return;
 
@@ -68,7 +62,7 @@ export class UpdatePaymentStatus {
 
     this._ordersService
       .updatePaymentStatus$({
-        orderId: this.order().orderId,
+        orderId: order.orderId,
         newPaymentStatus: paymentStatus,
       })
       .pipe(
@@ -77,6 +71,9 @@ export class UpdatePaymentStatus {
             this._toasterService.success(res.message);
           }
         }),
+
+        switchMap(() => this._ordersService.getOrder$(order.orderId)),
+
         catchError((err: HttpErrorResponse) => {
           this._toasterService.error(err.error.message);
           return throwError(() => err);
