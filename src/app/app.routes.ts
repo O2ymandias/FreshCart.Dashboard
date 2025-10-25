@@ -26,6 +26,7 @@ import { OrdersLayout } from './pages/orders-layout/orders-layout';
 import { Orders } from './pages/orders-layout/orders/orders';
 import { OrderDetails } from './pages/orders-layout/order-details/order-details';
 import { Roles } from './pages/roles/roles';
+import { Sales } from './pages/sales/sales';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -154,6 +155,12 @@ export const routes: Routes = [
     path: 'roles',
     component: Roles,
     title: 'Roles',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'sales',
+    component: Sales,
+    title: 'Sales',
     canActivate: [authGuard],
   },
   {

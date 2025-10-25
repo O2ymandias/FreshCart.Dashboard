@@ -1,17 +1,30 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environment';
 import {
   Pagination,
   SalesQueryOptions,
   SalesSummary,
 } from '../../shared/models/sales.model';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalesService {
+  // Dependencies
   private readonly _httpClient = inject(HttpClient);
+
+  // Constants
+  readonly DEFAULT_PAGE_NUMBER = 1;
+  readonly DEFAULT_PAGE_SIZE = 10;
+
+  sales = signal<SalesSummary[]>([]);
+
+  // Pagination
+  pageNumber = signal<number>(this.DEFAULT_PAGE_NUMBER);
+  pageSize = signal<number>(this.DEFAULT_PAGE_SIZE);
+  totalRecords = signal<number>(0);
 
   getSales$(salesQueryOptions: SalesQueryOptions) {
     const url = `${environment.apiUrl}/sales`;
@@ -30,7 +43,14 @@ export class SalesService {
     if (salesQueryOptions.endDate)
       params = params.set('endDate', salesQueryOptions.endDate);
 
-    return this._httpClient.get<Pagination<SalesSummary>>(url, { params });
+    return this._httpClient.get<Pagination<SalesSummary>>(url, { params }).pipe(
+      tap((res) => {
+        this.sales.set(res.results);
+        this.pageNumber.set(res.pageNumber);
+        this.pageSize.set(res.pageSize);
+        this.totalRecords.set(res.total);
+      }),
+    );
   }
 
   getTotalSales$(totalSalesQueryOptions: {

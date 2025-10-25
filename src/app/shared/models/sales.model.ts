@@ -30,3 +30,11 @@ export type Pagination<T> = {
   hasPrevious: boolean;
   results: T[];
 };
+
+export type SalesSortOption = {
+  label: string;
+  value: {
+    key: SalesSortKey;
+    dir: SortDirection;
+  };
+};
