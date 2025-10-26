@@ -14,10 +14,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NotAdminError } from '../../shared/models/auth.model';
+import { FormErrors } from "../../shared/components/form-errors/form-errors";
 
 @Component({
   selector: 'app-login',
-  imports: [ButtonModule, InputTextModule, ReactiveFormsModule],
+  imports: [ButtonModule, InputTextModule, ReactiveFormsModule, FormErrors],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

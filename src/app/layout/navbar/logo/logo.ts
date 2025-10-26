@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-logo',
-  imports: [],
+  imports: [RouterLink, ButtonModule],
   templateUrl: './logo.html',
-  styleUrl: './logo.scss'
+  styleUrl: './logo.scss',
 })
-export class Logo {
-
-}
+export class Logo {}
