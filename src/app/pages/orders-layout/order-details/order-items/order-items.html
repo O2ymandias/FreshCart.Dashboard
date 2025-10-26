@@ -2,7 +2,7 @@
   <div class="space-y-4 px-4 py-2">
     <!-- Order Summary Header -->
     <div
-      class="bg-surface-50 dark:bg-surface-800 flex items-center justify-between rounded-lg px-4 py-2 shadow-sm"
+      class="bg-surface-50 dark:bg-surface-800 flex items-center justify-between rounded-lg px-4 py-2 shadow"
     >
       <p class="flex items-center text-sm opacity-80">
         <i class="pi pi-shopping-bag text-primary mr-2"></i>
@@ -17,35 +17,35 @@
     <!-- Order Items List -->
     <div class="space-y-4">
       @for (orderItem of order().items; track orderItem.id) {
-        <div
-          class="bg-surface-0 dark:bg-surface-900 flex items-start gap-4 rounded-lg p-4 ring-1 transition duration-300 max-sm:flex-col"
-        >
-          <!-- Product Image -->
-          <a [routerLink]="['/products', 'details', orderItem.productId]">
-            <img
-              [src]="orderItem.pictureUrl"
-              [alt]="orderItem.productName"
-              class="size-20 cursor-pointer rounded-lg object-cover transition duration-300 hover:brightness-90"
-            />
-          </a>
+        <p-card class="dark:bg-surface-800 bg-surface-50 shadow-sm">
+          <div class="flex items-start gap-4 rounded-lg max-sm:flex-col">
+            <!-- Product Image -->
+            <a [routerLink]="['/products', 'details', orderItem.productId]">
+              <img
+                [src]="orderItem.pictureUrl"
+                [alt]="orderItem.productName"
+                class="size-20 cursor-pointer rounded-lg object-cover transition duration-300 hover:brightness-90"
+              />
+            </a>
 
-          <!-- Product Info -->
-          <div class="flex-1">
-            <h4 class="font-semibold text-gray-800 dark:text-gray-200">
-              {{ orderItem.productName }}
-            </h4>
-            <p class="mt-1 text-gray-500 dark:text-gray-400">
-              Qty: {{ orderItem.quantity }}
-            </p>
-          </div>
+            <!-- Product Info -->
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-800 dark:text-gray-200">
+                {{ orderItem.productName }}
+              </h4>
+              <p class="mt-1 text-gray-500 dark:text-gray-400">
+                Qty: {{ orderItem.quantity }}
+              </p>
+            </div>
 
-          <!-- Price -->
-          <div class="text-right">
-            <p class="text-base font-semibold">
-              {{ orderItem.price | currency: "USD" : "symbol" : "1.2-2" }}
-            </p>
+            <!-- Price -->
+            <div class="text-right">
+              <p class="text-base font-semibold">
+                {{ orderItem.price | currency: "USD" : "symbol" : "1.2-2" }}
+              </p>
+            </div>
           </div>
-        </div>
+        </p-card>
       }
     </div>
   </div>

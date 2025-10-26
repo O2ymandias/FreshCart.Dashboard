@@ -8,6 +8,7 @@ import { Ripple } from 'primeng/ripple';
 import { Logo } from '../logo/logo';
 import { DrawerItem } from './drawer-item/drawer-item';
 import { AuthService } from '../../../core/services/auth/auth-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav-drawer',
@@ -21,6 +22,7 @@ import { AuthService } from '../../../core/services/auth/auth-service';
     AvatarModule,
     StyleClass,
     DrawerItem,
+    RouterLink
   ],
   templateUrl: './nav-drawer.html',
   styleUrl: './nav-drawer.scss',

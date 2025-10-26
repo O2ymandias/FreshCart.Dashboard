@@ -27,6 +27,7 @@ import { Orders } from './pages/orders-layout/orders/orders';
 import { OrderDetails } from './pages/orders-layout/order-details/order-details';
 import { Roles } from './pages/roles/roles';
 import { Sales } from './pages/sales/sales';
+import { Admin } from './pages/admin/admin';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -168,6 +169,12 @@ export const routes: Routes = [
     component: Login,
     title: 'Login',
     canActivate: [nonAuthGuard],
+  },
+  {
+    path: 'profile',
+    component: Admin,
+    title: 'Admin Profile',
+    canActivate: [authGuard],
   },
   {
     path: '**',

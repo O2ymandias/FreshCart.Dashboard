@@ -1,0 +1,111 @@
+@let admin = user();
+@if (admin) {
+  <section class="mx-auto flex flex-col gap-8 px-6 py-12">
+    <div class="space-y-8">
+      <!-- Header Card -->
+      <p-card>
+        <div class="flex flex-wrap items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <p-avatar
+              image="{{ admin.pictureUrl ?? '/anonymous-avatar.png' }}"
+              shape="square"
+              size="xlarge"
+            />
+            <div class="flex flex-col gap-2">
+              <h1 class="text-2xl font-bold">
+                {{ admin.displayName }}
+              </h1>
+              <p class="flex items-center gap-2">
+                <i class="pi pi-shield text-purple-500"></i>
+                <span
+                  class="text-sm font-semibold text-gray-600 dark:text-gray-400"
+                >
+                  {{ admin.roles.join(", ") }}
+                </span>
+              </p>
+            </div>
+          </div>
+          <p-button
+            label="Settings"
+            icon="pi pi-cog"
+            severity="secondary"
+            class="font-medium"
+          />
+        </div>
+      </p-card>
+
+      <!-- Profile Info -->
+      <p-card header="Profile Info">
+        <div class="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
+          <!-- UserName -->
+          <div
+            class="bg-surface-50 dark:bg-surface-800 flex flex-col gap-1 rounded-lg p-4"
+          >
+            <div class="flex items-center gap-2">
+              <i class="pi pi-user text-blue-500"></i>
+              <p
+                class="text-xs font-bold text-gray-500 uppercase dark:text-gray-400"
+              >
+                UserName
+              </p>
+            </div>
+            <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+              {{ admin.userName }}
+            </p>
+          </div>
+
+          <!-- Email -->
+          <div
+            class="bg-surface-50 dark:bg-surface-800 flex flex-col gap-1 rounded-lg p-4"
+          >
+            <div class="flex items-center gap-2">
+              <i class="pi pi-envelope text-amber-500"></i>
+              <p
+                class="text-xs font-bold text-gray-500 uppercase dark:text-gray-400"
+              >
+                Email
+              </p>
+            </div>
+            <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+              {{ admin.email }}
+            </p>
+          </div>
+
+          <!-- ID -->
+          <div
+            class="bg-surface-50 dark:bg-surface-800 flex flex-col gap-1 rounded-lg p-4"
+          >
+            <div class="flex items-center gap-2">
+              <i class="pi pi-id-card text-purple-500"></i>
+              <p
+                class="text-xs font-bold text-gray-500 uppercase dark:text-gray-400"
+              >
+                ID
+              </p>
+            </div>
+            <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+              {{ admin.id }}
+            </p>
+          </div>
+
+          <!-- Phone -->
+          <div
+            class="bg-surface-50 dark:bg-surface-800 flex flex-col gap-1 rounded-lg p-4"
+          >
+            <div class="flex items-center gap-2">
+              <i class="pi pi-phone text-green-500"></i>
+              <p
+                class="text-xs font-bold text-gray-500 uppercase dark:text-gray-400"
+              >
+                Phone
+              </p>
+            </div>
+            <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+              {{ admin.phoneNumber ?? "N/A" }}
+            </p>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </section>
+}
