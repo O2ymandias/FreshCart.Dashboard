@@ -120,3 +120,8 @@ export type CancelOrderResult = {
   cancelMessage: string | null;
   expireMessage: string | null;
 };
+
+export type StatusCount<T> = {
+  status: T;
+  count: number;
+};

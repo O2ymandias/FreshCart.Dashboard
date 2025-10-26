@@ -1,4 +1,8 @@
-import { OrderSort, PaymentMethod } from '../../../shared/models/orders-model';
+import {
+  OrderSort,
+  PaymentMethod,
+  StatusCount,
+} from '../../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
@@ -171,5 +175,15 @@ export class OrdersService {
       default:
         return 'primary';
     }
+  }
+
+  getOrdersStatusCount$() {
+    const url = `${environment.apiUrl}/orders/order-status-count`;
+    return this._httpClient.get<StatusCount<OrderStatus>[]>(url);
+  }
+
+  getPaymentStatusCount$() {
+    const url = `${environment.apiUrl}/orders/payment-status-count`;
+    return this._httpClient.get<StatusCount<PaymentStatus>[]>(url);
   }
 }

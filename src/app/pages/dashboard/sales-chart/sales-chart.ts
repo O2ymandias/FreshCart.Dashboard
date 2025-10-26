@@ -5,7 +5,6 @@ import {
   HostListener,
   inject,
   PLATFORM_ID,
-  signal,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -28,7 +27,6 @@ export class SalesChart {
 
   salesChart = viewChild.required<UIChart>('salesChart');
 
-  salesSummary = signal<SalesSummary[]>([]);
   salesChartData: any;
   salesChartOptions: any;
 
