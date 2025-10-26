@@ -21,16 +21,6 @@ export type SalesSummary = {
   totalSales: number;
 };
 
-export type Pagination<T> = {
-  pageSize: number;
-  pageNumber: number;
-  total: number;
-  pages: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  results: T[];
-};
-
 export type SalesSortOption = {
   label: string;
   value: {

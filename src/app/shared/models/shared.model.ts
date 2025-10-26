@@ -13,3 +13,13 @@ export const RolesConstants = {
   Admin: 'Admin',
   User: 'User',
 };
+
+export type PaginationResult<T> = {
+  pageSize: number;
+  pageNumber: number;
+  total: number;
+  pages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  results: T[];
+};

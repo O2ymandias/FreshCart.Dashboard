@@ -9,10 +9,9 @@ import {
   Product,
   ProductSortOption,
   ProductsQueryOptions,
-  ProductsResponse,
   UpdateProductTranslationRequest,
 } from '../../shared/models/products.model';
-import { SaveResult } from '../../shared/models/shared.model';
+import { PaginationResult, SaveResult } from '../../shared/models/shared.model';
 import { tap } from 'rxjs';
 import { BrandOption } from '../../shared/models/brands-model';
 import { CategoryOption } from '../../shared/models/categories.model';
@@ -78,14 +77,16 @@ export class ProductsService {
 
     const url = `${environment.apiUrl}/products`;
 
-    return this._httpClient.get<ProductsResponse>(url, { params }).pipe(
-      tap((res) => {
-        this.products.set(res.results);
-        this.pageNumber.set(res.pageNumber);
-        this.pageSize.set(res.pageSize);
-        this.totalRecords.set(res.total);
-      }),
-    );
+    return this._httpClient
+      .get<PaginationResult<Product>>(url, { params })
+      .pipe(
+        tap((res) => {
+          this.products.set(res.results);
+          this.pageNumber.set(res.pageNumber);
+          this.pageSize.set(res.pageSize);
+          this.totalRecords.set(res.total);
+        }),
+      );
   }
 
   getProduct$(id: number) {

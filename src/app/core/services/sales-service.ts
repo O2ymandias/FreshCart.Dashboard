@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environment';
 import {
-  Pagination,
   SalesQueryOptions,
   SalesSort,
   SalesSummary,
 } from '../../shared/models/sales.model';
 import { tap } from 'rxjs';
+import { PaginationResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,14 +42,16 @@ export class SalesService {
         .set('sort.key', salesQueryOptions.sort.key)
         .set('sort.dir', salesQueryOptions.sort.dir);
 
-    return this._httpClient.get<Pagination<SalesSummary>>(url, { params }).pipe(
-      tap((res) => {
-        this.sales.set(res.results);
-        this.pageNumber.set(res.pageNumber);
-        this.pageSize.set(res.pageSize);
-        this.totalRecords.set(res.total);
-      }),
-    );
+    return this._httpClient
+      .get<PaginationResult<SalesSummary>>(url, { params })
+      .pipe(
+        tap((res) => {
+          this.sales.set(res.results);
+          this.pageNumber.set(res.pageNumber);
+          this.pageSize.set(res.pageSize);
+          this.totalRecords.set(res.total);
+        }),
+      );
   }
 
   getTotalSales$(totalSalesQueryOptions: {

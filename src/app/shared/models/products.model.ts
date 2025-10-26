@@ -14,15 +14,15 @@ export type ProductsQueryOptions = {
   minPrice?: number;
 };
 
-export type ProductsResponse = {
-  pageSize: number;
-  pageNumber: number;
-  total: number;
-  pages: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  results: Product[];
-};
+// export type ProductsResponse = {
+//   pageSize: number;
+//   pageNumber: number;
+//   total: number;
+//   pages: number;
+//   hasNext: boolean;
+//   hasPrevious: boolean;
+//   results: Product[];
+// };
 
 export type Product = {
   id: number;

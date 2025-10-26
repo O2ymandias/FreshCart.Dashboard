@@ -5,9 +5,8 @@ import {
   AssignToRoleRequestData,
   User,
   UsersQueryOptions,
-  UsersResponse,
 } from '../../shared/models/users-model';
-import { SaveResult } from '../../shared/models/shared.model';
+import { PaginationResult, SaveResult } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +29,7 @@ export class UsersService {
       params = params.append('roleId', options.roleId);
     }
 
-    return this._httpClient.get<UsersResponse>(url, { params });
+    return this._httpClient.get<PaginationResult<User>>(url, { params });
   }
 
   assignRolesToUser$(data: AssignToRoleRequestData) {

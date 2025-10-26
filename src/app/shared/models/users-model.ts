@@ -15,16 +15,6 @@ export type UsersQueryOptions = {
   roleId?: string;
 };
 
-export type UsersResponse = {
-  pageSize: number;
-  pageNumber: number;
-  total: number;
-  pages: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  results: User[];
-};
-
 export type AssignToRoleRequestData = {
   userId: string;
   roles: string[];

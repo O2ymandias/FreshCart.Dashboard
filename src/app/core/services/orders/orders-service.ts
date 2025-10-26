@@ -2,7 +2,6 @@ import { OrderSort, PaymentMethod } from '../../../shared/models/orders-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
-  OrderResponse,
   OrderResult,
   OrdersQueryOptions,
   OrderStatus,
@@ -11,7 +10,10 @@ import {
   UpdatePaymentStatusRequest,
 } from '../../../shared/models/orders-model';
 import { environment } from '../../../environment';
-import { SaveResult } from '../../../shared/models/shared.model';
+import {
+  PaginationResult,
+  SaveResult,
+} from '../../../shared/models/shared.model';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -84,14 +86,16 @@ export class OrdersService {
 
     if (options.endDate) params = params.append('endDate', options.endDate);
 
-    return this._httpClient.get<OrderResponse>(url, { params }).pipe(
-      tap((res) => {
-        this.orders.set(res.results);
-        this.pageSize.set(res.pageSize);
-        this.pageNumber.set(res.pageNumber);
-        this.totalRecords.set(res.total);
-      }),
-    );
+    return this._httpClient
+      .get<PaginationResult<OrderResult>>(url, { params })
+      .pipe(
+        tap((res) => {
+          this.orders.set(res.results);
+          this.pageSize.set(res.pageSize);
+          this.pageNumber.set(res.pageNumber);
+          this.totalRecords.set(res.total);
+        }),
+      );
   }
 
   getOrder$(orderId: number) {

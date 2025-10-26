@@ -27,15 +27,15 @@ export type OrdersQueryOptions = {
 
 export type OrderSortKey = 'createdAt' | 'subTotal';
 
-export type OrderResponse = {
-  pageSize: number;
-  pageNumber: number;
-  total: number;
-  pages: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  results: OrderResult[];
-};
+// export type OrderResponse = {
+//   pageSize: number;
+//   pageNumber: number;
+//   total: number;
+//   pages: number;
+//   hasNext: boolean;
+//   hasPrevious: boolean;
+//   results: OrderResult[];
+// };
 
 export type OrderResult = {
   orderId: number;
