@@ -4,6 +4,7 @@ import { environment } from '../../environment';
 import {
   Pagination,
   SalesQueryOptions,
+  SalesSort,
   SalesSummary,
 } from '../../shared/models/sales.model';
 import { tap } from 'rxjs';
@@ -26,7 +27,15 @@ export class SalesService {
   pageSize = signal<number>(this.DEFAULT_PAGE_SIZE);
   totalRecords = signal<number>(0);
 
+  // Sort
+  sort = signal<SalesSort | undefined>(undefined);
+
+  // Filter
+  startDate = signal<Date | undefined>(undefined);
+  endDate = signal<Date | undefined>(undefined);
+
   getSales$(salesQueryOptions: SalesQueryOptions) {
+    console.log(salesQueryOptions);
     const url = `${environment.apiUrl}/sales`;
     let params = new HttpParams()
       .set('pageNumber', salesQueryOptions.pageNumber.toString())
@@ -70,5 +79,13 @@ export class SalesService {
       params = params.set('endDate', totalSalesQueryOptions.endDate);
     }
     return this._httpClient.get<number>(url, { params });
+  }
+
+  reset() {
+    this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
+    this.pageSize.set(this.DEFAULT_PAGE_SIZE);
+    this.sort.set(undefined);
+    this.startDate.set(undefined);
+    this.endDate.set(undefined);
   }
 }

@@ -4,8 +4,6 @@
   [rowsPerPageOptions]="rowsPerPageOptions"
   [first]="first()"
   [showCurrentPageReport]="true"
-  [currentPageReportTemplate]="
-    'Showing {first} to {last} of {totalRecords} entries'
-  "
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   (onPageChange)="onPageChange($event)"
 />

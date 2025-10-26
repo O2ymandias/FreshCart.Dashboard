@@ -27,6 +27,7 @@ export class OrderDetails implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   id = input.required<number>();
+  productId = input<number>();
 
   order = this._ordersService.order;
 

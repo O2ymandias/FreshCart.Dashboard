@@ -3,12 +3,14 @@ import { SortDirection } from './shared.model';
 export type SalesQueryOptions = {
   pageNumber: number;
   pageSize: number;
-  sort?: {
-    key: SalesSortKey;
-    dir: SortDirection;
-  };
+  sort?: SalesSort;
   startDate?: string;
   endDate?: string;
+};
+
+export type SalesSort = {
+  key: SalesSortKey;
+  dir: SortDirection;
 };
 
 export type SalesSortKey = 'unitsSold' | 'totalSales';
@@ -19,6 +21,8 @@ export type SalesSummary = {
   productPictureUrl: string;
   unitsSold: number;
   totalSales: number;
+  orderId: number;
+  orderDate: string;
 };
 
 export type Pagination<T> = {

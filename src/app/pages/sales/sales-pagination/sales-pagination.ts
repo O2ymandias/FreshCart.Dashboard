@@ -17,14 +17,14 @@ export class SalesPagination {
   pageNumber = this._salesService.pageNumber;
   pageSize = this._salesService.pageSize;
   totalRecords = this._salesService.totalRecords;
-
   first = computed(() => (this.pageNumber() - 1) * this.pageSize());
-
   rowsPerPageOptions = [
     this._salesService.DEFAULT_PAGE_SIZE * 0.5,
     this._salesService.DEFAULT_PAGE_SIZE * 1,
     this._salesService.DEFAULT_PAGE_SIZE * 2,
   ];
+
+  sort = this._salesService.sort;
 
   onPageChange(event: PaginatorState): void {
     let pageNumber = this._salesService.DEFAULT_PAGE_NUMBER;
@@ -40,6 +40,10 @@ export class SalesPagination {
     };
 
     // Consider:
+    // [1] Sort
+    const sort = this.sort();
+    if (sort) query.sort = sort;
+
     this._loadData(query);
   }
 
