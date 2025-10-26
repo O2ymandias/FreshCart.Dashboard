@@ -7,12 +7,11 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { SalesPagination } from './sales-pagination/sales-pagination';
 import { SalesSort } from './sales-sort/sales-sort';
 import { RouterLink } from '@angular/router';
-import { SalesFiltration } from './sales-filtration/sales-filtration';
 
 @Component({
   selector: 'app-sales',
@@ -27,8 +26,6 @@ import { SalesFiltration } from './sales-filtration/sales-filtration';
     SalesPagination,
     SalesSort,
     RouterLink,
-    SalesFiltration,
-    DatePipe
   ],
   templateUrl: './sales.html',
   styleUrl: './sales.scss',

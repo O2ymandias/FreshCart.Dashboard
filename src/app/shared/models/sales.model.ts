@@ -4,8 +4,6 @@ export type SalesQueryOptions = {
   pageNumber: number;
   pageSize: number;
   sort?: SalesSort;
-  startDate?: string;
-  endDate?: string;
 };
 
 export type SalesSort = {
@@ -21,8 +19,6 @@ export type SalesSummary = {
   productPictureUrl: string;
   unitsSold: number;
   totalSales: number;
-  orderId: number;
-  orderDate: string;
 };
 
 export type Pagination<T> = {

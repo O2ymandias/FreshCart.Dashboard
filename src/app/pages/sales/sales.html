@@ -15,7 +15,6 @@
               size="small"
               (onClick)="refresh()"
             />
-            <app-sales-filtration />
           </div>
 
           <div class="w-full md:w-1/4 lg:w-1/5">
@@ -27,12 +26,10 @@
 
     <ng-template #header>
       <tr>
-        <th>Picture</th>
+        <th>Product Picture</th>
         <th>Product Name</th>
-        <th>Order Date</th>
         <th>Units Sold</th>
         <th>Total Sales</th>
-        <th></th>
       </tr>
     </ng-template>
 
@@ -50,20 +47,8 @@
         <td>
           {{ sale.productName }}
         </td>
-        <td>{{ sale.orderDate | date: "medium" }}</td>
         <td>{{ sale.unitsSold }}</td>
         <td>{{ sale.totalSales | currency }}</td>
-        <td>
-          <a
-            [routerLink]="['/', 'orders', 'details', sale.orderId]"
-            [queryParams]="{ productId: sale.productId }"
-            pButton
-            icon="pi pi-search"
-            severity="primary"
-            rounded
-            outlined
-          ></a>
-        </td>
       </tr>
     </ng-template>
 

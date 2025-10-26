@@ -30,10 +30,6 @@ export class SalesService {
   // Sort
   sort = signal<SalesSort | undefined>(undefined);
 
-  // Filter
-  startDate = signal<Date | undefined>(undefined);
-  endDate = signal<Date | undefined>(undefined);
-
   getSales$(salesQueryOptions: SalesQueryOptions) {
     console.log(salesQueryOptions);
     const url = `${environment.apiUrl}/sales`;
@@ -45,12 +41,6 @@ export class SalesService {
       params = params
         .set('sort.key', salesQueryOptions.sort.key)
         .set('sort.dir', salesQueryOptions.sort.dir);
-
-    if (salesQueryOptions.startDate)
-      params = params.set('startDate', salesQueryOptions.startDate);
-
-    if (salesQueryOptions.endDate)
-      params = params.set('endDate', salesQueryOptions.endDate);
 
     return this._httpClient.get<Pagination<SalesSummary>>(url, { params }).pipe(
       tap((res) => {
@@ -85,7 +75,5 @@ export class SalesService {
     this.pageNumber.set(this.DEFAULT_PAGE_NUMBER);
     this.pageSize.set(this.DEFAULT_PAGE_SIZE);
     this.sort.set(undefined);
-    this.startDate.set(undefined);
-    this.endDate.set(undefined);
   }
 }
