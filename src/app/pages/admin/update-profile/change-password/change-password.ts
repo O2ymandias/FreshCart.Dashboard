@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,11 +14,16 @@ import {
 } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
-import { passwordPattern } from '../../../../shared/models/account.model';
-import { FormErrors } from '../../../../shared/components/form-errors/form-errors';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../../core/services/auth/auth-service';
+import { passwordPattern } from '../../../../shared/models/account.model';
 import { equalValuesValidator } from './change-password.validators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, finalize, tap, throwError } from 'rxjs';
+import { ToasterService } from '../../../../core/services/toaster-service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangePasswordRequest } from '../../../../shared/models/auth.model';
 
 @Component({
   selector: 'app-change-password',
@@ -19,31 +31,89 @@ import { equalValuesValidator } from './change-password.validators';
     CardModule,
     PasswordModule,
     ReactiveFormsModule,
-    FormErrors,
     MessageModule,
     ButtonModule,
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss',
 })
-export class ChangePassword {
-  changePasswordForm = new FormGroup(
-    {
-      currentPassword: new FormControl('', [Validators.required]),
+export class ChangePassword implements OnInit {
+  private readonly _authService = inject(AuthService);
+  private readonly _toasterService = inject(ToasterService);
+  private readonly _destroyRef = inject(DestroyRef);
 
-      newPassword: new FormControl('', [
-        Validators.required,
-        Validators.pattern(passwordPattern),
-      ]),
+  changePasswordForm!: FormGroup<{
+    currentPassword: FormControl<string>;
+    newPassword: FormControl<string>;
+    confirmNewPassword: FormControl<string>;
+  }>;
 
-      confirmNewPassword: new FormControl('', [Validators.required]),
-    },
-    {
-      validators: equalValuesValidator('newPassword', 'confirmNewPassword'),
-    },
-  );
+  loading = signal(false);
+
+  passwordChanged = output();
+
+  ngOnInit(): void {
+    this._initializeFormData();
+  }
 
   submit() {
-    console.log(this.changePasswordForm);
+    if (this.changePasswordForm.invalid) return;
+
+    const { currentPassword, newPassword } = this.changePasswordForm.value;
+    if (!currentPassword || !newPassword) return;
+
+    this._changePassword({
+      currentPassword,
+      newPassword,
+    });
+  }
+
+  private _initializeFormData() {
+    this.changePasswordForm = new FormGroup(
+      {
+        currentPassword: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required],
+        }),
+        newPassword: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.pattern(passwordPattern),
+          ],
+        }),
+        confirmNewPassword: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required],
+        }),
+      },
+      {
+        validators: equalValuesValidator('newPassword', 'confirmNewPassword'),
+      },
+    );
+  }
+
+  private _changePassword(data: ChangePasswordRequest) {
+    this.loading.set(true);
+
+    this._authService
+      .changePassword$(data)
+      .pipe(
+        tap((res) => {
+          this.changePasswordForm.reset();
+          this.passwordChanged.emit();
+          this._toasterService.success(res.message);
+        }),
+
+        catchError((err: HttpErrorResponse) => {
+          this._toasterService.error(err.error.message);
+          return throwError(() => err);
+        }),
+
+        finalize(() => this.loading.set(false)),
+
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe();
   }
 }

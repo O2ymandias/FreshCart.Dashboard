@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
-import { ChangePassword } from "./change-password/change-password";
+import { ChangePassword } from './change-password/change-password';
 
 @Component({
   selector: 'app-update-profile',
@@ -12,4 +12,8 @@ import { ChangePassword } from "./change-password/change-password";
 })
 export class UpdateProfile {
   visible = signal(false);
+
+  onPasswordChange() {
+    this.visible.set(false);
+  }
 }

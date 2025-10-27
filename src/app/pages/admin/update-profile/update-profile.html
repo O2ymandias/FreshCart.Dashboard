@@ -25,7 +25,7 @@
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
-        <app-change-password />
+        <app-change-password (passwordChanged)="onPasswordChange()" />
       </p-tabpanel>
       <p-tabpanel value="1"> </p-tabpanel>
     </p-tabpanels>

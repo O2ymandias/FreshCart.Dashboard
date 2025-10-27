@@ -29,3 +29,8 @@ export class NotAdminError extends Error {
     this.name = 'NotAdminError';
   }
 }
+
+export type ChangePasswordRequest = {
+  currentPassword: string;
+  newPassword: string;
+};

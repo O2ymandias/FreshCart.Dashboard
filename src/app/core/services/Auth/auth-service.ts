@@ -5,6 +5,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environment';
 import {
   AuthResponse,
+  ChangePasswordRequest,
   JwtPayload,
   LoginRequestData,
   NotAdminError,
@@ -87,6 +88,11 @@ export class AuthService {
         withCredentials: true,
       })
       .pipe(tap(() => this.clearToken()));
+  }
+
+  changePassword$(requestData: ChangePasswordRequest) {
+    const url = `${environment.apiUrl}/account/change-password`;
+    return this._httpClient.put<{ message: string }>(url, requestData);
   }
 
   clearToken() {
