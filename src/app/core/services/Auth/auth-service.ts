@@ -10,6 +10,7 @@ import {
   NotAdminError,
 } from '../../../shared/models/auth.model';
 import { catchError, tap, throwError } from 'rxjs';
+import { User } from '../../../shared/models/users-model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,9 @@ import { catchError, tap, throwError } from 'rxjs';
 export class AuthService {
   private readonly _httpClient = inject(HttpClient);
 
+  admin = signal<User | null>(null);
   jwtToken = signal<string | null>(null);
   refreshTokenExpiresOn = signal<Date | null>(null);
-
   isAuthenticated = computed(() => {
     const token = this.jwtToken();
     if (!token) return false;
@@ -38,7 +39,6 @@ export class AuthService {
 
     return isAdmin && isActiveRefreshToken;
   });
-
   jwtPayload = computed(() => {
     const token = this.jwtToken();
     if (!token) return null;

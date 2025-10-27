@@ -1,16 +1,23 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users-service';
-import { User } from '../../shared/models/users-model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth-service';
+import { DialogModule } from 'primeng/dialog';
+import { UpdateProfile } from './update-profile/update-profile';
 
 @Component({
   selector: 'app-admin',
-  imports: [CardModule, AvatarModule, ButtonModule],
+  imports: [
+    CardModule,
+    AvatarModule,
+    ButtonModule,
+    DialogModule,
+    UpdateProfile,
+  ],
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })
@@ -19,7 +26,7 @@ export class Admin implements OnInit {
   private readonly _authService = inject(AuthService);
   private readonly _destroyRef = inject(DestroyRef);
 
-  user = signal<User | null>(null);
+  admin = this._authService.admin;
 
   ngOnInit(): void {
     this._loadUser();
@@ -32,7 +39,7 @@ export class Admin implements OnInit {
     this._usersService
       .getUser$(adminId)
       .pipe(
-        tap((res) => this.user.set(res)),
+        tap((res) => this.admin.set(res)),
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe();

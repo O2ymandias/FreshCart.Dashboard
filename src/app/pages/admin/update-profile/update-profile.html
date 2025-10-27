@@ -1,0 +1,33 @@
+<p-button
+  label="Update Profile"
+  icon="pi pi-cog"
+  severity="secondary"
+  class="font-medium"
+  (click)="visible.set(true)"
+/>
+
+<p-dialog
+  header="Update Profile"
+  styleClass="w-3/4 md:w-1/2 h-screen"
+  [modal]="true"
+  [draggable]="false"
+  [(visible)]="visible"
+  [closeButtonProps]="{
+    severity: 'secondary',
+    rounded: true,
+    outlined: true,
+  }"
+>
+  <p-tabs value="0">
+    <p-tablist>
+      <p-tab value="0">Password</p-tab>
+      <p-tab value="1">Email</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <app-change-password />
+      </p-tabpanel>
+      <p-tabpanel value="1"> </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</p-dialog>

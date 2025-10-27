@@ -3,7 +3,6 @@ import { Button, ButtonModule } from 'primeng/button';
 import { Avatar, AvatarModule } from 'primeng/avatar';
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { StyleClass } from 'primeng/styleclass';
-import { Ripple } from 'primeng/ripple';
 
 import { Logo } from '../logo/logo';
 import { DrawerItem } from './drawer-item/drawer-item';
@@ -18,11 +17,10 @@ import { RouterLink } from '@angular/router';
     Logo,
     DrawerModule,
     ButtonModule,
-    Ripple,
     AvatarModule,
     StyleClass,
     DrawerItem,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './nav-drawer.html',
   styleUrl: './nav-drawer.scss',
