@@ -23,6 +23,7 @@ export class AuthService {
   admin = signal<User | null>(null);
   jwtToken = signal<string | null>(null);
   refreshTokenExpiresOn = signal<Date | null>(null);
+
   isAuthenticated = computed(() => {
     const token = this.jwtToken();
     if (!token) return false;
@@ -30,21 +31,32 @@ export class AuthService {
     const refreshTokenExpiresOn = this.refreshTokenExpiresOn();
     if (!refreshTokenExpiresOn) return false;
 
-    const payload = jwtDecode<JwtPayload>(token);
-    if (!payload) return false;
+    const isRefreshTokenActive = new Date(refreshTokenExpiresOn) > new Date();
+    if (!isRefreshTokenActive) return false;
 
-    const isAdmin = Array.isArray(payload.role)
-      ? payload.role.includes(RolesConstants.Admin)
-      : payload.role.toLowerCase() === RolesConstants.Admin.toLowerCase();
+    try {
+      const payload = jwtDecode<JwtPayload>(token);
+      if (!payload) return false;
 
-    const isActiveRefreshToken = new Date(refreshTokenExpiresOn) > new Date();
+      const isAdmin = Array.isArray(payload.role)
+        ? payload.role.includes(RolesConstants.Admin)
+        : payload.role.toLowerCase() === RolesConstants.Admin.toLowerCase();
 
-    return isAdmin && isActiveRefreshToken;
+      return isAdmin;
+    } catch (error) {
+      return false;
+    }
   });
+
   jwtPayload = computed(() => {
     const token = this.jwtToken();
     if (!token) return null;
-    return jwtDecode<JwtPayload>(token);
+
+    try {
+      return jwtDecode<JwtPayload>(token);
+    } catch (error) {
+      return null;
+    }
   });
 
   login$(requestData: LoginRequestData) {

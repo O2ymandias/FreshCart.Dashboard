@@ -83,49 +83,63 @@
                   class="m-0 hidden list-none overflow-y-hidden py-0 pr-0 pl-4 transition-all duration-[400ms] ease-in-out"
                 >
                   <li>
-                    <app-drawer-item
-                      routerLink="/products"
-                      icon="pi pi-shopping-cart"
-                      label="Products"
-                    />
+                    <a
+                      [routerLink]="['/products']"
+                      class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                    >
+                      <i class="pi pi-shopping-cart mr-2"></i>
+                      <span class="font-medium"> Products </span>
+                    </a>
                   </li>
+
                   <li>
-                    <app-drawer-item
-                      routerLink="/categories"
-                      icon="pi pi-list"
-                      label="Categories"
-                    />
+                    <a
+                      [routerLink]="['/categories']"
+                      class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                    >
+                      <i class="pi pi-list mr-2"></i>
+                      <span class="font-medium"> Categories </span>
+                    </a>
                   </li>
+
                   <li>
-                    <app-drawer-item
-                      routerLink="/brands"
-                      icon="pi pi-tags"
-                      label="Brands"
-                    />
+                    <a
+                      [routerLink]="['/brands']"
+                      class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                    >
+                      <i class="pi pi-tag mr-2"></i>
+                      <span class="font-medium"> Brands </span>
+                    </a>
                   </li>
                 </ul>
               </li>
 
               <li>
-                <app-drawer-item
-                  routerLink="/users"
-                  icon="pi pi-users"
-                  label="Users"
-                />
+                <a
+                  [routerLink]="['/users']"
+                  class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                >
+                  <i class="pi pi-users mr-2"></i>
+                  <span class="font-medium"> Users </span>
+                </a>
               </li>
               <li>
-                <app-drawer-item
-                  routerLink="/orders"
-                  icon="pi pi-shopping-bag"
-                  label="Orders"
-                />
+                <a
+                  [routerLink]="['/orders']"
+                  class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                >
+                  <i class="pi pi-shopping-bag mr-2"></i>
+                  <span class="font-medium"> Orders </span>
+                </a>
               </li>
               <li>
-                <app-drawer-item
-                  routerLink="/sales"
-                  icon="pi pi-dollar"
-                  label="Sales"
-                />
+                <a
+                  [routerLink]="['/sales']"
+                  class="rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 p-ripple flex cursor-pointer items-center p-4 transition-colors duration-150"
+                >
+                  <i class="pi pi-dollar mr-2"></i>
+                  <span class="font-medium"> Sales </span>
+                </a>
               </li>
             </ul>
           </li>

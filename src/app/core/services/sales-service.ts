@@ -31,7 +31,6 @@ export class SalesService {
   sort = signal<SalesSort | undefined>(undefined);
 
   getSales$(salesQueryOptions: SalesQueryOptions) {
-    console.log(salesQueryOptions);
     const url = `${environment.apiUrl}/sales`;
     let params = new HttpParams()
       .set('pageNumber', salesQueryOptions.pageNumber.toString())

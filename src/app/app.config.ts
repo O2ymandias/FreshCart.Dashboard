@@ -29,6 +29,7 @@ import {
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { attachTokenInterceptor } from './core/interceptors/attach-token-interceptor';
 import { appAuthInitialize } from './core/services/auth/app-auth-initializer';
+import { autoRefreshTokenInterceptorInterceptor } from './core/interceptors/auto-refresh-token-interceptor-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -48,7 +49,13 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(appAuthInitialize),
 
     // HTTP Client
-    provideHttpClient(withFetch(), withInterceptors([attachTokenInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([
+        attachTokenInterceptor,
+        autoRefreshTokenInterceptorInterceptor,
+      ]),
+    ),
 
     // PrimeNG
     provideAnimationsAsync(),
