@@ -1,0 +1,60 @@
+<p-card header="Request Email Change">
+  <form
+    [formGroup]="requestEmailChangeForm"
+    (ngSubmit)="requestEmailChange()"
+    class="flex flex-col gap-4"
+  >
+    @let newEmail = requestEmailChangeForm.controls.newEmail;
+    <div class="flex flex-col gap-2">
+      <label class="block" for="newEmail">New Email</label>
+      <input
+        formControlName="newEmail"
+        pInputText
+        id="newEmail"
+        type="email"
+        autocomplete="email"
+      />
+
+      @if (
+        (newEmail.dirty || newEmail.touched) && newEmail.hasError("required")
+      ) {
+        <p-message severity="error" variant="simple" size="small">
+          New Email is required
+        </p-message>
+      }
+      @if ((newEmail.dirty || newEmail.touched) && newEmail.hasError("email")) {
+        <p-message severity="error" variant="simple" size="small">
+          New Email is invalid
+        </p-message>
+      }
+    </div>
+
+    @let password = requestEmailChangeForm.controls.password;
+    <div class="flex flex-col gap-2">
+      <label class="block" for="password">Password</label>
+      <p-password
+        formControlName="password"
+        inputId="password"
+        [toggleMask]="true"
+        [feedback]="false"
+        fluid
+      />
+      @if (
+        (password.dirty || password.touched) && password.hasError("required")
+      ) {
+        <p-message severity="error" variant="simple" size="small">
+          Password is required
+        </p-message>
+      }
+    </div>
+
+    <div class="flex items-center justify-end">
+      <p-button
+        label="Submit"
+        type="submit"
+        [loading]="loading()"
+        [disabled]="!requestEmailChangeForm.valid"
+      />
+    </div>
+  </form>
+</p-card>

@@ -25,9 +25,11 @@
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
-        <app-change-password (passwordChanged)="onPasswordChange()" />
+        <app-change-password (passwordChanged)="onChange()" />
       </p-tabpanel>
-      <p-tabpanel value="1"> </p-tabpanel>
+      <p-tabpanel value="1">
+        <app-change-email (emailChanged)="onChange()" />
+      </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
 </p-dialog>

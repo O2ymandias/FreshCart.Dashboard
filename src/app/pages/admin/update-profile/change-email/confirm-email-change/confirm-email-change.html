@@ -1,0 +1,43 @@
+<p-card header="Confirm Email Change">
+  <div class="flex flex-col gap-4">
+    <p-message severity="info" variant="text" size="small" [closable]="true">
+      A verification code has been sent to your new email address.
+    </p-message>
+
+    <form
+      [formGroup]="confirmEmailChangeForm"
+      (ngSubmit)="confirmEmailChange()"
+      class="flex flex-col gap-4"
+    >
+      @let verificationCode = confirmEmailChangeForm.controls.verificationCode;
+      <div class="flex flex-col gap-2">
+        <label class="block" for="verificationCode">Verification Code</label>
+        <input
+          formControlName="verificationCode"
+          pInputText
+          id="verificationCode"
+          type="text"
+          autocomplete="off"
+        />
+
+        @if (
+          (verificationCode.dirty || verificationCode.touched) &&
+          verificationCode.hasError("required")
+        ) {
+          <p-message severity="error" variant="simple" size="small">
+            Verification Code is required
+          </p-message>
+        }
+      </div>
+
+      <div class="flex items-center justify-end">
+        <p-button
+          label="Submit"
+          type="submit"
+          [loading]="loading()"
+          [disabled]="!confirmEmailChangeForm.valid"
+        />
+      </div>
+    </form>
+  </div>
+</p-card>

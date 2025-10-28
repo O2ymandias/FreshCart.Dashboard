@@ -34,3 +34,8 @@ export type ChangePasswordRequest = {
   currentPassword: string;
   newPassword: string;
 };
+
+export type ChangeEmailRequest = {
+  newEmail: string;
+  password: string;
+};

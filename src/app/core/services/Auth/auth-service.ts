@@ -5,6 +5,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environment';
 import {
   AuthResponse,
+  ChangeEmailRequest,
   ChangePasswordRequest,
   JwtPayload,
   LoginRequestData,
@@ -93,6 +94,18 @@ export class AuthService {
   changePassword$(requestData: ChangePasswordRequest) {
     const url = `${environment.apiUrl}/account/change-password`;
     return this._httpClient.put<{ message: string }>(url, requestData);
+  }
+
+  requestEmailChange$(requestData: ChangeEmailRequest) {
+    const url = `${environment.apiUrl}/account/request-email-change`;
+    return this._httpClient.post<{ message: string }>(url, requestData);
+  }
+
+  confirmEmailChange$(verificationCode: string) {
+    const url = `${environment.apiUrl}/account/confirm-email-change`;
+    return this._httpClient.post<{ message: string }>(url, {
+      verificationCode,
+    });
   }
 
   clearToken() {
