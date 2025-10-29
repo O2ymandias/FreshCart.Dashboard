@@ -1,93 +1,103 @@
 <section class="px-6 py-12">
-  <div
-    class="bg-surface-0 dark:bg-surface-900 mx-auto flex w-full max-w-xl flex-col gap-8 rounded-2xl p-8 shadow-sm md:p-12"
-  >
-    <!-- Header -->
-    <div class="flex flex-col items-center gap-4">
-      <div class="flex items-center gap-4">
+  <p-card class="mx-auto w-full max-w-xl p-5">
+    <ng-template pTemplate="header">
+      <div class="flex flex-col items-center gap-4">
         <img src="/logo.png" alt="Logo" class="size-20" />
-      </div>
 
-      <div class="flex w-full flex-col items-center gap-2">
-        <div
-          class="text-surface-900 dark:text-surface-0 w-full text-center text-2xl leading-tight font-semibold"
-        >
-          Welcome Back
+        <div class="flex w-full flex-col items-center gap-2 text-center">
+          <h2
+            class="text-surface-900 dark:text-surface-0 text-2xl leading-tight font-semibold"
+          >
+            Welcome Back
+          </h2>
+          <p class="text-surface-600 dark:text-surface-400 text-sm">
+            This is only for admin users
+          </p>
         </div>
-        <p class="text-surface-600 dark:text-surface-400 text-sm">
-          This is only for admin users
-        </p>
       </div>
-    </div>
+    </ng-template>
 
     <!-- Form -->
     <form
       [formGroup]="loginForm"
       (ngSubmit)="login()"
-      class="flex w-full flex-col gap-6"
+      class="mt-6 flex flex-col gap-6"
     >
-      <div class="flex w-full flex-col gap-2">
+      <!-- Username or Email -->
+      @let userNameOrEmail = loginForm.controls.userNameOrEmail;
+      <div class="flex flex-col gap-2">
         <label
           for="userNameOrEmail"
-          class="text-surface-900 dark:text-surface-0 leading-normal font-medium"
-          >UserName or Email</label
+          class="text-surface-900 dark:text-surface-0 text-sm font-medium"
         >
+          Username or Email
+        </label>
         <input
-          formControlName="userNameOrEmail"
-          pInputText
           id="userNameOrEmail"
           type="text"
-          placeholder="UserName or Email"
-          class="w-full rounded-lg px-3 py-2 shadow-sm"
+          formControlName="userNameOrEmail"
+          pInputText
+          placeholder="Enter your username or email"
           autocomplete="email"
+          class="w-full"
         />
 
-        <app-form-errors
-          [control]="loginForm.controls.userNameOrEmail"
-          label="UserName or Email"
-        />
+        @if (
+          (userNameOrEmail.dirty || userNameOrEmail.touched) &&
+          userNameOrEmail.hasError("required")
+        ) {
+          <p-message severity="error" variant="simple" size="small">
+            Username or Email is required
+          </p-message>
+        }
       </div>
 
-      <div class="flex w-full flex-col gap-2">
+      <!-- Password -->
+      @let password = loginForm.controls.password;
+      <div class="flex flex-col gap-2">
         <label
           for="password"
-          class="text-surface-900 dark:text-surface-0 leading-normal font-medium"
-          >Password</label
+          class="text-surface-900 dark:text-surface-0 text-sm font-medium"
         >
-        <input
+          Password
+        </label>
+        <p-password
           formControlName="password"
-          pInputText
-          id="password"
-          type="password"
-          placeholder="Password"
-          autocomplete="current-password"
-          class="w-full rounded-lg px-3 py-2 shadow-sm"
+          inputId="password"
+          placeholder="Enter your password"
+          [toggleMask]="true"
+          [feedback]="false"
+          fluid
+          autocomplete="off"
         />
-
-        <app-form-errors
-          [control]="loginForm.controls.password"
-          label="Password"
-        />
+        @if (password.dirty && password.hasError("required")) {
+          <p-message severity="error" variant="simple" size="small">
+            Password is required
+          </p-message>
+        }
       </div>
 
+      <!-- Actions -->
       <div
-        class="flex w-full flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-0"
+        class="flex w-full flex-col items-center justify-between gap-3 sm:flex-row"
       >
         <a
-          class="text-primary hover:text-primary-emphasis cursor-pointer font-medium"
-          >Forgot your password?</a
+          [routerLink]="['/forget-password']"
+          class="text-primary hover:text-primary-emphasis font-medium"
         >
+          Forgot your password?
+        </a>
+
+        <p-button
+          type="submit"
+          [loading]="loading()"
+          [disabled]="loginForm.invalid"
+          icon="pi pi-user"
+          label="Sign In"
+          severity="primary"
+          fluid
+        />
       </div>
-      <button
-        type="submit"
-        pButton
-        [loading]="loading()"
-        [disabled]="loginForm.invalid"
-        class="flex w-full items-center justify-center gap-2 rounded-lg py-2"
-      >
-        <i pButtonIcon class="pi pi-user text-base! leading-normal!"></i>
-        <span pButtonLabel>Sign In</span>
-      </button>
     </form>
-  </div>
+  </p-card>
 </section>

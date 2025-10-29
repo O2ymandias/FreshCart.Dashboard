@@ -9,16 +9,26 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { ToasterService } from '../../core/services/toaster-service';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NotAdminError } from '../../shared/models/auth.model';
-import { FormErrors } from "../../shared/components/form-errors/form-errors";
+import { CardModule } from 'primeng/card';
+import { PasswordModule } from 'primeng/password';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-login',
-  imports: [ButtonModule, InputTextModule, ReactiveFormsModule, FormErrors],
+  imports: [
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    RouterLink,
+    CardModule,
+    PasswordModule,
+    MessageModule,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -68,7 +78,7 @@ export class Login {
           return throwError(() => err);
         }),
 
-        tap(() => this.loading.set(false)),
+        finalize(() => this.loading.set(false)),
 
         takeUntilDestroyed(this._destroyRef),
       )

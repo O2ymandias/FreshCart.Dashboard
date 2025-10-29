@@ -120,6 +120,20 @@ export class AuthService {
     });
   }
 
+  forgetPassword$(email: string) {
+    const url = `${environment.apiUrl}/account/forget-password`;
+    return this._httpClient.post<{ message: string }>(url, { email });
+  }
+
+  resetPassword$(token: string, newPassword: string, email: string) {
+    const url = `${environment.apiUrl}/account/reset-password`;
+    return this._httpClient.post<{ message: string }>(url, {
+      token,
+      newPassword,
+      email,
+    });
+  }
+
   clearToken() {
     this.jwtToken.set(null);
     this.refreshTokenExpiresOn.set(null);

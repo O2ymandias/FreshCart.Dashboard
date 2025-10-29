@@ -28,6 +28,8 @@ import { OrderDetails } from './pages/orders-layout/order-details/order-details'
 import { Roles } from './pages/roles/roles';
 import { Sales } from './pages/sales/sales';
 import { Admin } from './pages/admin/admin';
+import { ForgetPassword } from './pages/password-reset/forget-password/forget-password';
+import { ResetPassword } from './pages/password-reset/reset-password/reset-password';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -170,12 +172,28 @@ export const routes: Routes = [
     title: 'Login',
     canActivate: [nonAuthGuard],
   },
+
+  {
+    path: 'forget-password',
+    component: ForgetPassword,
+    title: 'Reset Password',
+    canActivate: [nonAuthGuard],
+  },
+
+  {
+    path: 'auth/reset-password',
+    component: ResetPassword,
+    title: 'Reset Password',
+    canActivate: [nonAuthGuard],
+  },
+
   {
     path: 'profile',
     component: Admin,
     title: 'Admin Profile',
     canActivate: [authGuard],
   },
+
   {
     path: '**',
     component: NotFound,
